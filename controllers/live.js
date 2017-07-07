@@ -11,12 +11,12 @@
  * 3. Please make the request body as a JSON object, with:
  *    a) room, e.g. "ASB9700", "ASB9804"
  *    b) name, e.g. "a01", "a02"
- *    c) time, an unix timestamp. E.g. 1499461258576
+ *    c) time, an unix timestamp. E.g. 1499469022
  * 4. You will receive a 200 response if everything works well
 */
 
 // Test: 
-// curl -d "room=ASB9700&name=a01&time=1499461258576" -X POST -v http://localhost:3000/live
+// curl -d "room=ASB9700&name=a01&time=1499469022" -X POST -v http://localhost:3000/live
 
 
 ////////////////////////////////////////////////////////
@@ -55,8 +55,8 @@ router.post('/', function(req, res) {
                 res.status(404).end(); // the machine does not exist in our database
             } else {
                 machine = machines[0];
-                machine.heartbeat = new Date(parseInt(req.body.time)); // update heartbeat
-                // We do NOT change the machine availibility here. 
+                machine.heartbeat = new Date(parseInt(req.body.time) * 1000); // update heartbeat
+                // We do NOT change the machine availability here. 
                 // It is managed by a SQL event that is executed every 30 seconds.
                 machine.save(function(err) {
                     if (err) {
