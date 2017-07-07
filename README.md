@@ -1,1 +1,3 @@
-This is the repo for CMPT470 Exercise 4
+This is the repo for CMPT470 Project
+
+Group 19 all rights reserved
