@@ -48,11 +48,11 @@ function isRequestVaild(req) {
 // Last Update: July 7, 2017
 router.post('/', function(req, res) {
     if (isRequestVaild(req)) {
-        req.models.Machine.find({name: req.body.name, room: req.body.room}, function(err, machines) {
+        req.models.Machine.find({name: req.body.name, room: req.body.room}, function (err, machines) {
             if (err || machines.length > 1) { // error occurs, or more than 1 such machines are found
-                res.status(500).end(); // internal server error
+                res.send(500); // internal server error
             } else if (machines.length == 0) {
-                res.status(404).end(); // the machine does not exist in our database
+                res.send(403); // the machine does not exist in our database
             } else {
                 machine = machines[0];
                 machine.heartbeat = new Date(parseInt(req.body.time) * 1000); // update heartbeat
@@ -60,7 +60,7 @@ router.post('/', function(req, res) {
                 // It is managed by a SQL event that is executed every 30 seconds.
                 machine.save(function(err) {
                     if (err) {
-                        res.status(500).end(); // internal server error
+                        res.send(500); // internal server error
                     } else {
                         res.status(200).end(); // success
                     }
@@ -68,7 +68,7 @@ router.post('/', function(req, res) {
             }
         });
     } else {
-        res.status(404).end();
+        res.send(403);
     }
 });
 
