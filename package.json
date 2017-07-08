@@ -1,24 +1,27 @@
 {
-  "name": "framework-tutorial",
-  "version": "0.0.0",
-  "private": true,
+  "name": "sfu-csil-room-management-system",
+  "version": "1.0.0",
+  "description": "In CMPT courses at Simon Fraser University, teaching assistants use the \"CS TA Room Bookings\" system to book rooms for their office hours (http://www.cs.sfu.ca/CourseCentral/tabooking/). This system is obsolete, and we are developing a new system to replace it. This is a course project of CMPT 470 at SFU, instructed by Gregory Baker.",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@csil-git1.cs.surrey.sfu.ca:470zls/project.git"
+  },
+  "keywords": [
+    "SFU",
+    "CSIL"
+  ],
+  "author": "John Liu, Chong Zhao, Chen Song, Ruiming Jia",
+  "license": "ISC",
   "dependencies": {
-    "async": "^2.4.1",
-    "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "express": "~4.15.2",
-    "express-validator": "^3.2.0",
-    "morgan": "~1.8.1",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
     "mysql": "^2.13.0",
-    "pug": "~2.0.0-beta11",
-    "serve-favicon": "~2.4.2"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
+    "orm": "^3.2.3",
+    "xml2js": "^0.4.17"
   }
 }
