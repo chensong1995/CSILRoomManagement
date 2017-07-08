@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file implements an API that allows users to send heartbeat messages to our server. This allows us to tell if a machine is currently being used.
- * Last Update: July 7, 2017
+ * Last Update: July 8, 2017
 */
 
 /*
@@ -24,11 +24,7 @@
 // 1. Express framework
 var express = require('express');
 var router = express.Router();
-// 2. Body Parser
-var bodyParser = require('body-parser');
-router.use(bodyParser.json()); 
-router.use(bodyParser.urlencoded({extended: true}));
-// 3. node-orm2
+// 2. node-orm2
 var orm = require('orm');
 ////////////////////////////////////////////////////////
 
@@ -50,9 +46,9 @@ router.post('/', function(req, res) {
     if (isRequestVaild(req)) {
         req.models.Machine.find({name: req.body.name, room: req.body.room}, function (err, machines) {
             if (err || machines.length > 1) { // error occurs, or more than 1 such machines are found
-                res.send(500); // internal server error
+                res.sendStatus(500); // internal server error
             } else if (machines.length == 0) {
-                res.send(403); // the machine does not exist in our database
+                res.sendStatus(403); // the machine does not exist in our database
             } else {
                 machine = machines[0];
                 machine.heartbeat = new Date(parseInt(req.body.time) * 1000); // update heartbeat
@@ -60,7 +56,7 @@ router.post('/', function(req, res) {
                 // It is managed by a SQL event that is executed every 30 seconds.
                 machine.save(function(err) {
                     if (err) {
-                        res.send(500); // internal server error
+                        res.sendStatus(500); // internal server error
                     } else {
                         res.status(200).end(); // success
                     }
@@ -68,7 +64,7 @@ router.post('/', function(req, res) {
             }
         });
     } else {
-        res.send(403);
+        res.sendStatus(403);
     }
 });
 
