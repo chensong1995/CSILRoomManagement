@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file implements the authentication service as a middleware.
- * Last Update: July 7, 2017
+ * Last Update: July 8, 2017
 */
 
 // Instructions for people who want to use this authentication service: 
@@ -15,7 +15,7 @@
 var orm = require('orm');
 
 module.exports = function (req, res, next) {
-    req.models.User.find({sid: req.cookies.sid}, function(err, users) {
+    req.models.UserDisplay.find({sid: req.cookies.sid}, function(err, users) {
         if (err || users.length > 1) { // error occurs, or more than 1 such users are found
             res.status(500).end(); // internal server error
         } else if (users.length == 0) {

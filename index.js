@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This is the entry of the web server logic
- * Last Update: July 7, 2017
+ * Last Update: July 8, 2017
 */
 ////////////////////////////////////////////////////////
 // External dependencies
@@ -21,6 +21,10 @@ var https = require('https');
 var querystring = require('querystring');
 // 6. xml parser
 var parseString = require('xml2js').parseString;
+// 7. path
+var path = require('path');
+// 8. url
+const { URLSearchParams } = require('url');
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
@@ -45,9 +49,16 @@ app.use('/live', live);
 
 // Author(s)  : Chen Song
 // Description: This function handles CAS login
-// Last Update: July 7, 2017
+// Last Update: July 8, 2017
 app.get('/login', function (req, res) {
-    var myURL = 'http://localhost:3000' + req.url;
+    var params = new URLSearchParams(req.query);
+    if (params.has('ticket')) {
+        params.delete('ticket');
+    }
+    var myURL = 'http://localhost:3000/login';
+    if (params.toString().length != 0) {
+        myURL = myURL + '?' + params.toString();
+    }
     if (req.query.ticket) { // this is an redirect from the CAS server
         // check if the ticket is valid
         var options = {
@@ -76,37 +87,44 @@ app.get('/login', function (req, res) {
             casRes.on('data', function (xml) {
                 parseString(xml, function (err, result) {
                     if (err) {
-                        res.send(500); // internal server error
+                        res.sendStatus(500); // internal server error
                     } else {
                         if (result['cas:serviceResponse']['cas:authenticationSuccess']) {
                             var username = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
                             var type = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:attributes'][0]['cas:authtype'][0];
-                            console.log(username + ' ' + type);
-                            req.models.User.find({username: username}, function (err, users) {
+                            req.models.UserDisplay.find({username: username}, function (err, users) {
+                                var doRedirect = function (err) {
+                                    if (err) {
+                                        res.sendStatus(500); // internal server error
+                                    } else {
+                                        if (req.query.redirect) { // redirect to the page visited by the user before '/login'
+                                            res.redirect(req.query.redirect);
+                                        } else {
+                                            res.redirect('/'); // redirect to homepage
+                                        }
+                                    }
+                                };
                                 if (err) {
-                                    res.send(500); // internal server error
+                                    res.sendStatus(500); // internal server error
                                 } else if (users.length == 0) { // this is a new user
                                     // create this user in the database, with his/her sid
-
+                                    var newUser = {
+                                        username: username,
+                                        password: '',
+                                        type: type,
+                                        privilege: 2, // 2 means student
+                                        sid: req.cookies.sid
+                                    };
+                                    req.models.User.create(newUser, doRedirect);
                                 } else {
                                     var user = users[0];
                                     user.sid = req.cookies.sid;
-                                    user.save(function(err) {
-                                        if (err) {
-                                            res.send(500); // internal server error
-                                        } else {
-                                            if (req.query.redirect) { // redirect to the page visited by the user before '/login'
-                                                res.redirect(req.query.redirect);
-                                            } else {
-                                                res.redirect('/'); // redirect to homepage
-                                            }
-                                        }
-                                    });
+                                    user.save(doRedirect);
                                 }
                             });
 
                         } else {
-                            res.send(403); // someone fakes a ticket
+                            res.sendStatus(403); // someone fakes a ticket
                         }
                     }
                 });
@@ -115,15 +133,23 @@ app.get('/login', function (req, res) {
         request.end();
     } else {
         // send the login page
-        res.redirect('https://cas.sfu.ca/cas/login?service=' + myURL);
+        res.sendFile('login.html', {root: path.join(__dirname, 'static')});
     }
+});
+
+
+// Author(s)  : Chen Song
+// Description: This function gives user js files
+// Last Update: July 8, 2017
+app.get(/\.js/, function(req, res) {
+    res.sendFile(req.url, {root: path.join(__dirname, 'static')});
 });
 
 // Author(s)  : Chen Song
 // Description: This function gives user the homepage
-// Last Update: July 7, 2017
+// Last Update: July 8, 2017
 app.get('/', auth, function(req, res) {
-
+    res.end('This is the homepage!');
 });
 
 // Author(s)  : Chen Song
