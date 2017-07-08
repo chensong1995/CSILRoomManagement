@@ -19,6 +19,8 @@ var parseString = require('xml2js').parseString;
 var path = require('path');
 // 6. url
 const { URLSearchParams } = require('url');
+// 7. bcrypt
+var bcrypt = require('bcryptjs');
 ////////////////////////////////////////////////////////
 
 // Author(s)  : Chen Song
@@ -96,7 +98,6 @@ router.get('/', function (req, res) {
                                     user.save(doRedirect);
                                 }
                             });
-
                         } else {
                             res.sendStatus(403); // someone fakes a ticket
                         }
@@ -110,5 +111,49 @@ router.get('/', function (req, res) {
         res.sendFile('login.html', {root: path.join(__dirname, '/../static')});
     }
 });
+
+
+// Author(s)  : Chen Song
+// Description: This function handles CSIL account login
+// Last Update: July 8, 2017
+// Usage      : The client generates a POST request with two fields: username and password. It will receive 200 if login is successful, and 403 if either username or password is invalid.
+router.post('/', function (req, res) {
+    if (req.body.username && req.body.password) { // must have these two fields
+        req.models.UserDisplay.find({username: req.body.username}, function (err, users) {
+            if (err || users.length > 1) {
+                res.sendStatus(500); // internal server error
+            } else if (users.length == 0 || !isPasswordOk(req.body.password, users[0].password)) {
+                res.sendStatus(403); // invalid username or password
+            } else { 
+                var user = users[0];
+                user.sid = req.cookies.sid;
+                user.save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid login request
+    }
+});
+
+// Author(s)  : Chen Song
+// Description: This function checks whether the password received from the client is valid
+// Last Update: July 8, 2017
+function isPasswordOk(user_input, db_storage) {
+  return bcrypt.compareSync(user_input, db_storage); // true 
+}
+
+// Author(s)  : Chen Song
+// Description: This function returns the encrypted password
+// Last Update: July 8, 2017
+function encryptPassword(password) {
+  var salt = 10; // an aribitary number
+  return bcrypt.hashSync(password, salt);
+}
 
 module.exports = router;
