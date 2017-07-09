@@ -39,6 +39,9 @@ app.use('/live', live);
 // 2. Login
 var login = require('./routers/login.js');
 app.use('/login', login);
+// 2. Signup
+var signup = require('./routers/signup.js');
+app.use('/signup', signup);
 ////////////////////////////////////////////////////////
 
 

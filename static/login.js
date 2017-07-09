@@ -43,15 +43,33 @@ $(document).ready(function () {
     // user wants to signup
     $('#signup').on('click', function () {
         if ($('#username-signup').val() == '') {
-
+            $('#prompt-signup').text('username is empty');
         } else if ($('#password-signup').val() == '') {
-
+            $('#prompt-signup').text('password is empty');
         } else if ($('#password-signup-confirm').val() == '') {
-
+            $('#prompt-signup').text('password confirmation is empty');
         } else if ($('#password-signup').val() != $('#password-signup-confirm').val()) {
-
+            $('#prompt-signup').text('passwords do not match');
         } else { // inputs are valid
-            
+            $.post("/signup", { // post the username and password
+                username: $("#username-signup").val(),
+                password: $("#password-signup").val()
+            },
+            function () {
+                $('#prompt-signup').text('signup success');
+                if ($.url('?redirect')) {
+                    $(location).attr('href', $.url('?redirect'));
+                } else {
+                    $(location).attr('href', '/');
+                }
+            }).fail(function (data) {
+                var status = data.status;
+                var prompt = 'unknown error';
+                if (status == 403) {
+                    prompt = 'username already exists';
+                } 
+                $('#prompt-signup').text(prompt);
+            });
         }
     });
 });
