@@ -11,6 +11,8 @@ module.exports = function(db, models) {
         password: String,    // e.g. bcrypt("admin")
         type: String,        // e.g. sfu, other
         privilege: Number,   // e.g. 1, 2, 3 (please refer to the 'privileges' table)
-        sid: Number          // Session id
+        sid: Number,         // Session id
+        email: String,		 // user email
+        notification: Number // 1: require notification, 0: no notification		
     });
 };
