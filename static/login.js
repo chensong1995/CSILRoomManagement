@@ -50,10 +50,13 @@ $(document).ready(function () {
             $('#prompt-signup').text('password confirmation is empty');
         } else if ($('#password-signup').val() != $('#password-signup-confirm').val()) {
             $('#prompt-signup').text('passwords do not match');
+        } else if ($('#email-signup').val() == '') {
+            $('#prompt-signup').text('email is empty');
         } else { // inputs are valid
             $.post("/signup", { // post the username and password
                 username: $("#username-signup").val(),
-                password: $("#password-signup").val()
+                password: $("#password-signup").val(),
+                email: $("#email-signup").val()
             },
             function () {
                 $('#prompt-signup').text('signup success');

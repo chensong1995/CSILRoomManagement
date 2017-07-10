@@ -93,7 +93,9 @@ router.get('/', function (req, res) {
                                                 password: '',
                                                 type: type,
                                                 privilege: 2, // 2 means student
-                                                sid: req.cookies.sid
+                                                sid: req.cookies.sid,
+                                                email: username + "@sfu.ca",
+                                                notification: 1
                                             };
                                             req.models.User.create(newUser, doRedirect);
                                         } else {
