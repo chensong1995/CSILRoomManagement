@@ -1,5 +1,10 @@
+/*
+ * Author(s)  : John Liu
+ * Description: This file defines the base utility functions of all models
+ * Last Update: July 10, 2017
+ */
 var BaseRepository = function(){
-    function BaseRepoisitory(model){
+    function BaseRepository(model){
         this.model = model;
     }
 
@@ -46,3 +51,5 @@ var BaseRepository = function(){
             }))
     }
 }
+
+module.exports = BaseRepository;
