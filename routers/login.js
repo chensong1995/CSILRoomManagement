@@ -18,7 +18,7 @@ var parseString = require('xml2js').parseString;
 // 5. path
 var path = require('path');
 // 6. url
-//const { URLSearchParams } = require('url');
+const { URLSearchParams } = require('url');
 // 7. bcrypt
 var bcrypt = require('bcryptjs');
 ////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ router.get('/', function (req, res) {
             if (params.has('ticket')) {
                 params.delete('ticket');
             }
-            var myURL = 'http://localhost:3000/login';
+            var myURL = 'http://localhost:8080/login';
             if (params.toString().length != 0) {
                 myURL = myURL + '?' + params.toString();
             }
@@ -71,7 +71,7 @@ router.get('/', function (req, res) {
                             } else {
                                 if (result['cas:serviceResponse']['cas:authenticationSuccess']) {
                                     var username = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
-                                    var type = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:attributes'][0]['cas:authtype'][0];
+                                    var type = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:authtype'][0];
                                     req.models.UserDisplay.find({username: username}, function (err, users) {
                                         var doRedirect = function (err) {
                                             if (err) {
