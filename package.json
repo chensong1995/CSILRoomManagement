@@ -17,6 +17,9 @@
   "author": "John Liu, Chong Zhao, Chen Song, Ruiming Jia",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2017": "^6.24.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
@@ -27,6 +30,15 @@
     "nodemon": "^1.11.0",
     "orm": "^3.2.3",
     "pug": "^2.0.0-rc.2",
+    "react": "^15.6.1",
+    "webpack": "^3.2.0",
+    "webpack-dev-server": "^2.5.1",
+    "webpack-init": "^0.1.2",
     "xml2js": "^0.4.17"
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.24.1",
+    "react-dom": "^15.6.1",
+    "webpack-init": "^0.1.2"
   }
 }
