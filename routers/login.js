@@ -1,7 +1,7 @@
 /*
- * Author(s)  : Chen Song
+ * Author(s)  : Chen Song, Chong
  * Description: This file handles login (CAS and our own authentication service).
- * Last Update: July 8, 2017
+ * Last Update: July 13, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -23,9 +23,9 @@ const { URLSearchParams } = require('url');
 var bcrypt = require('bcryptjs');
 ////////////////////////////////////////////////////////
 
-// Author(s)  : Chen Song
+// Author(s)  : Chen Song, Chong, Ruiming Jia
 // Description: This function handles CAS login
-// Last Update: July 8, 2017
+// Last Update: July 13, 2017
 router.get('/', function (req, res) {
     req.models.UserDisplay.find({sid: req.cookies.sid}, function (err, users) { // check if user has already logged in
         if (err || users.length > 1) { // error occurs, or more than 1 such users are found
@@ -72,7 +72,7 @@ router.get('/', function (req, res) {
                                 if (result['cas:serviceResponse']['cas:authenticationSuccess']) {
                                     var username = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
                                     var type = result['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:authtype'][0];
-                                    req.models.UserDisplay.find({username: username}, function (err, users) {
+                                    req.models.UserDisplay.find({username: username, type: type}, function (err, users) {
                                         var doRedirect = function (err) {
                                             if (err) {
                                                 res.sendStatus(500); // internal server error
