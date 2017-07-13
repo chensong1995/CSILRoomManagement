@@ -1,5 +1,5 @@
 /*
- * Author(s)  : Chen Song
+ * Author(s)  : Chen Song, Ruiming Jia
  * Description: This file defines the model of an user.
  * Last Update: July 8, 2017
 */
