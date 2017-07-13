@@ -44,19 +44,32 @@ var signup = require('./routers/signup.js');
 app.use('/signup', signup);
 ////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////
+// Set template engine
+app.set('view engine', 'pug');
+// Set view folder location
+app.set('views', path.join(__dirname, 'views'));
+////////////////////////////////////////////////////////
 
 // Author(s)  : Chen Song
 // Description: This function gives user js files
 // Last Update: July 8, 2017
-app.get(/\.js/, function(req, res) {
-    res.sendFile(req.url, {root: path.join(__dirname, 'static')});
-});
+// app.get(/\.js/, function(req, res) {
+//     res.sendFile(req.url, {root: path.join(__dirname, 'static')});
+// });
 
 // Author(s)  : Chen Song
 // Description: This function gives user the homepage
 // Last Update: July 8, 2017
 app.get('/', auth, function(req, res) {
     res.end('This is the homepage!');
+});
+
+// Author(s)  : Chong
+// Description: This function tests the pug template file
+// Last Update: July 11, 2017
+app.get('/dashboard', auth, function(req, res) {
+    res.render('dashboard', { username: "test"});
 });
 
 // Author(s)  : Chen Song

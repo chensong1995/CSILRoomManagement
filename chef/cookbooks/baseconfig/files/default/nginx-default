@@ -35,16 +35,25 @@ server {
 
 	root /home/ubuntu/project/webroot;
 
-	# Add index.php to the list if you are using PHP
-	index index.html index.htm index.nginx-debian.html;
+	index /dashboard;
 
 	server_name _;
 
 	location / {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
-	}
+        try_files $uri $uri/ @express;
+    }
+
+	location @express {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_buffer_size 64k;
+        proxy_buffers   32 32k;
+        proxy_busy_buffers_size 128k;
+    }
 
 	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
 	#
