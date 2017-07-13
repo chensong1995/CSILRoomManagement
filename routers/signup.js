@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles signups in our own authentication service.
- * Last Update: July 8, 2017
+ * Last Update: July 13, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -13,20 +13,20 @@ var router = express.Router();
 var bcrypt = require('bcryptjs');
 ////////////////////////////////////////////////////////
 
-// Author(s)  : Chen Song
+// Author(s)  : Chen Song, Ruiming Jia
 // Description: This function handles CSIL account signup
-// Last Update: July 8, 2017
-// Usage      : The client generates a POST request with two fields: username and password. It will receive 200 if signup is successful, and 403 if username already exists.
+// Last Update: July 13, 2017
+// Usage      : The client generates a POST request with three fields: username, password, and email. It will receive 200 if signup is successful, and 403 if username already exists.
 router.post('/', function (req, res) {
-    if (req.body.username && req.body.password /*&& req.body.email*/) { // must have these two fields
+    if (req.body.username && req.body.password && req.body.email) { // must have these three fields
         var newUser = {
             username: req.body.username,
             password: encryptPassword(req.body.password),
             type: 'other',
             privilege: 2, // 2 means student
-            sid: req.cookies.sid //,
-            //email: req.body.email,
-            //notification: 1
+            sid: req.cookies.sid,
+            email: req.body.email,
+            notification: 1
         };
         req.models.User.create(newUser, function (err) {
             if (err) { // username already exists
@@ -40,12 +40,33 @@ router.post('/', function (req, res) {
     }
 });
 
+
+// Author(s)  : Chen Song
+// Description: This function checks whether an username is usable
+// Last Update: July 13, 2017
+// Usage      : The client generates a POST request with 1 field: username. It will receive 200 if username is okay, and 403 if username already exists.
+router.post('/check-username', function (req, res) {
+    if (req.body.username) { // must have that field
+        req.models.UserDisplay.find({username: req.body.username, type: 'other'}, function (err, users) {
+            if (err) {
+                res.sendStatus(500); // internal server error 
+            } else if (users.length > 0) { // username already exists
+                res.sendStatus(403); 
+            } else {
+                res.status(200).end(); // username ok
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid request
+    }
+});
+
 // Author(s)  : Chen Song
 // Description: This function returns the encrypted password
 // Last Update: July 8, 2017
 function encryptPassword(password) {
-  var salt = 10; // an aribitary number
-  return bcrypt.hashSync(password, salt);
+    var salt = 10; // an aribitary number
+    return bcrypt.hashSync(password, salt);
 }
 
 module.exports = router;
