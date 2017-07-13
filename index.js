@@ -29,6 +29,9 @@ var cookie = require('./authentication/cookie.js');
 cookie(app);
 // 2. Authentication service
 var auth = require('./authentication/authentication.js');
+
+//serve static files
+app.use(express.static('./client/static'));
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
@@ -42,6 +45,8 @@ app.use('/login', login);
 // 2. Signup
 var signup = require('./routers/signup.js');
 app.use('/signup', signup);
+var machine = require('./routers/machine.js');
+app.use('/machine', machine);
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
