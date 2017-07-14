@@ -1,12 +1,14 @@
 //- profile.pug
-// variables:
-//   username
-//   email
-//   source
-//   biography
-//   allowAdmin
-//   maxBookings
-//   csrfToken
+//- Author(s): Chen Song
+//- variables:
+//-   username
+//-   email
+//-   source
+//-   notification
+//-   biography
+//-   allowAdmin
+//-   maxBookings
+//-   csrfToken
 
 doctype html
 html(lang="en")
@@ -50,7 +52,19 @@ html(lang="en")
                     label(for="source") Account Source
                   dd
                     input(id="source" class="form-control" value=source readonly="readonly")
-            
+            div(class="row")
+              div(class="col-xl-1 col-md-4 col-xs-6")
+                dl(class="form-group")
+                  dt
+                    label Notification
+                  dd
+                    div(class="checkbox")
+                      label
+                        if notification
+                          input(id="notification" type="checkbox" checked)
+                        else
+                          input(id="notification" type="checkbox")
+                        | Please send me email notifications
             div(class="row")
               div(class="col-xl-1 col-md-4 col-xs-6")
                 dl(class="form-group")
