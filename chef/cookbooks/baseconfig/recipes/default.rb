@@ -43,13 +43,14 @@ execute 'psql_setup' do
 end
 
 # node packages
-execute 'node-packages' do 
+execute 'node-packages' do
+  cwd '/home/ubuntu/project/'
   command 'npm install'
 end
 
 ## Install forever to run the server as a daemon process 
 execute 'install_forever' do
-  command 'sudo npm install forever -g' 
+  command 'npm install forever -g' 
 end 
 
 # start server
