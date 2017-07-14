@@ -1,7 +1,7 @@
 /*
- * Author(s)  : Chen Song
+ * Author(s)  : Chen Song, Chong
  * Description: This is the entry of the web server logic
- * Last Update: July 8, 2017
+ * Last Update: July 13, 2017
 */
 ////////////////////////////////////////////////////////
 // External dependencies
@@ -42,11 +42,18 @@ app.use('/live', live);
 // 2. Login
 var login = require('./routers/login.js');
 app.use('/login', login);
-// 2. Signup
+// 3. Logout
+var logout = require('./routers/logout.js');
+app.use('/logout', auth, logout);
+// 4. Signup
 var signup = require('./routers/signup.js');
 app.use('/signup', signup);
+// 5. Machine
 var machine = require('./routers/machine.js');
 app.use('/machine', machine);
+// 6. Profile
+var profile = require('./routers/profile.js');
+app.use('/profile', auth, profile);
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
@@ -56,25 +63,18 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 ////////////////////////////////////////////////////////
 
-// Author(s)  : Chen Song
-// Description: This function gives user js files
-// Last Update: July 8, 2017
-// app.get(/\.js/, function(req, res) {
-//     res.sendFile(req.url, {root: path.join(__dirname, 'static')});
-// });
 
-// Author(s)  : Chen Song
-// Description: This function gives user the homepage
-// Last Update: July 8, 2017
-app.get('/', auth, function(req, res) {
-    res.end('This is the homepage!');
-});
-
-// Author(s)  : Chong
+// Author(s)  : Chong, Chen Song
 // Description: This function tests the pug template file
-// Last Update: July 11, 2017
-app.get('/dashboard', auth, function(req, res) {
-    res.render('dashboard', { username: "test"});
+// Last Update: July 13, 2017
+app.get('/dashboard', function(req, res) {
+    var username = 'Visitor';
+    if (req.username) { 
+        // This logic is wrong... req.username exists iff auth is used
+        // To be fixed later
+        username = req.username;
+    }
+    res.render('dashboard', { username: username});
 });
 
 // Author(s)  : Chen Song

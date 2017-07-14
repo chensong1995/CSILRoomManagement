@@ -15586,11 +15586,6 @@ fcViews.listYear = {
 };
 
 ;;
-<<<<<<< Updated upstream
 
 return FC; // export for Node/CommonJS
-=======
-
-return FC; // export for Node/CommonJS
->>>>>>> Stashed changes
 });
