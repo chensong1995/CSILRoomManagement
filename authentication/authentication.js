@@ -12,8 +12,7 @@
 // 2. Add auth as a middleware to your request handlers:
 //   e.g.:     app.get('/hello', auth, function(req, res) {...});
 // 3. After login, the user will be automatically redirected to '/hello'
-// 4. You can access the username in req as req.username.
-// 5. You can access the user type in req as req.type
+// 4. You can access the entire UserDisplay object as req.user
 
 var orm = require('orm');
 
@@ -25,8 +24,7 @@ module.exports = function (req, res, next) {
             // user is not logged in
             res.redirect('/login' + '?redirect=' + req.originalUrl);
         } else {
-            req.username = users[0].username;
-            req.type = users[0].type;
+            req.userDisplay = users[0];
             next();
         }
     });

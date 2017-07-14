@@ -14,6 +14,6 @@ module.exports = function(db, models) {
         sid: Number,         // Session id
         email: String,		 // user email
         notification: Number,// 1: require notification, 0: no notification		
-        biography: String,   // user biography
+        biography: String    // user biography
     });
 };

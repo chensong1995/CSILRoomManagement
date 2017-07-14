@@ -69,12 +69,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Last Update: July 13, 2017
 app.get('/dashboard', function(req, res) {
     var username = 'Visitor';
-    if (req.username) { 
-        // This logic is wrong... req.username exists iff auth is used
-        // To be fixed later
-        username = req.username;
-    }
-    res.render('dashboard', { username: username});
+    res.render('dashboard', { username: username });
 });
 
 // Author(s)  : Chen Song

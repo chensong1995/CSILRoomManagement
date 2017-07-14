@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file defines the model of an user display.
- * Last Update: July 8, 2017
+ * Last Update: July 13, 2017
 */
 
 module.exports = function(db, models) {
@@ -12,6 +12,9 @@ module.exports = function(db, models) {
         type: String,        // e.g. sfu, other
         allowAdmin: Boolean, // e.g. true, false
         maxBookings: Number, // e.g. 0, 1, 2
-        sid: String          // Session id
+        sid: String,         // Session id
+        email: String,		 // user email
+        notification: Number,// 1: require notification, 0: no notification		
+        biography: String    // user biography
     });
 };

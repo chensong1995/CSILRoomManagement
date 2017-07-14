@@ -1,4 +1,13 @@
 //- profile.pug
+// variables:
+//   username
+//   email
+//   source
+//   biography
+//   allowAdmin
+//   maxBookings
+//   csrfToken
+
 doctype html
 html(lang="en")
   head
@@ -21,36 +30,39 @@ html(lang="en")
                   |  Personal Infomation
           div(class="info-wrapper")
             div(class="row")
-              div(class="col-xl-1 col-md-3 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-6")
                 dl(class="form-group")
                   dt
                     label(for="username") Username
                   dd
-                    input(id="username" class="form-control" value="csa102" readonly="readonly")
+                    input(id="username" class="form-control" value=username readonly="readonly")
             div(class="row")
-              div(class="col-xl-1 col-md-3 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-6")
                 dl(class="form-group")
                   dt
                     label(for="email") Email
                   dd
-                    input(id="email" class="form-control" value="csa102@sfu.ca" readonly="readonly")
+                    input(id="email" class="form-control" value=email readonly="readonly")
             div(class="row")
-              div(class="col-xl-1 col-md-3 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-6")
                 dl(class="form-group")
                   dt
                     label(for="source") Account Source
                   dd
-                    input(id="source" class="form-control" value="SFU CAS" readonly="readonly")
+                    input(id="source" class="form-control" value=source readonly="readonly")
+            
             div(class="row")
-              div(class="col-xl-1 col-md-3 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-6")
                 dl(class="form-group")
                   dt
                     label(for="biography") Biography
                   dd
-                    textarea(id="biography" class="form-control" col="40" name="biography" placeholder="Tell us a little bit about your self" rows="3" maxlength="150")
+                    textarea(id="biography" class="form-control" col="40" name="biography" placeholder="Tell us a little bit about yourself" rows="3" maxlength="150") #{biography}
+            input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
+            p(class="text-danger" id="prompt")
             div(class="row")
               div(class="col-xl-1 col-md-2 col-xs-4")
-                button(class="btn btn-primary") Update Personal Information
+                input(id="update-info" type="submit" class="btn btn-primary" value="Update Personal Information")
 
           div(class="row")
             div(class="col-lg-12")
@@ -58,5 +70,19 @@ html(lang="en")
                 li(class="active")
                   i(class="fa fa-lock")
                   |  Privileges
-    include includes/scripts.html
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-xl-3 col-md-6 col-xs-12")
+                div(class="table-responsive")
+                  table(class="table table-hover")
+                    thead
+                      tr
+                        th Administrative Privileges
+                        th Maximum Concurrent Bookings
+                    tbody
+                      tr
+                        td #{allowAdmin}
+                        td #{maxBookings}
 
+    include includes/scripts.html
+    script(src="/js/profile.js")
