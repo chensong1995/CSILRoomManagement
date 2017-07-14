@@ -19,6 +19,7 @@ app.use(cookieParser());
 var path = require('path');
 ////////////////////////////////////////////////////////
 
+
 ////////////////////////////////////////////////////////
 // Our own middlewares
 // 1. Connect to models
@@ -54,6 +55,9 @@ app.use('/machine', machine);
 // 6. Profile
 var profile = require('./routers/profile.js');
 app.use('/profile', auth, profile);
+// 7. Password
+var password = require('./routers/password.js');
+app.use('/password', auth, password);
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
