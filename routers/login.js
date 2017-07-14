@@ -114,7 +114,7 @@ router.get('/', function (req, res) {
                 request.end();
             } else {
                 // send the login page
-                res.sendFile('login.html', {root: path.join(__dirname, '/../static')});
+                res.sendFile('login.html', {root: path.join(__dirname, '/../views')});
             }
         } else {
             // user is already logged in
