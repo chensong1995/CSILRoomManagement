@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song, Ruiming Jia
  * Description: This file defines the model of an user.
- * Last Update: July 8, 2017
+ * Last Update: July 13, 2017
 */
 
 module.exports = function(db, models) {
@@ -13,6 +13,7 @@ module.exports = function(db, models) {
         privilege: Number,   // e.g. 1, 2, 3 (please refer to the 'privileges' table)
         sid: Number,         // Session id
         email: String,		 // user email
-        notification: Number // 1: require notification, 0: no notification		
+        notification: Number,// 1: require notification, 0: no notification		
+        biography: String,   // user biography
     });
 };

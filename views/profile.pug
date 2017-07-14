@@ -12,5 +12,51 @@ html(lang="en")
           div(class="row")
             div(class="col-lg-12")
               h1(class="page-header") Profile
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-user")
+                  |  Personal Infomation
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-xl-1 col-md-3 col-xs-6")
+                dl(class="form-group")
+                  dt
+                    label(for="username") Username
+                  dd
+                    input(id="username" class="form-control" value="csa102" readonly="readonly")
+            div(class="row")
+              div(class="col-xl-1 col-md-3 col-xs-6")
+                dl(class="form-group")
+                  dt
+                    label(for="email") Email
+                  dd
+                    input(id="email" class="form-control" value="csa102@sfu.ca" readonly="readonly")
+            div(class="row")
+              div(class="col-xl-1 col-md-3 col-xs-6")
+                dl(class="form-group")
+                  dt
+                    label(for="source") Account Source
+                  dd
+                    input(id="source" class="form-control" value="SFU CAS" readonly="readonly")
+            div(class="row")
+              div(class="col-xl-1 col-md-3 col-xs-6")
+                dl(class="form-group")
+                  dt
+                    label(for="biography") Biography
+                  dd
+                    textarea(id="biography" class="form-control" col="40" name="biography" placeholder="Tell us a little bit about your self" rows="3" maxlength="150")
+            div(class="row")
+              div(class="col-xl-1 col-md-2 col-xs-4")
+                button(class="btn btn-primary") Update Personal Information
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-lock")
+                  |  Privileges
     include includes/scripts.html
 
