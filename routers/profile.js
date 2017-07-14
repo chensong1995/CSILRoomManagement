@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles users profile editing/viewing. The entire file is protected by auth
- * Last Update: July 13, 2017
+ * Last Update: July 14, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -19,27 +19,23 @@ router.use(csrfProtection);
 /*
  * Author(s)  : Chen Song
  * Description: This function sends users the profile page
- * Last Update: July 13, 2017
+ * Last Update: July 14, 2017
 */
 router.get('/', function (req, res) {
     // prepare all view variables
     var username = req.userDisplay.username;
     var email = req.userDisplay.email;
-    var source = 'SFU Central Authentication Service';
-    if (req.userDisplay.type == 'other') {
-        source = 'CSIL Account';
-    }
+    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var notification = req.userDisplay.notification;
     var biography = req.userDisplay.biography;
-    var allowAdmin = 'Not Allowed';
-    if (req.userDisplay.allowAdmin) {
-        allowAdmin = 'Allowed';
-    }
+    var allowAdmin = req.userDisplay.allowAdmin ? 'Allowed' : 'Not Allowed';
     var maxBookings = req.userDisplay.maxBookings;
 
     res.render('profile', {
         username: username,
         email: email,
         source: source,
+        notification: notification,
         biography: biography,
         allowAdmin: allowAdmin,
         maxBookings: maxBookings,
@@ -50,12 +46,14 @@ router.get('/', function (req, res) {
 /*
  * Author(s)  : Chen Song
  * Description: This function allows users to update personal infomation
- * Last Update: July 13, 2017
-// Usage      : The client generates a POST request with 1 field: biography (plus csurf token). It will receive 200 if update is successful, and 403 otherwise.
+ * Last Update: July 14, 2017
+ * Usage      : The client generates a POST request with 2 fields: notification, and biography (plus csurf token). It will receive 200 if update is successful, and 403 otherwise.
 */
 router.post('/', csrfProtection, function (req, res) {
-    if (req.body.biography) { // must have this field
+    res.setHeader('Content-Type', 'text/plain');
+    if (req.body.biography && req.body.notification !== undefined) { // must have these two fields
         req.userDisplay.biography = req.body.biography;
+        req.userDisplay.notification = req.body.notification;
         req.userDisplay.save(function (err) {
             if (err) {
                 res.sendStatus(500); // internal server error

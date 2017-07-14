@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles signups in our own authentication service.
- * Last Update: July 13, 2017
+ * Last Update: July 14, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -15,9 +15,10 @@ var bcrypt = require('bcryptjs');
 
 // Author(s)  : Chen Song, Ruiming Jia
 // Description: This function handles CSIL account signup
-// Last Update: July 13, 2017
+// Last Update: July 14, 2017
 // Usage      : The client generates a POST request with three fields: username, password, and email. It will receive 200 if signup is successful, and 403 if username already exists.
 router.post('/', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
     if (req.body.username && req.body.password && req.body.email) { // must have these three fields
         var newUser = {
             username: req.body.username,
@@ -43,9 +44,10 @@ router.post('/', function (req, res) {
 
 // Author(s)  : Chen Song
 // Description: This function checks whether an username is usable
-// Last Update: July 13, 2017
+// Last Update: July 14, 2017
 // Usage      : The client generates a POST request with 1 field: username. It will receive 200 if username is okay, and 403 if username already exists.
 router.post('/check-username', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
     if (req.body.username) { // must have that field
         req.models.UserDisplay.find({username: req.body.username, type: 'other'}, function (err, users) {
             if (err) {
