@@ -41,6 +41,7 @@ server {
 
 	location / {
         try_files $uri $uri/ @express;
+        expires modified +2d;
     }
 
 	location @express {

@@ -31,32 +31,27 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
 
   div(class="collapse navbar-collapse navbar-ex1-collapse")
     ul(class="nav navbar-nav side-nav")
-      li
-        a(href="/")
-          i(class="fa fa-fw fa-dashboard")
-          |  Dashboard
-
-      li
-        a(href="#")
-          i(class="fa fa-fw fa-bar-chart-o")
-          |  Booking
-
-      li
-        a(href="#")
-          i(class="fa fa-fw fa-bar-chart-o")
-          |  Room Status
-
-      li
-        a(href="#")
-          i(class="fa fa-fw fa-bar-chart-o")
-          |  Announcement
-
-      li
-        a(href="#")
-          i(class="fa fa-fw fa-bar-chart-o")
-          |  Report Violation
-
-      li
-        a(href="#")
-          i(class="fa fa-fw fa-bar-chart-o")
-          |  Policy
+      - var place_holder_list = ["Dashboard", "Booking", "Announcement", "Report Violation", "Policy"]
+      - var route_list = ["dashboard", "booking", "announcement", "comment", "policy"]
+      - var page_name = page
+      - for (var x = 0; x < place_holder_list.length; x++)
+        - if (place_holder_list[x] == page_name)
+            li(class="active")
+              - if (item == "Dashboard")
+                  a(href="/")
+                    i(class="fa fa-fw fa-dashboard")
+                    |  #{place_holder_list[x]}
+              - else
+                  a(href="/" + route_list[x])
+                      i(class="fa fa-fw fa-dashboard")
+                      |  #{place_holder_list[x]}
+        - else
+            li
+              - if (place_holder_list[x] == "Dashboard")
+                  a(href="/")
+                    i(class="fa fa-fw fa-dashboard")
+                    |  #{place_holder_list[x]}
+              - else
+                  a(href="/" + route_list[x])
+                      i(class="fa fa-fw fa-dashboard")
+                      |  #{place_holder_list[x]}

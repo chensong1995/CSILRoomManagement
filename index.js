@@ -54,6 +54,9 @@ app.use('/machine', machine);
 // 6. Profile
 var profile = require('./routers/profile.js');
 app.use('/profile', auth, profile);
+// 7. Room Booking
+var booking = require('./routers/booking.js');
+app.use('/booking', auth, booking);
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
@@ -69,7 +72,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Last Update: July 13, 2017
 app.get('/dashboard', function(req, res) {
     var username = 'Visitor';
-    res.render('dashboard', { username: username });
+    res.render('dashboard', { username: username, page: "Dashboard"});
 });
 
 // Author(s)  : Chen Song
