@@ -1,4 +1,4 @@
-//- admin.pug
+//- admin-usergroup.pug
 //- Author(s): Chen Song
 //- variables:
 //-   <All from navbar.pug>
@@ -17,42 +17,7 @@ html(lang="en")
         div(class="container-fluid")
           div(class="row")
             div(class="col-lg-12")
-              h1(class="page-header") Admin Homepage
-
-          div(class="row")
-            div(class="col-lg-12")
-              ol(class="breadcrumb")
-                li(class="active")
-                  i(class="fa fa-certificate")
-                  |  Privileges
-          div(class="info-wrapper")
-            p(class="text-danger" id="privileges_prompt") 
-              | Hint: Be careful when editing your own privileges... If you remove administrative privileges from yourself, you will 
-              em NOT 
-              | be able to get them back.
-            div(class="row")
-              div(class="col-lg-12")
-                table(id="privileges_table" class="display")
-                  thead
-                    tr
-                      th id
-                      th User Group Description
-                      th Administrative Privileges
-                      th Maximum Concurrent Bookings
-                  tbody
-                    each privilege in privileges
-                      tr(data-id=privilege.id)
-                        td #{privilege.id}
-                        td(class="description-edit" contenteditable="true") #{privilege.description}
-                        td
-                          select(class="privilege-select")
-                              if privilege.allowAdmin
-                                option(selected="selected") Yes
-                                option No
-                              else
-                                option Yes
-                                option(selected="selected") No
-                        td(class="max-bookings-edit" contenteditable="true") #{privilege.maxBookings}
+              h1(class="page-header") User Group Management
 
           div(class="row")
             div(class="col-lg-12")
@@ -62,6 +27,9 @@ html(lang="en")
                   |  User Groups
           div(class="info-wrapper")
             p(class="text-danger" id="prompt")
+              | Hint: Be careful when editing your own privileges... If you remove administrative privileges from yourself, you will 
+              em NOT 
+              | be able to get them back.
             div(class="row")
               div(class="col-lg-12")
                 table(id="users_table" class="display")

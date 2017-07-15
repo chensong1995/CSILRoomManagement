@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles admin logics. The entire file is protected by auth
- * Last Update: July 14, 2017
+ * Last Update: July 15, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -26,16 +26,49 @@ router.use(function (req, res, next) {
 
 /*
  * Author(s)  : Chen Song
- * Description: This function sends users the admin homepage
- * Last Update: July 14, 2017
+ * Description: This function sends users the privileges page
+ * Last Update: July 15, 2017
 */
-router.get('/', function (req, res) {
+router.get('/privileges', function (req, res) {
+    // prepare all view variables
+    var username = req.userDisplay.username;
+    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var privileges = [];
+    
+    req.models.Privilege.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                privileges.push({
+                    id: results[i].id,
+                    description: results[i].description,
+                    allowAdmin: results[i].allowAdmin,
+                    maxBookings: results[i].maxBookings,
+                });
+            }
+            res.render('admin-privileges', {
+                username: username,
+                source: source,
+                page: 'Privilege Management',
+                allowAdmin: true,
+                privileges: privileges
+            });
+        }
+    });
+});
+
+/*
+ * Author(s)  : Chen Song
+ * Description: This function sends users the usergroup page
+ * Last Update: July 15, 2017
+*/
+router.get('/usergroup', function (req, res) {
     // prepare all view variables
     var username = req.userDisplay.username;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var users = [];
     var usergroups = [];
-    var privileges = [];
 
     req.models.UserDisplay.find(function (err, results) {
         if (err) {
@@ -57,27 +90,13 @@ router.get('/', function (req, res) {
                     for (var i = 0; i < results.length; i++) {
                         usergroups.push(results[i].description);
                     }
-                    req.models.Privilege.find(function (err, results) {
-                        if (err) {
-                            res.sendStatus(500); // internal server error
-                        } else {
-                            for (var i = 0; i < results.length; i++) {
-                                privileges.push({
-                                    id: results[i].id,
-                                    description: results[i].description,
-                                    allowAdmin: results[i].allowAdmin,
-                                    maxBookings: results[i].maxBookings,
-                                });
-                            }
-                            res.render('admin', {
-                                username: username,
-                                source: source,
-                                allowAdmin: true,
-                                users: users,
-                                usergroups: usergroups,
-                                privileges: privileges
-                            });
-                        }
+                    res.render('admin-usergroup', {
+                        username: username,
+                        source: source,
+                        allowAdmin: true,
+                        page: 'User Group Management',
+                        users: users,
+                        usergroups: usergroups
                     });
                 }
             });
