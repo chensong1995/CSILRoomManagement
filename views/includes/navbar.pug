@@ -72,8 +72,32 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
         a(href="#")
           i(class="fa fa-fw fa-bar-chart-o")
           |  Policy
+      - var place_holder_list = ["Dashboard", "Booking", "Announcement", "Report Violation", "Policy"]
+      - var route_list = ["dashboard", "booking", "announcement", "comment", "policy"]
+      - var page_name = page
+      - for (var x = 0; x < place_holder_list.length; x++)
+        - if (place_holder_list[x] == page_name)
+            li(class="active")
+              - if (item == "Dashboard")
+                  a(href="/")
+                    i(class="fa fa-fw fa-dashboard")
+                    |  #{place_holder_list[x]}
+              - else
+                  a(href="/" + route_list[x])
+                      i(class="fa fa-fw fa-dashboard")
+                      |  #{place_holder_list[x]}
+        - else
+            li
+              - if (place_holder_list[x] == "Dashboard")
+                  a(href="/")
+                    i(class="fa fa-fw fa-dashboard")
+                    |  #{place_holder_list[x]}
+              - else
+                  a(href="/" + route_list[x])
+                      i(class="fa fa-fw fa-dashboard")
+                      |  #{place_holder_list[x]}
 
-
+//- Please always put the following as the very bottom. -- Chen
 if source == 'CSIL Account'
   div(class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel")
     div(class="modal-dialog" role="document")
@@ -103,28 +127,3 @@ if source == 'CSIL Account'
                   input(type="password" class="form-control" placeholder="Confirm New Password" id="confirm-new-password")
         div(class="modal-footer")
           button(type="button" class="btn btn-success" id="change-password-confirm") Change Password
-
-      - var place_holder_list = ["Dashboard", "Booking", "Announcement", "Report Violation", "Policy"]
-      - var route_list = ["dashboard", "booking", "announcement", "comment", "policy"]
-      - var page_name = page
-      - for (var x = 0; x < place_holder_list.length; x++)
-        - if (place_holder_list[x] == page_name)
-            li(class="active")
-              - if (item == "Dashboard")
-                  a(href="/")
-                    i(class="fa fa-fw fa-dashboard")
-                    |  #{place_holder_list[x]}
-              - else
-                  a(href="/" + route_list[x])
-                      i(class="fa fa-fw fa-dashboard")
-                      |  #{place_holder_list[x]}
-        - else
-            li
-              - if (place_holder_list[x] == "Dashboard")
-                  a(href="/")
-                    i(class="fa fa-fw fa-dashboard")
-                    |  #{place_holder_list[x]}
-              - else
-                  a(href="/" + route_list[x])
-                      i(class="fa fa-fw fa-dashboard")
-                      |  #{place_holder_list[x]}
