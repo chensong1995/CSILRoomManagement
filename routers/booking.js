@@ -106,9 +106,9 @@ router.get('/events/:room_id', function(req, res) {
 // Author(s)  : Chong
 // Description: This function handles the room booking request
 // Last Update: July 14, 2017
-router.post('/', function(req, res) {
-    var username = req.userDisplay.username;
+// router.post('/', function(req, res) {
+//     var username = req.userDisplay.username;
     
-});
+// });
 
 module.exports = router;

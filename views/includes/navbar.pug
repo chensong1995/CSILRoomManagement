@@ -68,7 +68,7 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
                       i(class="fa fa-fw fa-dashboard")
                       |  #{place_holder_list[x]}
 
-
+//- Please always put the following as the very bottom. -- Chen
 if source == 'CSIL Account'
   div(class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel")
     div(class="modal-dialog" role="document")
@@ -98,3 +98,4 @@ if source == 'CSIL Account'
                   input(type="password" class="form-control" placeholder="Confirm New Password" id="confirm-new-password")
         div(class="modal-footer")
           button(type="button" class="btn btn-success" id="change-password-confirm") Change Password
+

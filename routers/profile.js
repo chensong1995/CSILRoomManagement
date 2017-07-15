@@ -28,7 +28,7 @@ router.get('/', function (req, res) {
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var notification = req.userDisplay.notification;
     var biography = req.userDisplay.biography;
-    var allowAdmin = req.userDisplay.allowAdmin ? 'Allowed' : 'Not Allowed';
+    var allowAdmin = req.userDisplay.allowAdmin;
     var maxBookings = req.userDisplay.maxBookings;
 
     res.render('profile', {
