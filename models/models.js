@@ -12,6 +12,7 @@ var userDisplay = require('./user-display.js');
 var user = require('./user.js');
 var userGroup = require('./user-group.js');
 var room = require('./room.js');
+var privilege = require('./privilege.js');
 
 module.exports = function (app) {
     app.use(orm.express('mysql://csil:csil@120.27.121.163/csil', {
@@ -21,6 +22,7 @@ module.exports = function (app) {
             user(db, models);
             userGroup(db, models);
             room(db, models);
+            privilege(db, models);
             next();
         }
     }));

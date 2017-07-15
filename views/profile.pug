@@ -93,7 +93,10 @@ html(lang="en")
                         th Max Concurrent Bookings
                     tbody
                       tr
-                        td #{allowAdmin}
+                        if allowAdmin
+                          td Allowed
+                        else
+                          td Not Allowed
                         td #{maxBookings}
 
     include includes/scripts.html
