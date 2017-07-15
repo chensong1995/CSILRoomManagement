@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song, Chong
  * Description: This is the entry of the web server logic
- * Last Update: July 13, 2017
+ * Last Update: July 14, 2017
 */
 ////////////////////////////////////////////////////////
 // External dependencies
@@ -18,6 +18,7 @@ app.use(cookieParser());
 // 4. path
 var path = require('path');
 ////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////
 // Our own middlewares
@@ -54,7 +55,13 @@ app.use('/machine', machine);
 // 6. Profile
 var profile = require('./routers/profile.js');
 app.use('/profile', auth, profile);
-// 7. Room Booking
+// 7. Password
+var password = require('./routers/password.js');
+app.use('/password', auth, password);
+// 8. Admin
+var admin = require('./routers/admin.js');
+app.use('/admin', auth, admin);
+// 9. Room Booking
 var booking = require('./routers/booking.js');
 app.use('/booking', auth, booking);
 ////////////////////////////////////////////////////////

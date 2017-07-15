@@ -1,3 +1,9 @@
+//- profile.pug
+//- Author(s): Chong, Chen Song
+//- variables:
+//-   username
+//-   source ('CSIL Account' or 'SFU Central Authentication Service')
+//-   allowAdmin (true or false)
 nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
   div(class="navbar-header")
     button(type="button", class="navbar-toggle", data-toggle="collapse", data-target=".navbar-ex1-collapse")
@@ -6,7 +12,7 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
 
   ul(class="nav navbar-right top-nav")
     li(class="dropdown")
-      a(class="dropdown-toggle", data-toggle="dropdown")
+      a(class="dropdown-toggle", data-toggle="dropdown", href="#")
         i(class="fa fa-user")
         |  #{username}
         b(class="caret")
@@ -15,10 +21,16 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
           a(href="/profile")
             i(class="fa fa-fw fa-user")
             |  Profile
-        li
-          a(href="/profile")
-            i(class="fa fa-fw fa-key")
-            |  Password
+        if source == 'CSIL Account'
+          li
+            a(id="password" href="#")
+              i(class="fa fa-fw fa-key")
+              |  Password
+        if allowAdmin
+          li
+            a(href="/admin")
+              i(class="fa fa-fw fa-wrench")
+              |  Admin Home
         li
           a(href="#")
             i(class="fa fa-fw fa-gear")
@@ -31,6 +43,67 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
 
   div(class="collapse navbar-collapse navbar-ex1-collapse")
     ul(class="nav navbar-nav side-nav")
+      li
+        a(href="/")
+          i(class="fa fa-fw fa-dashboard")
+          |  Dashboard
+
+      li
+        a(href="#")
+          i(class="fa fa-fw fa-bar-chart-o")
+          |  Booking
+
+      li
+        a(href="#")
+          i(class="fa fa-fw fa-bar-chart-o")
+          |  Room Status
+
+      li
+        a(href="#")
+          i(class="fa fa-fw fa-bar-chart-o")
+          |  Announcement
+
+      li
+        a(href="#")
+          i(class="fa fa-fw fa-bar-chart-o")
+          |  Report Violation
+
+      li
+        a(href="#")
+          i(class="fa fa-fw fa-bar-chart-o")
+          |  Policy
+
+
+if source == 'CSIL Account'
+  div(class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel")
+    div(class="modal-dialog" role="document")
+      div(class="modal-content")
+        div(class="modal-header")
+          button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+            span(aria-hidden="true") &times;
+          h4(class="modal-title" id="passwordModalLabel") New Password
+        div(class="modal-body")
+          div(class="container-fluid")
+            div(class="row")
+              div(class="col-md-4") Old Password:
+              div(class="col-md-6")
+                div(id="old-password-msg")
+                  input(type="password" class="form-control" placeholder="Old Password" id="old-password")
+            br
+            div(class="row")
+              div(class="col-md-4") New Password:
+              div(class="col-md-6")
+                div(class="new-password-msg")
+                  input(type="password" class="form-control" placeholder="New Password" id="new-password")
+            br
+            div(class="row")
+              div(class="col-md-4") Confirm New Password:
+              div(class="col-md-6")
+                div(class="new-password-msg")
+                  input(type="password" class="form-control" placeholder="Confirm New Password" id="confirm-new-password")
+        div(class="modal-footer")
+          button(type="button" class="btn btn-success" id="change-password-confirm") Change Password
+
       - var place_holder_list = ["Dashboard", "Booking", "Announcement", "Report Violation", "Policy"]
       - var route_list = ["dashboard", "booking", "announcement", "comment", "policy"]
       - var page_name = page

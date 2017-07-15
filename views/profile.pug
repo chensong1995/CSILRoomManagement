@@ -1,12 +1,10 @@
 //- profile.pug
 //- Author(s): Chen Song
 //- variables:
-//-   username
+//-   <All from navbar.pug>
 //-   email
-//-   source
 //-   notification
 //-   biography
-//-   allowAdmin
 //-   maxBookings
 //-   csrfToken
 
@@ -32,28 +30,28 @@ html(lang="en")
                   |  Personal Infomation
           div(class="info-wrapper")
             div(class="row")
-              div(class="col-xl-1 col-md-4 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-10")
                 dl(class="form-group")
                   dt
                     label(for="username") Username
                   dd
                     input(id="username" class="form-control" value=username readonly="readonly")
             div(class="row")
-              div(class="col-xl-1 col-md-4 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-10")
                 dl(class="form-group")
                   dt
                     label(for="email") Email
                   dd
                     input(id="email" class="form-control" value=email readonly="readonly")
             div(class="row")
-              div(class="col-xl-1 col-md-4 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-10")
                 dl(class="form-group")
                   dt
                     label(for="source") Account Source
                   dd
                     input(id="source" class="form-control" value=source readonly="readonly")
             div(class="row")
-              div(class="col-xl-1 col-md-4 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-10")
                 dl(class="form-group")
                   dt
                     label Notification
@@ -66,7 +64,7 @@ html(lang="en")
                           input(id="notification" type="checkbox")
                         | Please send me email notifications
             div(class="row")
-              div(class="col-xl-1 col-md-4 col-xs-6")
+              div(class="col-xl-1 col-md-4 col-xs-10")
                 dl(class="form-group")
                   dt
                     label(for="biography") Biography
@@ -91,8 +89,8 @@ html(lang="en")
                   table(class="table table-hover")
                     thead
                       tr
-                        th Administrative Privileges
-                        th Maximum Concurrent Bookings
+                        th Admin Privileges
+                        th Max Concurrent Bookings
                     tbody
                       tr
                         td #{allowAdmin}

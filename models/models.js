@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This collects all models we have, and turn them into an orm call.
- * Last Update: July 8, 2017
+ * Last Update: July 14, 2017
 */
 
 var orm = require('orm');
@@ -10,6 +10,7 @@ var orm = require('orm');
 var machine = require('./machine.js');
 var userDisplay = require('./user-display.js');
 var user = require('./user.js');
+var userGroup = require('./user-group.js');
 var room = require('./room.js');
 
 module.exports = function (app) {
@@ -18,6 +19,7 @@ module.exports = function (app) {
             machine(db, models);
             userDisplay(db, models);
             user(db, models);
+            userGroup(db, models);
             room(db, models);
             next();
         }

@@ -114,7 +114,7 @@ router.get('/', function (req, res) {
                 request.end();
             } else {
                 // send the login page
-                res.sendFile('login.html', {root: path.join(__dirname, '/../static')});
+                res.sendFile('login.html', {root: path.join(__dirname, '/../views')});
             }
         } else {
             // user is already logged in
@@ -133,6 +133,7 @@ router.get('/', function (req, res) {
 // Last Update: July 8, 2017
 // Usage      : The client generates a POST request with two fields: username and password. It will receive 200 if login is successful, and 403 if either username or password is invalid.
 router.post('/', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
     if (req.body.username && req.body.password) { // must have these two fields
         req.models.UserDisplay.find({username: req.body.username, type: 'other'}, function (err, users) {
             if (err || users.length > 1) {
