@@ -17,9 +17,15 @@ html(lang="en")
               ol(class="breadcrumb")
                 li(class="active")
                   i(class="fa fa-dashboard")
-                  |  Room Status for #{room_number}
-          - var room_name = room_number
-            div(id="calendar", name=room_name)
+                  |  Room status calendar for #{room_name}
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li
+                  i(class="fa fa-dashboard")
+                  |  First choose a day, then choose a time period to book a room
+          - var rid = room_id
+            div(id="calendar", name=rid)
 
     include includes/scripts.html
     script(src="/js/room_calendar_event.js",type="text/javascript")
