@@ -1,0 +1,25 @@
+//- user-profile.pug
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") CSIL Room Booking
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-dashboard")
+                  |  Room Status for #{room_number}
+          - var room_name = room_number
+            div(id="calendar", name=room_name)
+
+    include includes/scripts.html
+    script(src="/js/room_calendar_event.js",type="text/javascript")

@@ -1,0 +1,75 @@
+//- user-profile.pug
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") CSIL Room Booking
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-dashboard")
+                  |  Room Status Overview
+
+          div(class="row")
+            - var room_list = room_status_list
+            - for (var x = 0; x < room_list.length; x++)
+              div(class="col-lg-3 col-md-6")
+                - if (room_list[x]["status"] == "available")
+                    div(class="panel panel-green")
+                      div(class="panel-heading")
+                        div(class="row")
+                          div(class="col-xs-8")
+                            div(class="medium") #{room_list[x]["number"]}
+                            div(class="medium") Teaching/TA Lab
+                            div(class="medium") Available
+                          div("col-xs-4 text-center")
+                            i(class="fa fa-check fa-5x")
+                      a(href="")
+                        div(class="panel-footer")
+                          span(class="pull-left") Check schdule and book it!
+                          span(class="pull-right")
+                            i(class="fa fa-arrow-circle-right")
+                          div(class="clearfix")
+                - if (room_list[x]["status"] == "maintenance")
+                    div(class="panel panel-yellow")
+                      div(class="panel-heading")
+                        div(class="row")
+                          div(class="col-xs-9")
+                            div(class="medium") #{room_list[x]["number"]}
+                            div(class="medium") Teaching/TA Lab
+                            div(class="medium") In Maintenance
+                          div("col-xs-3 text-center")
+                            i(class="fa fa-close fa-5x")
+                      a(href="")
+                        div(class="panel-footer")
+                          span(class="pull-left") Check schdule for details!
+                          span(class="pull-right")
+                            i(class="fa fa-arrow-circle-right")
+                          div(class="clearfix")
+                - if (room_list[x]["status"] == "booked")
+                    div(class="panel panel-red")
+                      div(class="panel-heading")
+                        div(class="row")
+                          div(class="col-xs-9")
+                            div(class="medium") #{room_list[x]["number"]}
+                            div(class="medium") Teaching/TA Lab
+                            div(class="medium") Unavailable
+                          div("col-xs-3 text-center")
+                            i(class="fa fa-close fa-5x")
+                      a(href="")
+                        div(class="panel-footer")
+                          span(class="pull-left") Check schdule for details!
+                          span(class="pull-right")
+                            i(class="fa fa-arrow-circle-right")
+                          div(class="clearfix")
+
+    include includes/scripts.html
