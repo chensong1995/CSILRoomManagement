@@ -35,6 +35,7 @@ router.get('/', function (req, res) {
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var users = [];
     var usergroups = [];
+    var privileges = [];
 
     req.models.UserDisplay.find(function (err, results) {
         if (err) {
@@ -56,12 +57,27 @@ router.get('/', function (req, res) {
                     for (var i = 0; i < results.length; i++) {
                         usergroups.push(results[i].description);
                     }
-                    res.render('admin', {
-                        username: username,
-                        source: source,
-                        allowAdmin: true,
-                        users: users,
-                        usergroups: usergroups,
+                    req.models.Privilege.find(function (err, results) {
+                        if (err) {
+                            res.sendStatus(500); // internal server error
+                        } else {
+                            for (var i = 0; i < results.length; i++) {
+                                privileges.push({
+                                    id: results[i].id,
+                                    description: results[i].description,
+                                    allowAdmin: results[i].allowAdmin,
+                                    maxBookings: results[i].maxBookings,
+                                });
+                            }
+                            res.render('admin', {
+                                username: username,
+                                source: source,
+                                allowAdmin: true,
+                                users: users,
+                                usergroups: usergroups,
+                                privileges: privileges
+                            });
+                        }
                     });
                 }
             });
@@ -76,6 +92,7 @@ router.get('/', function (req, res) {
  * Usage      : The client generates a POST request with 2 fields: id, and usergroup. It will receive 200 if update is successful, and 403 otherwise.
 */
 router.post('/usergroup', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
     if (req.body.id && req.body.usergroup) { // must have these two fields
         req.models.UserDisplay.get(req.body.id, function (err, user) {
             if (err) {
@@ -102,4 +119,88 @@ router.post('/usergroup', function (req, res) {
     }
 });
 
+/*
+ * Author(s)  : Chen Song
+ * Description: This function allows admin to change someone's administrative status. It is not protected by csrf token. (I don't know how to do that when there are multiple fields in one page)
+ * Last Update: July 14, 2017
+ * Usage      : The client generates a POST request with 2 fields: id, and allowadmin. It will receive 200 if update is successful, and 403 otherwise.
+*/
+router.post('/allowadmin', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
+    if (req.body.id && req.body.allowadmin) {
+        req.models.Privilege.get(req.body.id, function (err, privilege) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                privilege.allowAdmin = (req.body.allowadmin == 'true');
+                privilege.save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid request
+    }
+});
+
+/*
+ * Author(s)  : Chen Song
+ * Description: This function allows admin to change someone's maximum current booking numbers. It is not protected by csrf token. (I don't know how to do that when there are multiple fields in one page)
+ * Last Update: July 14, 2017
+ * Usage      : The client generates a POST request with 2 fields: id, and maxbookings. It will receive 200 if update is successful, and 403 otherwise.
+*/
+router.post('/maxbookings', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
+    if (req.body.id && req.body.maxbookings) {
+        req.models.Privilege.get(req.body.id, function (err, privilege) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                privilege.maxBookings = parseInt(req.body.maxbookings);
+                privilege.save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid request
+    }
+});
+
+
+/*
+ * Author(s)  : Chen Song
+ * Description: This function allows admin to change someone's description. It is not protected by csrf token. (I don't know how to do that when there are multiple fields in one page)
+ * Last Update: July 14, 2017
+ * Usage      : The client generates a POST request with 2 fields: id, and maxbookings. It will receive 200 if update is successful, and 403 otherwise.
+*/
+router.post('/description', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
+    if (req.body.id && req.body.description) {
+        req.models.Privilege.get(req.body.id, function (err, privilege) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                privilege.description = req.body.description;
+                privilege.save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid request
+    }
+});
 module.exports = router;
