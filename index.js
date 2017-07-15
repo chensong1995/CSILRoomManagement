@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song, Chong
  * Description: This is the entry of the web server logic
- * Last Update: July 13, 2017
+ * Last Update: July 14, 2017
 */
 ////////////////////////////////////////////////////////
 // External dependencies
@@ -58,6 +58,9 @@ app.use('/profile', auth, profile);
 // 7. Password
 var password = require('./routers/password.js');
 app.use('/password', auth, password);
+// 8. Admin
+var admin = require('./routers/admin.js');
+app.use('/admin', auth, admin);
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////

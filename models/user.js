@@ -1,12 +1,12 @@
 /*
  * Author(s)  : Chen Song, Ruiming Jia
  * Description: This file defines the model of an user.
- * Last Update: July 13, 2017
+ * Last Update: July 14, 2017
 */
 
 module.exports = function(db, models) {
     models.User = db.define('users', {
-        id: String,          // e.g. 1, 2, 3
+        id: Number,          // e.g. 1, 2, 3
         username: String,    // e.g. csa102, admin
         password: String,    // e.g. bcrypt("admin")
         type: String,        // e.g. sfu, other
