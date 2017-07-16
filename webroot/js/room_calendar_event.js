@@ -10,7 +10,7 @@ $(document).ready(function() {
 		},
 		dayClick: function(date, jsEvent, view) {
 			var today = new Date();
-			if(Date.parse (date) < Date.parse (today)){
+			if(Date.parse (date) < Date.parse (today) + Date.parse(today.getTimezoneOffset())){
 				// If user click a day before today, show alert
 				alert("You cannot book a room in the past!");
 			}else if(view.name == 'month' || view.name == 'listWeek') {
@@ -37,6 +37,7 @@ $(document).ready(function() {
             					room_id: room_id,
 				                start: start.format(),
 				                end: end.format(),
+				                title: title,
 				                _csrf: csrfToken,
 				            },
 				            success: function(data) {

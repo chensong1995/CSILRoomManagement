@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
             var room_status_list = [];
             rooms.forEach(function(room) {
                 var obj = new Object();
-                obj.room_id = room.id;
+                obj.room_id = room.number;
                 obj.number  = room.number;
                 obj.isBeingMaintained = room.isBeingMaintained;
                 room_status_list.push(obj)
@@ -52,7 +52,7 @@ router.get('/', function(req, res) {
 router.get('/:room_id', function(req, res) {
     var username = req.userDisplay.username;
     var userSource = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
-    req.models.Room.find({id: req.params.room_id}, function (err, room) {
+    req.models.Room.find({number: req.params.room_id}, function (err, room) {
         if (err || room.length < 1) { // if error occurs or no room is found
             res.status(500).end(); // internal server error
         }else{
@@ -62,7 +62,7 @@ router.get('/:room_id', function(req, res) {
                 allowAdmin: req.userDisplay.allowAdmin, 
                 page: "Booking",
                 room_name: room[0].number,
-                room_id: room[0].id,
+                room_id: room[0].number,
                 room_in_maintenance: room[0].isBeingMaintained,
                 csrfToken: req.csrfToken(),
             });
@@ -76,7 +76,7 @@ router.get('/:room_id', function(req, res) {
 // Last Update: July 14, 2017
 router.get('/events/:room_id', function(req, res) {
     var username = req.userDisplay.username;
-    req.models.Room.find({id: req.params.room_id}, function (err, room) {
+    req.models.Room.find({number: req.params.room_id}, function (err, room) {
         if (err || room.length < 1) { // if error occurs or no room is found
             res.status(500).end(); // internal server error
         }else{
@@ -84,7 +84,7 @@ router.get('/events/:room_id', function(req, res) {
             var start = req.query.start;
             var end = req.query.end;
             req.models.BookingRecord.find({rid: room_id},function (err, records) {
-                if (err || room.length < 1) { // if error occurs or no room is found
+                if (err) { // if error occurs or no room is found
                     res.status(500).end(); // internal server error
                 }else{
                     var record_list = [];
@@ -109,9 +109,76 @@ router.get('/events/:room_id', function(req, res) {
 // Description: This function handles the room booking request
 // Last Update: July 14, 2017
 router.post('/', function(req, res) {
-    var result = new Object();
-    result.result = "success";
-    res.send(JSON.stringify(result));
+    var start = req.body.start;
+    var end = req.body.end;
+    var title = req.body.title;
+    var room_id = 0;
+    // Using the room number to find the id in database table
+    req.models.Room.find({number: req.body.room_id}, function (err, room) {
+        if (err || room.length < 1) { // if error occurs or no room is found
+            throw err;
+            res.status(500).end(); // internal server error
+        }else{
+            room_id = room[0].id;
+        }
+    });
+    req.models.UserDisplay.find({sid: req.cookies.sid}, function (err, users) { 
+        if (err || users.length > 1) { // error occurs, or more than 1 such users are found
+            res.status(500).end(); // internal server error
+        } else {
+            req.models.BookingRecord.find({uid: users[0].id},function (err, records) {
+                if (err) { // if error occurs or no room is found
+                    res.status(500).end(); // internal server error
+                }else{
+                    if(records.length >= users[0].maxBookings){
+                        // The user has reach the maximum booking number
+                        var result = new Object();
+                        result.result = "error";
+                        result.errMsg = "You can only book " + users[0].maxBookings + " room(s) at the same time";
+                        res.send(JSON.stringify(result));
+                    }else{
+                        // Try to book this room
+                        req.models.BookingRecord.find({rid: room_id},function (err, records) {
+                            if (err) { // if error occurs or no room is found
+                                res.status(500).end(); // internal server error
+                            }else{
+                                records.forEach(function(record) {
+                                    // Check whether there is conflict
+                                    if((Date.parse ( start ) < Date.parse ( record.start )
+                                        && Date.parse ( end ) > Date.parse ( record.start ))
+                                        || ( Date.parse ( start ) >= Date.parse ( record.start )
+                                             && Date.parse ( start ) <= Date.parse ( record.end ))
+                                        || (Date.parse ( start ) >= Date.parse ( end ))){
+                                        var result = new Object();
+                                        result.result = "error";
+                                        result.errMsg = "There is time slot conflic, please refresh your page to get up-to-date calendar";
+                                        res.send(JSON.stringify(result));
+                                    }else{
+                                        var newBooking = {
+                                            rid: room_id,
+                                            uid: users[0].id,
+                                            start: start, // 2 means student
+                                            end: end,
+                                            title: title,
+                                        };
+                                        req.models.BookingRecord.create(newBooking, function(err, results) {
+                                            if(err){
+                                                res.status(500).end(); // internal server error
+                                            }else{
+                                                var result = new Object();
+                                                result.result = "success";
+                                                res.send(JSON.stringify(result));
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
 });
 
 module.exports = router;
