@@ -1,0 +1,428 @@
+<div class="parsys main_content"><div class="title section"><div><h1>CMPT 471 (Networking) Frequently Asked Questions</h1></div></div>
+<div class="text parbase section">
+
+<div class="listed">
+<h4>The Networks</h4>
+<ul>
+<li><a href="#about">What's the <b><i>Virtual</i></b> network?</a></li>
+</ul>
+<h4>About CS-Lab Console (RemoteApp of vSphere Client)</h4>
+<ul>
+<li><a href="#vsphere-01">What is CS-Lab Console?</a></li>
+<li><a href="#vsphere-02">What is vSphere Client?</a><br>
+</li>
+<li><a href="#vsphere-03">How to use CS-Lab Console?</a></li>
+<li><a href="#vsphere-04">How to use vSphere Client?</a><br>
+</li>
+</ul>
+<h4>Connecting to the Virtual Network</h4>
+<ul>
+<li><a href="#initial-passphrase">What is my initial password for the cmpt 471 Virtual network?</a></li>
+<li><a href="#connect-01">Can users in CSIL connect to the Virtual Network?</a></li>
+<li><a href="#connect-02">Can users connect to the Virtual Network outside CSIL?</a></li>
+<li><a href="#connect-03">I've connected to cs-vnl.csil.sfu.ca. Now what do I do?</a></li>
+</ul>
+<h4>Fixing Unresponsive Virtual Machines</h4>
+<ul>
+<li><a href="#issue-01">I can't ssh to a machine in the VNL from cs-vnl-01.csil.sfu.ca. What's wrong, and how can I fix this?</a></li>
+<li><a href="#issue-02">I restarted the virtual machine, but something is still wrong with it. What do I do?</a></li>
+<li><a href="#remoteexecute">Running GUI Programs Remotely</a></li>
+</ul>
+<h4>Transferring Files</h4>
+<ul>
+<li><a href="#filetransfer">Retrieving files from a remote Network Lab computer to your computer outside CSIL</a></li>
+</ul>
+<h4>Printing</h4>
+<ul>
+<li><a href="#print-01">How can I print from the 471 network?</a></li>
+<li><a href="#print-02">Do I need a print card for printing?</a></li>
+</ul>
+<p>&nbsp;</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="about"></a>What's the <b><i>Virtual</i></b> network?</h2>
+<p>The <b><i>Virtual Network</i></b> exists only as a set of virtual machines on a virtual network topology. There are no physical switches, wiring or workstations.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="vsphere-01"></a>What is CS-Lab Console?</h2>
+<p>The CS-Lab Console is a customized RemoteApp packaged by us; which in turn runs "vSphere Client" to manage the VMWare infrastructure for the virtual networking lab.</p>
+<p>This tool runs on Windows only.</p>
+<p>You may download, install and use it on your own computer.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="vsphere-02"></a>What is vSphere Client?</h2>
+<p>The biggest difference with a virtual machine is that instead of physically going to the unresponsive physical machine and working at the console (and possibly turning it off and back on), you have to access a virtual machine's console via software. The software we use in the CSIL Virtual Network Lab to access virtual machine consoles is this VMware vSphere Client.</p>
+<p>Due to license restriction, vSphere Client is only available on this single server: cs-lab.cmpt.sfu.ca.<br>
+</p>
+<p>To maintain the availability and robustness of this server, direct logon to the server has been blocked. You could run the vSphere Client by using the customized RemoteApp "CS-Lab Console".</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="vsphere-03"></a>How to use CS-Lab Console?</h2>
+<p>To access the consoles of the virtual machines in the CSIL Virtual Network Lab, CS-Lab Console must be used. There are 3 ways to connect to our VMWare server:</p>
+<ol>
+<li>From a general CSIL Windows machine, go to: <b><i>Start -&gt; All Programs -&gt;&nbsp;Tools_RemoteAccess -&gt; CS-Lab Console</i></b></li>
+<li>From the <a href="/computing/about/support/csil/windows/how-to-use-windows-terminal-server.html">CSIL Windows Terminal Server</a>, go to: <b><i>Start -&gt; All Programs -&gt;&nbsp;Tools_RemoteAccess -&gt; CS-Lab Console</i></b></li>
+<li>From your own Windows based machine, install the CS Lab Console for vSphere by downloading and installing the <a href="/content/dam/sfu/computing/csil/unix/CS-LAB%20Console.msi">CS Lab Console</a>.</li>
+</ol>
+<p>No matter which one you choose, you need to follow these steps:</p>
+<ul>
+<li>within the "Windows Security" window, key in your SFU credentials (SFU login ID and password).</li>
+<li>within the newly opened RemoteApp window, click the OK button to agree with the SFU GP24 policy.</li>
+<li>within the newly opened (smaller) "VMWare vSphere Client" window, make sure the "IP address /Name" area has value "<b>cslab</b>", and key in your SFU credentials (SFU login ID and password) again.</li>
+<li>for any popup "Security Warning" dialog box, please always click "Ignore" button. (The warning is due to the server is using unrecognized security certificates.)</li>
+<li>the vSphere Client shows up.</li>
+</ul>
+<p>Now, you have the vSphere Client running. You should read the next Q&amp;A for more infomation.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="vsphere-04"></a>How to use vSphere Client?</h2>
+<p>After successfully running "CS-Lab Console", you will see the&nbsp;vSphere Client window (RemoteApp).</p>
+<p>Within this&nbsp;vSphere Client window,</p>
+<ul>
+<li>go to the <b><i>VMs and Templates</i></b> view.</li>
+<li>In the left hand side pane,</li>
+<li>click on the <b>+</b> icon beside <b><i>cs-lab-04</i></b>, then again on the <b><i>TASC1-8206</i></b>, and then on the <b><i>CS-VNL</i></b></li>
+<li>now, select one of lab folder which you are instructed to use for current assignment.</li>
+</ul>
+<p>You will now be presented with a list of the virtual machines that are being hosted on the cs-lab.cmpt.sfu.ca host machine (this server is also a virtual machine). By clicking on your desired machine in the left pane and clicking the <b><i>Console</i></b> tab on the right pane, you can then access that machine's Virtual Console.</p>
+<h4>Working with the vSphere console</h4>
+<p>For the most part, a virtual machine works just like a real physical computer, with the console simply displaying what's on the virtual screen. A few notes:</p>
+<ul>
+<li>When a virtual machine "captures" the cursor, you can release it by pressing the <b><i>Ctrl</i></b> and <b><i>Alt</i></b> keys simultaneously.</li>
+<li>To force the machine to reset, select <b><i>VM -&gt; Power -&gt; Reset</i></b></li>
+<li>The vSphere Console should only be used for restarting virtual machines when they can't be accessed, when there is no other option. Remember that bringing down and restarting virtual machines can negatively affect other users who may be logged into those virtual machines. Please be responsible with this feature, and treat other users with respect.</li>
+<li>If you change some permanent feature of the operating system, you may not be able to recover it by restarting the virtual machine. See the question and answer below for details.</li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="initial-passphrase"></a>What is my initial password for the cmpt 471 Virtual network?</h2>
+<p>Your SFU campus account will not work in the Network Lab. This is because both the 471 Lab Virtual Network machines are not part of the campus Active Directory domain, and so cannot use the campus authentication services. We have set up an account and password for each student on the my.sfu.ca site, here is how to locate it:</p>
+<ol>
+<li>Login to the <a href="https://portal.cs.sfu.ca/">CS Portal</a></li>
+<li>Your VNL Password is listed under <b>CMPT 471 Information</b></li>
+</ol>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="connect-01"></a>Can users in CSIL connect to the Virtual Network?</h2>
+<p>Yes.</p>
+<p>Users can connect to the Virtual Network from any CSIL workstations.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="connect-02"></a>Can users connect to the Virtual Network outside CSIL?</h2>
+<p>Yes. You can connect to the Virtual Netowrk via cs-vnl-01.csil.sfu.ca using <b>NX Client</b> or <b>ssh</b>.</p>
+<h4>NX Client Access</h4>
+<p>If you are logged on to a Linux, Window or Mac OS X workstation outside CSIL, then you can use <b>NX Client</b> to connect to cs-vnl-01.csil.sfu.ca. &nbsp;Please install <b>NX Client version 3.5, </b>which can be downloaded from <a href="/content/dam/sfu/computing/csil/unix/nxclient-3.5.0-9.exe">here</a>. &nbsp;(Please note that the latest version of NoMachine Client isn't not compatible with the NX server running on VNL gateway.)</p>
+<p>Once you installed the NX Client, follow the <a href="/computing/about/support/csil/unix/how-to-use-csil-linux-terminal-server.html">connection wizard</a> or download (right-click and save as) the following NX configurations and open it with NX client will connect to the corresponding VNL Labs</p>
+<p style="margin-left: 40px;"><a href="/content/dam/sfu/computing/csil/unix/cs-vnl-e01.csil.sfu.ca.nxs">cs-vnl-e01.csil.sfu.ca</a></p>
+<p style="margin-left: 40px;"><a href="/content/dam/sfu/computing/csil/unix/cs-vnl-e02.csil.sfu.ca.nxs">cs-vnl-e02.csil.sfu.ca</a></p>
+<p style="margin-left: 40px;"><a href="/content/dam/sfu/computing/csil/unix/cs-vnl-e03.csil.sfu.ca.nxs">cs-vnl-e03.csil.sfu.ca</a></p>
+<p style="margin-left: 40px;"><a href="/content/dam/sfu/computing/csil/unix/cs-vnl-e04.csil.sfu.ca.nxs">cs-vnl-e04.csil.sfu.ca</a></p>
+<h4>SSH Access</h4>
+<p>The users may also <b>ssh</b> to the Virtual Network if they have an appropriate ssh client - we have SSH client installed on all Windows workstations in CSIL; for your own computer, you may use client like <b>PuTTY</b>). Most distors of Linux come with an ssh client package installed. The command is:</p>
+<p style="margin-left: 40px;"><b>ssh cs-vnl-01.csil.sfu.ca</b></p>
+<p>If you are logged on to a Linux or Mac OS X workstation outside CSIL, then you can start a terminal session, and use ssh to connect. At the command prompt, enter:</p>
+<p style="margin-left: 40px;">ssh cs-vnl-01.csil.sfu.ca</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="connect-03"></a>I've connected to cs-vnl-01.csil.sfu.ca. Now what do I do?</h2>
+<p>Once you are connected to cs-vnl-01.csil.sfu.ca, you can ssh to any machine on the Virtual Network. The virtual machines names are:</p>
+<p style="margin-left: 40px;">spring<br>
+summer<br>
+autumn<br>
+fall<br>
+winter<br>
+</p>
+<p style="margin-left: 40px;">equinox<br>
+solstice<br>
+year<br>
+january<br>
+february<br>
+</p>
+<p style="margin-left: 40px;">march<br>
+april<br>
+may<br>
+june<br>
+july<br>
+</p>
+<p style="margin-left: 40px;">august<br>
+september<br>
+october<br>
+november<br>
+december<br>
+</p>
+<p>If you now connect to one of the above virtual machines with:</p>
+<p style="margin-left: 40px;">ssh -Y <i>hostname</i></p>
+<p>and once you're logged in, type:</p>
+<p style="margin-left: 40px;">sudo sh<br>
+</p>
+<p>you now have two options for your course assignments. You can either stay in the shell you started just now with the <b>sudo</b> command (all commands in this shell will run with root privileges) or exit this shell to run commands under your own <i>username</i>.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="issue-01"></a>I can't ssh to a machine in the VNL from cs-vnl-01.csil.sfu.ca. What's wrong, and how can I fix this?</h2>
+<p>Virtual machines are pretty much the same as real physical computers, in that they sometimes suffer from the same software misconfiguration problems (e.g. firewall/routing table change errors) as real machines can. Virtual machines can "hang" from software errors and become unresponsive to the point that the only thing you can do is re-boot them. Make sure that the machine in question is truly hung. You may be able to simply kill off some process/application program that is malfunctioning. See the unix/Linux <b>kill</b> and <b>ps</b> man pages for details.</p>
+<p>To access a virtual machine's console for the VNL, you need to use the "<a href="#vsphere-03">CS-Lab Console</a>" which in turn will execute the <a href="#vsphere-04">vSphere Client</a>.<br>
+</p>
+<p>Within the vSphere Client, you may work on the virtual machines just like physical machines.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="issue-02"></a>I restarted the virtual machine, but something is still wrong with it. What do I do?</h2>
+<p>If you cannot connect to a virtual machine you just restarted, or even after restarting it is not operating normally, then it is likely that you made a change to the system that is unrecoverable/unfixable.</p>
+<p>This can happen because most users in the Network Lab operate as the root user. This account is dangerous because with it you can do pretty much anything you want on the system. Unfortunately, this can include the deletion/alteration of critical operating system files, which can leave the virtual machine inoperable. To reset a broken virtual machine to its original working state:</p>
+<ul>
+<li>from the vSphere console, right click on the broken machine select <b><p>power off</p>
+</b></li>
+<li>right click on the broken machine, select <b><p>snapshot -&gt; revert to current snapshot&nbsp;<br>
+</p>
+</b></li>
+<li>make sure the new machine is powered up.</li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="remoteexecute"></a>Running GUI Programs Remotely</h2>
+<ol>
+<li>Connect to cs-vnl-01.csil.sfu.ca with <b>NX client</b></li>
+<li>ssh to a machine on the Virtual Network (e.g. july):<br>
+<br>
+<p>ssh -Y july</p>
+the -Y option allows the X display of GUI-based programs (like wireshark) to be sent back to cs-vnl-01<br>
+<br>
+</li>
+<li>Become the effective root user:<br>
+<br>
+<p>sudo sh<br>
+</p>
+</li>
+<li>run your GUI-based program (eg. wireshark) as effective root user. The graphical output should go to your X session on cs-vnl-01.</li>
+</ol>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="filetransfer"></a>Retrieving files from a remote Network Lab computer to your computer outside CSIL</h2>
+<ol>
+<li>from your computer, ssh to cs-vnl-01.csil.sfu.ca</li>
+<li>from cs-vnl-01, sftp to your target Network Lab machine (e.g. july) where the files you want to transfer have been saved</li>
+<li>transfer your files to your account on cs-vnl-01</li>
+<li>disconnect from your Network Lab machine</li>
+<li>log out of cs-vnl-01</li>
+<li>from your computer, sftp to cs-vnl and transfer your files to your computer</li>
+</ol>
+<h4>You may also use <b>scp</b> to transfer files:</h4>
+<ol>
+<li>from your target Network Lab machine:<br>
+<p>scp <i>filename(s)</i> cs-vnl-01:/home/<i>username</i></p>
+</li>
+<li>disconnect from your Network Lab machine</li>
+<li>log out of cs-vnl-01</li>
+<li>from your computer, sftp to cs-vnl-01 and transfer your files to your computer</li>
+</ol>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="print-01"></a>How can I print from the 471 network?</h2>
+<p>Since there is no printer attached to the Virtual Network, you must access a printer that is outside your immediate network. This means using the printer on the CSIL Network.</p>
+<p>If you are logged on to a Linux machine on the Virtual Network:</p>
+<ol>
+<li>Transfer your files to the server, cs-vnl-01.csil.sfu.ca, which is connected to both the Virtual Network and the CSIL Network :<p>scp <i>yourfilename(s)</i> <i>username</i>@cs-vnl-01.csil.sfu.ca:/home/<i>username</i></p>
+</li>
+<li>Login (via ssh) to cs-vnl-01.csil.sfu.ca, then print your files to the CSIL printer:<p>lp <i>yourfilename(s)</i></p>
+</li>
+</ol>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="print-02"></a>Do I need a print card for printing?</h2>
+<p>Yes, same as any other print job in CSIL.</p>
+<p></p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<p><a name="bottom"></a>Last updated @2015.05.28</p>
+
+</div></div>
+</div>
