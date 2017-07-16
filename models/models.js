@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This collects all models we have, and turn them into an orm call.
- * Last Update: July 14, 2017
+ * Last Update: July 15, 2017
 */
 
 var orm = require('orm');
@@ -14,7 +14,7 @@ var userGroup = require('./user-group.js');
 var room = require('./room.js');
 var bookingRecord = require('./booking-record.js');
 var privilege = require('./privilege.js');
-
+var announcement = require('./announcement.js');
 
 module.exports = function (app) {
     app.use(orm.express('mysql://csil:csil@120.27.121.163/csil', {
@@ -26,6 +26,7 @@ module.exports = function (app) {
             room(db, models);
             bookingRecord(db, models);
             privilege(db, models);
+            announcement(db, models);
             next();
         }
     }));

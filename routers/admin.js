@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles admin logics. The entire file is protected by auth
- * Last Update: July 14, 2017
+ * Last Update: July 15, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -9,33 +9,57 @@
 // 1. Express framework
 var express = require('express');
 var router = express.Router();
+// 2. Admin authetication
+var adminAuth = require('../authentication/admin.js');
+router.use(adminAuth);
 ////////////////////////////////////////////////////////
+
 
 /*
  * Author(s)  : Chen Song
- * Description: This function makes sure only admins can visit this route
- * Last Update: July 14, 2017
+ * Description: This function sends users the privileges page
+ * Last Update: July 15, 2017
 */
-router.use(function (req, res, next) {
-    if (req.userDisplay.allowAdmin) {
-        next();
-    } else {
-        res.sendStatus(403); // forbidden
-    }
+router.get('/privileges', function (req, res) {
+    // prepare all view variables
+    var username = req.userDisplay.username;
+    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var privileges = [];
+    
+    req.models.Privilege.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                privileges.push({
+                    id: results[i].id,
+                    description: results[i].description,
+                    allowAdmin: results[i].allowAdmin,
+                    maxBookings: results[i].maxBookings,
+                });
+            }
+            res.render('admin-privileges', {
+                username: username,
+                source: source,
+                page: 'Privilege Management',
+                allowAdmin: true,
+                privileges: privileges
+            });
+        }
+    });
 });
 
 /*
  * Author(s)  : Chen Song
- * Description: This function sends users the admin homepage
- * Last Update: July 14, 2017
+ * Description: This function sends users the usergroup page
+ * Last Update: July 15, 2017
 */
-router.get('/', function (req, res) {
+router.get('/usergroup', function (req, res) {
     // prepare all view variables
     var username = req.userDisplay.username;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var users = [];
     var usergroups = [];
-    var privileges = [];
 
     req.models.UserDisplay.find(function (err, results) {
         if (err) {
@@ -57,29 +81,48 @@ router.get('/', function (req, res) {
                     for (var i = 0; i < results.length; i++) {
                         usergroups.push(results[i].description);
                     }
-                    req.models.Privilege.find(function (err, results) {
-                        if (err) {
-                            res.sendStatus(500); // internal server error
-                        } else {
-                            for (var i = 0; i < results.length; i++) {
-                                privileges.push({
-                                    id: results[i].id,
-                                    description: results[i].description,
-                                    allowAdmin: results[i].allowAdmin,
-                                    maxBookings: results[i].maxBookings,
-                                });
-                            }
-                            res.render('admin', {
-                                username: username,
-                                source: source,
-                                allowAdmin: true,
-                                users: users,
-                                usergroups: usergroups,
-                                privileges: privileges
-                            });
-                        }
+                    res.render('admin-usergroup', {
+                        username: username,
+                        source: source,
+                        allowAdmin: true,
+                        page: 'User Group Management',
+                        users: users,
+                        usergroups: usergroups
                     });
                 }
+            });
+        }
+    });
+});
+
+/*
+ * Author(s)  : Chen Song
+ * Description: This function sends users the rooms page
+ * Last Update: July 15, 2017
+*/
+router.get('/rooms', function (req, res) {
+    // prepare all view variables
+    var username = req.userDisplay.username;
+    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var rooms = [];
+
+    req.models.Room.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                rooms.push({
+                    id: results[i].id,
+                    number: results[i].number,
+                    isBeingMaintained: results[i].isBeingMaintained
+                });
+            }
+            res.render('admin-rooms', {
+                username: username,
+                source: source,
+                allowAdmin: true,
+                page: 'Room Management',
+                rooms: rooms
             });
         }
     });
@@ -203,4 +246,34 @@ router.post('/description', function (req, res) {
         res.sendStatus(403); // invalid request
     }
 });
+
+/*
+ * Author(s)  : Chen Song
+ * Description: This function allows admin to change the maintenance status of a room. It is not protected by csrf token. (I don't know how to do that when there are multiple fields in one page)
+ * Last Update: July 15, 2017
+ * Usage      : The client generates a POST request with 2 fields: id, and isbeingmaintained. It will receive 200 if update is successful, and 403 otherwise.
+*/
+router.post('/rooms', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
+    if (req.body.id && req.body.isbeingmaintained) {
+        req.models.Room.get(req.body.id, function (err, room) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                room.isBeingMaintained = (req.body.isbeingmaintained == 'true');
+                room.save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid request
+    }
+});
+
+
 module.exports = router;

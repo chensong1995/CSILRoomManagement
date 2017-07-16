@@ -56,7 +56,6 @@ router.post('/', csrfProtection, function (req, res) {
         req.userDisplay.notification = req.body.notification;
         req.userDisplay.save(function (err) {
             if (err) {
-                res.send(err);
                 res.sendStatus(500); // internal server error
             } else {
                 res.status(200).end(); // success

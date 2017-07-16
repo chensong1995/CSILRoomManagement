@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song, Chong
  * Description: This is the entry of the web server logic
- * Last Update: July 14, 2017
+ * Last Update: July 15, 2017
 */
 ////////////////////////////////////////////////////////
 // External dependencies
@@ -28,7 +28,7 @@ models(app);
 // 2. Cookie
 var cookie = require('./authentication/cookie.js');
 cookie(app);
-// 2. Authentication service
+// 3. Authentication service
 var auth = require('./authentication/authentication.js');
 
 //serve static files
@@ -64,6 +64,12 @@ app.use('/admin', auth, admin);
 // 9. Room Booking
 var booking = require('./routers/booking.js');
 app.use('/booking', auth, booking);
+// 10. Policy
+var policy = require('./routers/policy.js');
+app.use('/policy', auth, policy);
+// 11. Announcement
+var announcement = require('./routers/announcement.js');
+app.use('/announcement', auth, announcement);
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
