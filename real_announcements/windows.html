@@ -1,0 +1,1151 @@
+<div class="parsys main_content"><div class="title section"><div><h1>CSIL Windows FAQ</h1></div></div>
+<div class="text parbase section">
+
+<div class="">
+<p><a name="top"></a>Note: On this page, "Windows workstation" means an x86-based computer running the Microsoft Windows 7 64bit operating system. If the computer dualboot, this page covers only the Windows portion.<br>
+</p>
+<p>If you could not find answer for your questions on this page, you may check out our <a href="windows/known-issues-page.html">CSIL Windows Known Issues Page</a> for more Q&amp;As.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h4>Essentials</h4>
+<ul>
+<li><a href="#essential-01">Who can use CSIL?</a></li>
+<li><a href="#essential-02">Where are the Windows workstations in CSIL?</a></li>
+<li><a href="/computing/current-students/undergraduate-students/student-resources/csil/windows.html#essential-03">How do I access CSIL?</a></li>
+<li><a href="#essential-04">What's the basic environment of CSIL Windows systems?</a></li>
+<li><a href="#essential-characteristics">What are the unique characteristics of CSIL Windows systems?</a></li>
+<li><a href="#essential-05">Can I remote desktop to CSIL Windows workstations?</a></li>
+<li><a href="#essential-06">Can I access CSIL Windows resources from outside CSIL?</a></li>
+<li><a href="#essential-07">Can I reserve a workstation in CSIL?</a></li>
+<li><a href="#essential-08">Can I share my account with others?</a></li>
+<li><a href="#essential-09">How do I report CSIL related problems?</a></li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h4>CSIL Windows Accounts</h4>
+<ul>
+<li><a href="#account-01">What's my account ID on the CSIL Windows systems?</a></li>
+<li><a href="#account-02">What's my CSIL Windows password?</a></li>
+<li><a href="#account-03">Why can't I log on to any CSIL Windows systems?</a></li>
+<li><a href="#account-04">Why is my account locked out?</a></li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h4>The User Environment</h4>
+<ul>
+<li><a href="#environment-01">Where is my "home directory" on a CSIL Windows system?</a></li>
+<li><a href="#environment-02">What do I do if I don't have an U: drive?</a></li>
+<li><a href="#environment-03">What is my disk quota for my home directory?</a></li>
+<li><a href="#environment-profile-01">My Windows desktop doesn't look the same as it did last time I logged in. Lots of things are missing! What's wrong?</a></li>
+<li><a href="#environment-profile-02">I get an error message telling me I have exceeded my profile storage space; what I can do to fix this?</a></li>
+<li><a href="#environment-profile-03">I get an error message telling me "\\freesia\userdata\<i>username</i>\..." is not writable; what I can do to fix this?</a></li>
+<li><a href="#environment-profile-05">I get a warning message everytime I logon to a CSIL Windows system: "login with a temporary profile"; what I can do to fix this?</a></li>
+<li><a href="#environment-profile-04">I logged on to the CSIL Terminal Server for the first time, and my regular settings are gone! What's gone wrong?</a></li>
+<li><a href="#profile-cleanup">How do I clean up profile storage?</a></li>
+<li><a href="#environment-storage0">Where I should save my files?</a></li>
+<li><a href="#environment-storage1">Where I should NOT save my files?</a></li>
+<li><a href="#environment-07">Can I set my own screen saver?</a></li>
+<li><a href="#environment-08">Can I lock a CSIL workstation?</a></li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h4>Software</h4>
+<ul>
+<li><a href="#software-01">What software is installed on CSIL Windows systems?</a></li>
+<li><a href="#software-02">May I install software for my course work on a CSIL workstation?</a></li>
+<li><a href="#software-03">How can I get software installed if the system doesn't have what I need?</a></li>
+<li><a href="#software-eclipse-00">How to run Eclipse?</a></li>
+<li><a href="#software-jcreator-00">How to run JCreator?</a></li>
+<li><a href="#software-04">Why can't I use TELNET?</a></li>
+<li><a href="#smalllisp">How do I run small Lisp?</a></li>
+<li><a href="windows/how-to-use-visualstudio.html">How do I use Microsoft Visual Studio?</a></li>
+<li><a href="windows/how-to-use-sql.html">How do I use SQL Server?</a></li>
+<li><a href="windows/how-to-use-xpmode.html">How do I use XP Mode?</a></li>
+<li><a href="windows/how-to-use-iis.html">How do I use Internet Information Server (IIS)?</a></li>
+<li><a href="windows/how-to-transfer-database.html">How can I transport database from my own SQL Server to CSIL SQL Server?</a></li>
+<li><a href="windows/how-to-get-software.html">How can I get software for CMPT courses?</a></li>
+<li><a href="windows/how-to-install-software.html">Can I get some tips on how to install some software?</a></li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h4>Printing</h4>
+<ul>
+<li><a href="#print-01">How do I print?</a></li>
+<li><a href="#print-02">There are multiple printers on my list of printers when I print from my Windows applications. What are they?</a></li>
+<li><a href="#print-03">How do I create a PDF file?</a></li>
+<li><a href="#print-04">I just printed to "New Lab Mono", but the system shows that the printer is paused. Is there a problem?</a></li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h4>Miscellaneous</h4>
+<ul>
+<li><a href="#miscellaneous-01">I got a popup window that states: "The computer will be shutdown in 5 minutes." What should I do?</a></li>
+<li><a href="#miscellaneous-02">How do I change file permissions on my folders/files?</a></li>
+<li><a href="#miscellaneous-03">Can I get Microsoft software for free?</a></li>
+<li><a href="#miscellaneous-04">Can I burn course software CD/DVDs in CSIL (without downloading)?</a></li>
+<li><a href="#miscellaneous-05">I want to use a Windows workstation but there aren't any available in CSIL. What should I do?</a></li>
+<li><a href="#miscellaneous-06">How do I scan pictures in CSIL?</a></li>
+<li><a href="#miscellaneous-07">How do I set WinRAR to generate ZIP format files by default?</a></li>
+<li><a href="#access-notes">How can I access the notes from the instructors?</a></li>
+<li><a href="#capture-video">How can I capture video clips in CSIL?</a></li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<h1>Essentials<br>
+</h1>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><u></u><a name="essential-01"></a>Who can use CSIL?<br>
+</h2>
+<p>Only students who are currently enrolled in CMPT and DDP courses may access the computers in CSIL.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-02"></a>Where are the Windows workstations in CSIL?</h2>
+<p>At the Burnaby campus, CSIL is located in <a href="/content/dam/sfu/computing/csil/csil_rooms_burnaby.pdf" target="_blank">ASB 9838</a>. For a PDF showing the CSIL Burnaby workstation layout, please click <a href="/content/dam/sfu/computing/csil/csil_layout_burnaby.pdf">CSIL Burnaby layout</a>. Please note: all of the computers dualboot Windows and Linux.<br>
+</p>
+<p>At the Surrey campus, CSIL is located on the east side of Galleria 4, room 4050 and 4080. Click <a href="/content/dam/sfu/computing/csil/CSIL_Layout_Surrey.pdf">CSIL Surrey layout</a> for a PDF showing the CSIL Surrey workstation layout. Please note: all of these computers dualboot Windows and Linux.<br>
+</p>
+<p>On these layout PDF pages, you will find the names of all the workststions and which OS (if not both) is available on them.<br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-03"></a>How do I access CSIL?</h2>
+<p>You must have an access fob.</p>
+<h4 style="margin-left: 40px;">No valid CS access FOB, no access, no exceptions.</h4>
+<p>Please see our <a href="/computing/about/support/tips/door-access.html">Door Access FAQ</a> for information on how to get your access fob.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-04"></a>What's the basic environment of CSIL Windows systems?</h2>
+<ul>
+<li>We have about 180 Workstations and two Terminal Servers.</li>
+<li>All CSIL Windows systems are part of the SFU Active Directory (ADSFU) domain.</li>
+<li>Operating system: workstations: Windows 7 x64 w/service pack 1 ; the Terminal Servers: Windows Server 2008 Enterprise x64 R2 with service pack 1.</li>
+<li>Users have their SFU home directory mapped as their <b>U</b>:\ drive.</li>
+<li>Users are using roaming profile with folder redirection feature.<ul>
+<li>Each user's Desktop, Documents and AppData folders have been redirected to CSIL File Server; they are all under:<br>
+<br>
+<b>\\<a href="#windows-servers">freesia.csi.sfu.ca</a>\userdata\<i>username</i></b></li>
+<li><b><i>DO NOT save your files here, it is not backed up and may dissapear without notice.</i></b></li>
+</ul>
+</li>
+</ul>
+<p>We try our best to keep up with the latest service packs and patches from Microsoft and other software vendors.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-characteristics"></a>What are the unique characteristics of CSIL Windows systems?</h2>
+<p>Here is the list of the most important characteristics for CSIL Windows systems, compare with default Windows installation:</p>
+<div class="table"><table cellspacing="0" cellpadding="1" border="1">
+<tbody><tr><td>&nbsp;</td>
+<td>CSIL Windows<br>
+</td>
+<td>Default Windows installation</td>
+</tr><tr><td>%APPDATA%</td>
+<td>\\freesia.csil.sfu.ca\userdata\<i>username</i>\appdata\roaming</td>
+<td>C:\Users\<i>username</i>\AppData\Roaming</td>
+</tr><tr><td>Desktop (user)<br>
+</td>
+<td>\\freesia.csil.sfu.ca\userdata\<i>username</i>\desktop</td>
+<td>C:\Users\<i>username</i>\Desktop</td>
+</tr><tr><td>Documents</td>
+<td>\\freesia.csil.sfu.ca\userdata\<i>username</i>\documents</td>
+<td>C:\Users\<i>usrename</i>\Documents</td>
+</tr><tr><td>Download</td>
+<td>\\sphinx.sfu.ca\<i>username</i></td>
+<td>C:\Users\<i>username</i>\Downloads<br>
+</td>
+</tr><tr><td>%LOCALAPPDATA%</td>
+<td>&lt;no change to default&gt;</td>
+<td>C:\Users\<i>username</i>\AppData\Local</td>
+</tr><tr><td>Start Menu</td>
+<td>&lt;no change to default&gt;</td>
+<td>C:\ProgramData\Microsoft\Windows\Start Menu</td>
+</tr><tr><td>%TEMP%</td>
+<td>c:\temp</td>
+<td>C:\Windows\Temp</td>
+</tr><tr><td>%TMP%</td>
+<td>c:\temp</td>
+<td>C:\Windows\Temp</td>
+</tr><tr><td>%JAVAHOME%</td>
+<td>C:\Program Files\java\jdk</td>
+<td>C:\Program Files\Java\jdk<i>&lt;version#&gt;</i></td>
+</tr></tbody></table></div>
+<p>Please note: %% denotes an <a href="http://technet.microsoft.com/en-us/library/dd560744(v=WS.10).aspx">environment variable</a>.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essentail-05"></a>Can I remote desktop to CSIL Windows workstations?</h2>
+<p>No. The CSIL workstations are reserved for in-lab students.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-06"></a>Can I access CSIL Windows resources from outside CSIL?</h2>
+<p>Yes.<br>
+</p>
+<p><br>
+You may Remote Desktop Connection to the <a href="windows/how-to-use-windows-terminal-server.html">CSIL Windows Terminal Server</a>, if you have access to CSIL.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-07"></a>Can I reserve a workstation in CSIL?</h2>
+<p>Yes! If you want to make a reservation, please ask your instructor/TA to <a href="../helpdesk.html">email helpdesk</a>.</p>
+<p>In periods of high demand for particular workstations, students in affected courses may need to use a sign up sheet to reserve time on the workstations.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-08"></a>Can I share my account with others?</h2>
+<p>NO. Only the student to whom the account is issued is permitted to use that account. Allowing your friends (or group mates) to use your account is NOT permitted.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="essential-09"></a>How do I report CSIL related problems?</h2>
+<p>Please report all problems by <a href="../helpdesk.html">emailing helpdesk</a>.</p>
+<p>&nbsp;</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<h1>CSIL Windows Accounts</h1>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="account-01"></a>What's my account ID on the CSIL Windows systems?</h2>
+<p>Your CSIL Windows account has the same ID as your SFU email, but they are completely separate accounts.</p>
+<p>If your account is "<i>username</i>" when you sign onto fraser.sfu.ca it will be "<i>username</i>" when you log onto any CSIL Windows systems.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="account -02"></a>What's my CSIL Windows password?</h2>
+<p>Your CSIL Windows account password is synchronized with your <b>SFU Connect</b> password.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="account-03"></a>Why can't I log on to any CSIL Windows system?</h2>
+<p>Three common cases are:</p>
+<ol>
+<li>You are not taking any CMPT/DDP courses in the current semester.</li>
+<li>Maybe you aren't using the right password. Please click <a href="https://cgi.sfu.ca/%7Eaccount/ActiveDirectoryInit.cgi">here</a> to synchronize your ADSFU account password with your SFU password.</li>
+<li>Your account is locked out temporarily (see the Q&amp;A below).</li>
+</ol>
+<p>Please <a href="/computing/about/support/how-to-contact-helpdesk.html">email helpdesk</a> if none of the cases apply.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="account-04"></a>Why is my account locked out?</h2>
+<p>The account will be locked out for 30 minutes if there have been 3 invalid logon attempts within 5 minutes.</p>
+<p>After 30 minutes, the system will unlock your account automatically; you may try to logon again then. During the lockout, you may not be able to logon to any ADSFU-bound hosts either - which includes most of the CSIL Linux hosts.<br>
+</p>
+<p>Please note: the CMPT Helpdesk is not able to unlock your account.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<h1>The User Environment</h1>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-01"></a>Where is my "home directory" on a CSIL Windows system?</h2>
+<p>&nbsp;</p>
+<p>For CSIL Windows systems, the U: drive has been designated as the home directory; and it is mapped automatically to user's SFU home during logon process. <b>Please save everything to U: drive</b>.</p>
+<p>Some applications may not work properly with the home directory on a network drive; for these applications, please use a Universal Naming Convention (UNC) path to your home directory:</p>
+<p style="margin-left: 40px;">\\<b><a href="#its-fileserver">sphinx.sfu.ca</a></b>\<i>username</i></p>
+<p style="margin-left: 40px;">- where "<i>username</i>" is your SFU email ID.</p>
+<p>Note: please do NOT save any important files under "My Documents" nor "Desktop". These locations are not backed up or preserved during updates.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-02"></a>What do I do if I don't have an U: drive?</h2>
+<p>You may mount your home space yourself. In the <i>Windows Explorer</i>, go to menu item<br>
+</p>
+<p style="margin-left: 40px;"><b>Tools -&gt; Map Network Drive</b></p>
+<p>Please use <b>U</b>: as the drive letter, and for the folder, enter:</p>
+<p style="margin-left: 40px;"><b>\\<a href="#its-fileserver">sphinx.sfu.ca</a>\<i>username</i></b></p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-03"></a>What is my disk quota for my home directory?</h2>
+<p>Your home directory (U:) is mapped on SFU home; the quota for your <b>SFU home</b> is 10GB (Giga Byte) as of October 2015 (it was 1GB (Giga Byte) as of September 2013.).</p>
+<p>Please check the <a href="/itservices.html">IT Services</a> web site for more information.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-profile-01"></a>My Windows desktop doesn't look the same as it did last time I logged in. Lots of things are missing! What's wrong?</h2>
+<p>On a Windows system, user's environment settings are stored in a user profile. In CSIL, this profile is stored on a CSIL File Server - called "roaming profile". Every time you log on to a CSIL Windows system, the system copies your roaming profile from the file server to local hard drive. When you log off, the system writes the updated profile on local hard drive back to the server.</p>
+<p>Sometimes this process doesn't work correctly, and your profile becomes corrupted. Unfortunately, you may not be able to work until it has been reset, so please <a href="/computing/about/support/how-to-contact-helpdesk.html">email helpdesk</a>&nbsp;to get it reset.</p>
+<p><b>Note: All of your personal settings including explorer options, any DSNs you've defined, wallpaper, favorites and desktop settings and shortcuts will be gone after the profile reset.</b></p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-profile-02"></a>I get an error message telling me I have exceeded my profile storage space; what I can do to fix this?</h2>
+<p>You need to move some items from your current profile folder to network or portable storage. The folder c:\users\<i>username</i> contains your current profile.<br>
+</p>
+<p>Please pay close attention to the "Recycle Bin" on your desktop - in many cases, it is the culprit. Please <u>empty your Recycle Bin regualarly</u>.<br>
+<br>
+Please check <a href="#profile-cleanup">this Q&amp;A</a> for instructions on how to free up space.</p>
+<p>Tech note: even with the folder redirection feature, some part of the profile never gets redirected. This portion of the profile could grow substantially and exceed the "profile storage space".</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-profile-03"></a>I get an error message telling me "\\freesia\userdata\<i>username</i>\..." is not writable; what I can do to fix this?</h2>
+<p>This error message means you have used up your CSIL Windows profile storage space.</p>
+<p>You may read the <a href="#environment-profile-02">previous Q&amp;A</a> for more details; click <a href="#profile-cleanup">here</a> for detailed instructions on how to re-gain space<a href="#profile-cleanup"></a>.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-profile-05"></a>I get a warning message everytime I logon to a CSIL Windows system: "login with a temporary profile"; what I can do to fix this?</h2>
+<p>In general, this error message means you have used up your CSIL Windows profile storage space.</p>
+<p>You may read the <a href="#environment-profile-02">previous Q&amp;A</a> for more details; click <a href="#profile-cleanup">here</a> for detailed instructions on how to re-gain space<a href="#profile-cleanup"></a>.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-profile-04"></a>I logged on to the CSIL Windows Terminal Server for the first time, and my regular settings are gone! What's gone wrong?</h2>
+<p>Nothing.</p>
+<p>When you logon to CSIL workstations, you are using one profile and you are using a different profile while you logon to the CSIL Windows Terminal Server.</p>
+<p>This is a result of the user profile incompatibility between different Windows versions (e.g. Windows 7 and Windows Server 2008 R2). Thus, every CSIL Windows user has multiple roaming profiles.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="profile-cleanup"></a>How do I clean up profile storage?</h2>
+<p>Statistically, 80% CSIL Windows issues reported related to users' profiles. Without proper profile, users will encouter many strange issues, like:</p>
+<p style="margin-left: 40px;">can not launch applications</p>
+<p style="margin-left: 40px;">can not write to desktop, documents etc.<br>
+</p>
+<p style="margin-left: 40px;">can not logoff</p>
+<p style="margin-left: 40px;">while logged on, a temporary profile is used so all favorites and bookmarks are gone.</p>
+<p>To combat this, you should clean up profile space to reduce the chance of profile corruption. Here is how:<br>
+</p>
+<p>logon to a CSIL Windows system (workstation or Terminal server).<br>
+</p>
+<p><b>Step 1</b><br>
+</p>
+<p>launch Windows Explorer (<i>not</i> the Internet Explorer!) and make sure you see all the system files and hidden files.<br>
+</p>
+<ul>
+<li>Navigate to folder \\freesia.csil.sfu.ca\userdata\<i>username</i><br>
+<ul>
+<li>right click the "Desktop" folder, select "Properties"<ul>
+<li>Wait till the number of the size stable.<ul>
+<li>If the size is bigger than 4MB, you need to move files/folders on your desktop to U:</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>right click the "Documents" folder, select "Properties"<ul>
+<li>Wait till the number of the size stable.</li>
+<li>If the size is bigger than 4MB, you need to move files/folders under your Documents to U:</li>
+</ul>
+</li>
+<li>right click the "Appdata" folder, select "Properties"<ul>
+<li>Wait till the number of the size stable.</li>
+<li>If the size is bigger than 50MB, you should check the sub folders to see if there are some unwanted files you could delete or you could move them to U:</li>
+</ul>
+</li>
+<li>For all other folders, please check the size of them all<ul>
+<li>If the size is bigger than 10MB, you need to check each sub folders to determine to keep the folder or remove it.<br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><b>Step 2</b>: work on folder \\freesia.csil.sfu.ca\profiles7\<i>username.</i>v2<br>
+</p>
+<p>launch Windows Explorer (<i>not</i> the Internet Explorer!) and make sure you see all the system files and hidden files</p>
+<ul>
+<li>Navigate to the folder in question.<ul>
+<li>check to see if any "*.exe" file; these are most likely malware/virus. use Shift-Delete to permenently them.</li>
+<li>check all the sub folders to see if there are any big files (size larger than 10MB). The big files most likely shouldn't be there. You could try to move them to a folder under U: and see what happens.</li>
+</ul>
+</li>
+</ul>
+<p><b>Step 3:</b> this is repeat step 2 but just work on folder</p>
+<p style="margin-left: 40px;">\\freesia.csil.sfu.ca\profilesTS\<i>username</i>.v2<br>
+</p>
+<p><b>Step 4:</b> this is repeat step 2 but just work on folder</p>
+<p style="margin-left: 40px;">c:\users\<i>username</i><br>
+</p>
+<p>After accomplish all these 4 steps, your profile space is clean.<br>
+</p>
+<p><u>One more thing</u>: if you see any non-empty recyclebin under any of these folders, empty it!<br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-storage0"></a>Where I should save my files?</h2>
+<p>Please save all your data - include documents, assignments, pictures, music, videos and so on - to your <b>SFU home directory</b>, i.e. the <b>U</b>: drive.</p>
+<p>The UNC equivalent to U: is <b>\\sphinx.sfu.ca\<i>username</i></b></p>
+<p><b>No exceptions.</b></p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-storage1"></a>Where I should NOT save my files?</h2>
+<p>Please do <b>NOT</b> store any files under these folders:</p>
+<ul>
+<li>Any folder under C:\<br>
+</li>
+<li>"C:\temp"</li>
+<li>"Desktop" (with the exception of shortcuts)<br>
+</li>
+<li>"My Documents" folder</li>
+<li>"Documents" folder<br>
+</li>
+<li>"Application Data" folder</li>
+<li>"AppData" folder<br>
+</li>
+<li>Any folder within your profile folder</li>
+</ul>
+<p>Please always save your files on your home directory, U: drive.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-07"></a>Can I set my own screen saver?</h2>
+<p>No.</p>
+<p>A default screen saver (<b>password protected</b>) has been installed for every CSIL Windows workstation user. The screen saver will automatically come on after 5 minutes of inactivity. You will automatically be logged off after another 20 minutes. This is to ensure the fair use of the CSIL resources.</p>
+<p>NOTE: WHEN THE SCREEN SAVER LOGS YOU OFF IT KILLS ALL OF YOUR PROCESSES WITHOUT SAVING YOUR FILES!</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="environment-08"></a>Can I lock a Windows workstation?</h2>
+<p>Yes.</p>
+<p>You can lock the Windows workstation at any time, by hitting key combination Ctrl+Alt+Del, then clicking the Lock Computer button in the Windows Security dialog box.</p>
+<p>WARNING: as with activating the screen saver, <u><b>you can only do this for 20 minutes</b></u>, then you will be automatically logged off, and any open file will be lost.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<h1>Software<br>
+</h1>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="software-01"></a>What software is installed on CSIL Windows systems?</h2>
+<p>Click <a href="windows/software.html">here</a> to see the full list of software on CSIL Windows systems. Note that not all computers have the same software installed.</p>
+<p>Note:</p>
+<ul>
+<li>Multimedia software (e.g. Adobe DV collection) are only available on front two rows of workstations in ASB9804</li>
+<li>Imaging tools are only available on the workstations, not on the Terminal Server</li>
+<li>Freescale CodeWarrior is only available on the workstations, not on the Terminal Server</li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="software-02"></a>May I install software for my course work on a CSIL workstation?</h2>
+<p>No. Your account will be disabled if you install software in CSIL without permission.</p>
+<p>There are two reasons for this policy:</p>
+<ol>
+<li>The School is responsible for the licensing of all installed software in the lab. Many applications that are downloadable from the Internet aren't free - they require licenses.<p>Installing licensed software without a valid license is a criminal offence in Canada.</p>
+</li>
+<li>Many Windows applications make assumptions about where they place their files during the installation process and which registry keys they adjust. Installing software which makes unexpected assumptions can destroy your working environment.</li>
+</ol>
+<p>If you are convinced that a specific piece of software should be available in CSIL, please check out the <a href="#software-03">next Q&amp;A</a> for procedure.
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="software-03"></a>How can I get software installed if the system doesn't have what I need?</h2>
+<p>You must make requests for the installation of course related applications (including shareware/freeware) through the instructors.</p>
+<p>The instructors will make the request to the CS Technical Staff, who will examine the feasibility of all requests (cost, compatibility, network security, disk space requirements, etc.). Please make your requests as early as possible.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="software-eclipse-00"></a>How do I run Eclipse?</h2>
+<p>Starts from Summer 2016, we have made changes to our shortcuts to Eclipse (for both Java and C++) so the workspace will be automatically on user's SFU Home space.</p>
+<p>After consulting the experienced users of Eclipse, we decide to use the following folders:</p>
+<p style="margin-left: 40px;">u:\eclipse\workspaceMars2java</p>
+<p style="margin-left: 40px;">u:\eclipse\workspaceMars2cpp</p>
+<p>To run Eclipse on a CSIL Linux workstation, please click <a href="../csil/unix.html#software-eclipse-00">here</a>.<br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="software-jcreator-00"></a>How do I run JCreator?</h2>
+<p>While you launch JCreator, you may need to specify the JDK path. The current JDK installation path in CSIL is:<br>
+</p>
+<p style="margin-left: 40px;"><b><i>c:\program files\java\jdk</i></b></p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="software-04"></a>Why can't I use TELNET?</h2>
+<p>Telnet software and port 22 have been disabled for security reasons. Please use the SSH (Secure SHell) or SFTP (Secure File Transfer Protocol) Client programs to access Linux/Unix hosts (like fraser.sfu.ca). The SSH application suite can be found under:</p>
+<p style="margin-left: 40px;">Start -&gt; All Programs -&gt; SSH Secure Shell.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="smalllisp"></a>(obsolete) How do I run small Lisp?</h2>
+<p>There are some applications are not compatible with Windows 7, e.g. small Lisp. The workaround of this issue is to use XP Mode.<br>
+<br>
+Please launch "Windows XP Mode" and use the following credentials:</p>
+<p style="margin-left: 40px;">username: <b><i>xpmuser </i></b><br>
+password: <b><i>cmpt@sfu</i></b></p>
+<p>Once you logon, you will easily find these special applications.</p>
+<p>Please check out this page for more details: <a href="windows/how-to-use-xpmode.html">How to use XP Mode</a></p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<h1>Printing<br>
+</h1>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="print-01"></a>How do I print?</h2>
+<p>Please print from your application to</p>
+<p style="margin-left: 40px;"><b>New Lab Mono</b></p>
+<p>A print "job" is then sent to the ITS print server. It is held there until you release the job to a printer. This system is used at computer labs across campuses. Click <a href="/itservices/technical/printing_services.html">here</a> for more details.</p>
+<p>The CSIL printer only supports "letter" sized paper (standard 8 1/2" X 11").</p>
+<p style="margin-left: 40px;"><b>Never use the A4 page format !!</b></p>
+<p>If you like to have color printouts, you may print to <b>New Lab Colour</b> - but you need to release the job to a color printer, which we do NOT have within CSIL.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="print-02"></a>There are multiple printers on my list of printers when I print from Windows applications. What are they?</h2>
+<p>We have a few special pseudo-printers installed on each computer; they are:</p>
+<ol>
+<li>PDFCreator</li>
+<li>Microsoft XPS Document Writer</li>
+<li>PDF24 PDF (on CSIL Windows Terminal only)</li>
+</ol>
+<p>When you print to any of these pseudo-printers you will get a file instead of paper pages. You will have to specify the file name and the location for your output file to be saved to. There is NO CHARGE to "print" to a pseudo-printer.</p>
+<p>For more information on printing issues, please read the <a href="../csil/how-to-print.html">CSIL Printing FAQ</a>.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="print-03"></a>How do I create a PDF file?</h2>
+<p>Please print to the pseudo-printer "PDFCreator" when you are using a CSIL Windows workstation.</p>
+<p>For any Microsoft Office 2016 product, you may save the document as a PDF file within the application.</p>
+<p>While you are using the <a href="windows/how-to-use-windows-terminal-server.html">CSIL Windows Terminal Server</a>, please print to "PDF24 PDF".</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="print-04"></a>I just printed to "New Lab Mono", but the system shows that the printer is paused. Is there a problem?</h2>
+<p>There is no problem.</p>
+<p>This is designed feature of the print release system.</p>
+<p>Please go to any print release station and release your job!</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<h1>Miscellaneous</h1>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="miscellaneous-01"></a>I got a popup window that states: "The computer will be shutdown in 5 minutes." What should I do?</h2>
+<p>Save all your work and logoff!!</p>
+<p>Otherwise, your unsaved work will be lost. This popup window most often occurs because of the Automatic Updates service we have installed. For better security and system stability, we need to apply patches to the operating system and the applications periodically, usually as soon as they become available. When the Automatic Updates service finishes installing certain patches, reboot of the machine is mandatory.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="miscellaneous-02"></a>How do I change file permissions on my folders/files?</h2>
+<p>Bring up the Windows file manager, Explorer (NOT Internet Explorer, the web browser). The shortcut is<br>
+<br>
+Start -&gt; All Programs -&gt; Accessories -&gt; Windows Explorer<br>
+<br>
+</p>
+<ul>
+<li>Select a file(s) and/or folder(s).</li>
+<li>Right click on the folder(s) and/or file(s).</li>
+<li>Select Properties, then the Security tab.</li>
+<li>Click 'Add' to add a user to your access list for the file or folder.</li>
+<li>In the new window pop up, pick a user or users from the list of possible user IDs to add, then click 'OK'.</li>
+<li>Change the permissions to whatever you want to give the selected user(s).</li>
+<li>Click OK to apply the changes.</li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="miscellaneous-03"></a>Can I get Microsoft software for free?</h2>
+<p><b>Yes</b>.</p>
+<p>Through the Microsoft Developer Network Academic Alliance (MSDNAA) program - now the "Microsoft Imagine", Microsoft provides selected software packages to the academic users for free.</p>
+<p>The School of Computing Science is a long time member of this MSDNAA program. Any student enrolled in at least one CMPT or DDP course in the current semester are eligible to get selected Microsoft software for free.</p>
+<p>Please visit the <a href="windows/how-to-get-software.html">How to get software for CMPT courses</a> page for more details.</p>
+<p>We strongly recommend to use our CSIL workstations to burn the MSDNAA software packages. All of our workstations at the Burnaby campus have CD/DVD burners, you may check the <a href="/content/dam/sfu/computing/csil/csil_layout_burnaby.pdf">CSIL layout (Burnaby Campus)</a> and the <a href="/content/dam/sfu/computing/csil/csil_layout_surrey.pdf">CSIL layout (Surrey Campus)</a>.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="miscellaneous-04"></a>Can I burn course software CD/DVDs in CSIL (without downloading)?</h2>
+<p><b><u>YES</u></b>! And this is the best way!</p>
+<p>The software for burning CD/DVDs is <b>CDBurnerXP</b>.</p>
+<p>While you are using a CSIL Windows workstation in Burnaby, the ISO images are available on a network share: <b>\\cs-gaia.cmpt.sfu.ca\repository</b> (if you would like to map a drive for next time, we recommand using the M:)</p>
+<p>Important hints:</p>
+<ul>
+<li>Use RW media or DVD-R</li>
+<li>Use the lowest possible speed for burning to ensure quality</li>
+<li>Burning ISOs may take long time, so plan ahead.</li>
+</ul>
+<p>Note: For graduate students only: from Windows systems in TASC1 9217 please also use the share <b>\\cs-gaia.cmpt.sfu.ca\repository</b> to get ISOs and other files.</p>
+<p>Please visit the <a href="windows/how-to-get-software.html">how to get software for CMPT courses</a> page for more details.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="miscellaneous-05"></a>I want to use a Windows computer but there aren't any available in CSIL. What should I do?</h2>
+<p>You could Remote Desktop to our CSIL Windows Terminal Server from any CSIL Linux box. Please use the "Local" CSIL Windows terminal Server in this case.<br>
+<br>
+Click <a href="windows/how-to-use-windows-terminal-server.html">here</a> for details.</p>
+<p><i>You may also connect to the CSIL Windows Terminal Server from your own laptop via SFU wireless network.</i> If your laptop is running the Mac OS X or a Linux operating system, connect to the CSIL Windows Terminal Server using a remote desktop client for that operating system.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="miscellaneous-07"></a>How do I set WinRAR to generate ZIP format files by default?</h2>
+<p>By default, WinRAR generates RAR format files. Most users however, find that the ZIP format is more desirable. Here is how you can set WinRAR's default archive format to ZIP:</p>
+<ul>
+<li>Click Start -&gt; All Programs -&gt; WinRAR</li>
+<li>Click menu item Options -&gt; Settings... within WinRAR window</li>
+<li>Click on the tab Compression</li>
+<li>Click the button Create Default....</li>
+<li>Change the Archive Format to ZIP</li>
+<li>Click OK twice to save the settings</li>
+</ul>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="access-notes"></a>How can I &nbsp;access the notes from the instructors?</h2>
+<p>The instructors will give detailed information about where their notes are. Please read the emails and course web sites carefully.<br>
+</p>
+<p>For some courses, the instructors put notes on the CSIL File Server. In this case, you may access these notes by navigating to the network share:</p>
+<p style="margin-left: 40px;"><b>\\freesia.csil.sfu.ca\notes</b></p>
+<p>The course specific folders will contain the notes from the instructors.</p>
+<p>Please note: this share has been mapped as each user's <b>N:</b> drive.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<h2><a name="capture-video"></a>How can I capture video clips in CSIL?</h2>
+<p>At this moment, the video capture devices are <i>not in service</i>. We are working on a solution. Sorry for the inconvenience.</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="alternate">
+<hr>
+
+<div class="table"><table cellspacing="3" cellpadding="3" border="0">
+<tbody><tr><td colspan="2"><h1><a name="windows-servers"></a>CSIL Windows Servers</h1>
+</td>
+</tr><tr><td><a href="windows/how-to-use-sql.html">CSIL SQL Server</a> :<br>
+cypress.csil.sfu.ca</td>
+<td>Restricted access; used for courses: cmpt-354, cmpt-454<br>
+<br>
+User database name: <i>username???</i><br>
+</td>
+</tr><tr><td><a href="windows/how-to-use-windows-terminal-server.html">CSIL Windows Terminal Server</a> :<br>
+leto.csil.sfu.ca</td>
+<td>Used for: Students need access to Windows software off-CSIL<br>
+<br>
+</td>
+</tr><tr><td><a href="windows/how-to-use-windows-terminal-server.html">CSIL Windows Terminal Server (local)</a> :<br>
+hermes.csil.sfu.ca</td>
+<td>Used for: NA (under maintenance, not in service)<br>
+<br>
+</td>
+</tr><tr><td><a href="windows/how-to-use-iis.html">CSIL IIS Server</a> :<br>
+NA</td>
+<td>Used for: NA<br>
+<br>
+</td>
+</tr><tr><td>CSIL File Server:<br>
+freesia.csil.sfu.ca</td>
+<td>Store user's profile and application configurations only; do NOT store any data here!<br>
+<br>
+User's folder: \\freesia.csil.sfu.ca\userdata\<i>username</i><br>
+Notes folder from the instructors: \\freesia.csil.sfu.ca\notes\cmpt<i>???</i></td>
+<td><i>&nbsp;</i></td>
+</tr><tr><td><a href="windows/how-to-get-software.html">Software Repository Server</a>:<br>
+cs-gaia.cmpt.sfu.ca</td>
+<td>This server stores software for CMPT students to use at home<br>
+<br>
+The software folder: \\cs-gaia.cmpt.sfu.ca\repository</td>
+</tr><tr><td><a name="its-fileserver"></a>IT Services File Server:<br>
+sphinx.sfu.ca</td>
+<td>This server hosts user's SFU file space<br>
+<br>
+The UNC path of user's SFU home: \\sphinx.sfu.ca\<i>username</i></td>
+</tr></tbody></table></div>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<p style="text-align: right;"><a href="#top">top</a><br>
+</p>
+
+</div></div>
+<div class="text parbase section">
+
+<div class="">
+<hr>
+
+<p>Did we answer your questions? If not, please check out our <a href="windows/known-issues-page.html">CSIL Windows Known Issues Page</a> for additional information.</p>
+<p>&nbsp;</p>
+<p><a name="bottom"></a>Last Update @ 2016.09.22.</p>
+
+</div></div>
+</div>

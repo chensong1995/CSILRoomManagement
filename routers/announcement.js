@@ -90,10 +90,11 @@ router.get('/new', adminAuth, function (req, res) {
 */
 router.post('/new', [adminAuth, csrfProtection], function (req, res) {
     if (req.body.title && req.body.content && req.body.title.length != 0) { // must have these fields
+        var time = new Date();
         req.models.Announcement.create({
             title: req.body.title,
             content: req.body.content,
-            time: new Date(),
+            time: time,
             slug: slug(req.body.title)
         }, function (err) {
             if (err) {

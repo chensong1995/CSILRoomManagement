@@ -11,3 +11,5 @@ log/*
 .DS_Store
 
 node_modules
+
+real_announcements
