@@ -1,13 +1,15 @@
 /*
  * Author(s)  : Chen Song
- * Description: The client program for the admin homepage
- * Last Update: July 14, 2017
+ * Description: The client program for all admin pages
+ * Last Update: July 15, 2017
 */
 $(document).ready(function () {
     // create usergroup table
     $('#users_table').DataTable();
     // create privilege table
     $('#privileges_table').DataTable();
+    // create room table
+    $('#rooms_table').DataTable();
     // change usergroup
     $('.usergroup-select').on('change', function() {
         $('#prompt').text('working on that...');
@@ -59,6 +61,19 @@ $(document).ready(function () {
             $('#privileges_prompt').text('update success');
         }).fail(function (data) {
             $('#privileges_prompt').text('update fails');
+        });
+    });
+    // change maintenance status
+    $('.room-checkbox').on('change', function() {
+        $('#rooms_prompt').text('working on that...');
+        $.post('/admin/rooms', { // post the id and isbeingmaintained
+            id: $(this).data('id'),
+            isbeingmaintained: $(this).is(':checked')
+        },
+        function () {
+            $('#rooms_prompt').text('update success');
+        }).fail(function (data) {
+            $('#rooms_prompt').text('update fails');
         });
     });
 });
