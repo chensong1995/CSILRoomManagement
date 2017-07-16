@@ -31,7 +31,7 @@ router.get('/', function(req, res) {
                 var obj = new Object();
                 obj.room_id = room.id;
                 obj.number  = room.number;
-                obj.status = room.status;
+                obj.isBeingMaintained = room.isBeingMaintained;
                 room_status_list.push(obj)
             })
             res.render('room_overview', { 
@@ -62,7 +62,9 @@ router.get('/:room_id', function(req, res) {
                 allowAdmin: req.userDisplay.allowAdmin, 
                 page: "Booking",
                 room_name: room[0].number,
-                room_id: room[0].id
+                room_id: room[0].id,
+                room_in_maintenance: room[0].isBeingMaintained,
+                csrfToken: req.csrfToken(),
             });
         }
     });
@@ -106,9 +108,10 @@ router.get('/events/:room_id', function(req, res) {
 // Author(s)  : Chong
 // Description: This function handles the room booking request
 // Last Update: July 14, 2017
-// router.post('/', function(req, res) {
-//     var username = req.userDisplay.username;
-    
-// });
+router.post('/', function(req, res) {
+    var result = new Object();
+    result.result = "success";
+    res.send(JSON.stringify(result));
+});
 
 module.exports = router;
