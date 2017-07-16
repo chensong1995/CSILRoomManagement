@@ -14,6 +14,7 @@ $(document).ready(function () {
 
     // update
     $('#update').on('click', function () {
+        $('#prompt').text('working on that...');
         $.post('/policy', {
             _csrf: $('#csrfToken').val(),
             content: tinymce.get('policy-edit').getContent()

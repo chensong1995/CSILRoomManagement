@@ -1,0 +1,43 @@
+//- announcement-new.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   csrfToken
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") Create New Announcement
+          p(class="text-danger" id="prompt")
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-6 col-md-10 col-xs-10")
+                dl(class="form-group")
+                  dt
+                    label(for="title") Title
+                  dd
+                    input(id="title" class="form-control" placeholder="title" required)
+            div(class="row")
+              div(class="col-lg-10")
+                dl(class="form-group")
+                  dt
+                    label(for="announcement-edit") Content
+                  dd
+                    textarea(id="announcement-edit")
+            br
+            input(id="csrfToken" type="hidden" value=csrfToken)
+            div(class="row")
+              div(class="col-xs-1 col-sm-1 col-md-1 col-lg-1")
+                input(type="submit" class="btn btn-lg btn-primary" id="create" value="Create")
+
+    include includes/scripts.html
+    script(src="/js/plugins/tinymce/tinymce.min.js")
+    script(src="/js/announcement.js")

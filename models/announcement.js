@@ -9,6 +9,7 @@ module.exports = function(db, models) {
         id: String,         // e.g. 1, 2, 3
         title: String,      // e.g. 'Computing Science Instructional Labs Policies'
         content: String,    // in HTML
-        time: Date          // Unix timestamp
+        time: Date,         // Unix timestamp
+        slug: String
     });
 };

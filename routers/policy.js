@@ -70,7 +70,7 @@ router.post('/', [adminAuth, csrfProtection], function (req, res) {
                     } else {
                         res.status(200).end(); // success
                     }
-                })
+                });
             }
         });
     } else {
