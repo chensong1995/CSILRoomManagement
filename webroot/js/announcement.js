@@ -9,7 +9,8 @@ $(document).ready(function () {
         selector: '#announcement-edit',
         height: 500,
         menubar: false,
-        toolbar: 'bold italic underline strikethrough alignleft aligncenter alignright alignjustify styleselect formatselect fontselect fontsizeselect bullist numlist outdent indent blockquote undo redo removeformat subscript superscript'
+        plugins: "link",
+        toolbar: 'bold italic underline strikethrough alignleft aligncenter alignright alignjustify styleselect formatselect fontselect fontsizeselect link bullist numlist outdent indent blockquote undo redo removeformat subscript superscript'
     });
 
     // create
