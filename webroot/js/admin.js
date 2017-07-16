@@ -38,6 +38,9 @@ $(document).ready(function () {
     });
     // change max bookings
     $('.max-bookings-edit').on('focusout', function() {
+        if ($(this).text() == '') {
+            $(this).text('0');
+        }
         $('#privileges_prompt').text('working on that...');
         $(this).text(parseInt($(this).text()));
         $.post('/admin/maxbookings', { // post the id and maxbookings

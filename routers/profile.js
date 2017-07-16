@@ -51,7 +51,7 @@ router.get('/', function (req, res) {
 */
 router.post('/', csrfProtection, function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
-    if (req.body.biography && req.body.notification !== undefined) { // must have these two fields
+    if (req.body.biography !== undefined && req.body.notification !== undefined) { // must have these two fields
         req.userDisplay.biography = req.body.biography;
         req.userDisplay.notification = req.body.notification;
         req.userDisplay.save(function (err) {

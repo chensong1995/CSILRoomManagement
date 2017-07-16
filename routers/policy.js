@@ -56,7 +56,7 @@ router.get('/', function (req, res) {
  * Usage      : The client generates a POST request with 1 field: content (plus csrf token). It will receive 200 if update is successful, and 403 if otherwise.
 */
 router.post('/', [adminAuth, csrfProtection], function (req, res) {
-    if (req.body.content) { // must have this field
+    if (req.body.content !== undefined) { // must have this field
         // the policy is actually announcement 1
         req.models.Announcement.get(1, function (err, policy) {
             if (err) {

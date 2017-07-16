@@ -89,7 +89,7 @@ router.get('/new', adminAuth, function (req, res) {
  * Usage      : The client generates a POST request with 2 fields: title, and content (plus csrf token). It will be redirected to /announcement if creation success, and 403 if otherwise.
 */
 router.post('/new', [adminAuth, csrfProtection], function (req, res) {
-    if (req.body.title && req.body.content && req.body.title.length != 0) { // must have these fields
+    if (req.body.title && req.body.content !== undefined && req.body.title.length != 0) { // must have these fields
         var time = new Date();
         req.models.Announcement.create({
             title: req.body.title,
@@ -147,27 +147,26 @@ router.get('/:slug', function (req, res) {
  * Last Update: July 15, 2017
 */
 router.post('/:slug', [adminAuth, csrfProtection], function (req, res) {
-    // prepare all view variables
-    var username = req.userDisplay.username;
-    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
-    var allowAdmin = req.userDisplay.allowAdmin;
-    var page = "Announcement";
-    var announcement = {};
-    req.models.Announcement.find({slug: req.params.slug}, function (err, results) {
-        if (err || results.length != 1) {
-            res.sendStatus(500); // internal server error
-        } else {
-            results[0].content = req.body.content;
-            results[0].time = new Date();
-            results[0].save(function (err) {
-                if (err) {
-                    res.sendStatus(500); // internal server error
-                } else {
-                    res.status(200).end(); // success
-                }
-            });
-        }
-    });
+    if (req.body.content !== undefined) { // must have these fields
+        // prepare all view variables
+        req.models.Announcement.find({slug: req.params.slug}, function (err, results) {
+            if (err || results.length != 1) {
+                res.sendStatus(500); // internal server error
+            } else {
+                results[0].content = req.body.content;
+                results[0].time = new Date();
+                results[0].save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    } else {
+        res.sendStatus(403); // invalid request
+    }
 });
 
 module.exports = router;

@@ -38,7 +38,7 @@ $(document).ready(function () {
             _csrf: $('#csrfToken').val(),
             content: tinymce.get('announcement-edit').getContent()
         }, function () {
-            $('#prompt').text('update success');
+            $(location).attr('href', '/announcement?message=You%20have%20successfully%20updated%20this%20announcement');
         }).fail(function (data) {
             $('#prompt').text('update fails');
         });
