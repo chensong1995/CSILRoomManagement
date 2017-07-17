@@ -43,9 +43,9 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
       - var route_list = ["dashboard", "booking", "announcement", "comment", "policy"]
       - var icons = ["fa-dashboard", "fa-book", "glyphicon-bullhorn", "fa-comments", "fa-star"]
       - if (allowAdmin)
-        - place_holder_list = ["Dashboard", "Booking", "Announcement", "Reported Violations", "Policy", "Privilege Management", "User Group Management", "Room Management"]
-        - route_list = ["dashboard", "booking", "announcement", "comment", "policy", "admin/privileges", "admin/usergroup", "admin/rooms"]
-        - icons = ["fa-dashboard", "fa-book", "glyphicon-bullhorn", "fa-comments", "fa-star", "fa-tags", "fa-group", "fa-home"]
+        - place_holder_list = ["Dashboard", "Booking", "Announcement", "Reported Violations", "Policy", "Privilege Management", "User Group Management", "Room Management", "Booking Management"]
+        - route_list = ["dashboard", "booking", "announcement", "comment", "policy", "admin/privileges", "admin/usergroup", "admin/rooms", "admin/booking"]
+        - icons = ["fa-dashboard", "fa-book", "glyphicon-bullhorn", "fa-comments", "fa-star", "fa-tags", "fa-group", "fa-home", "fa-calendar"]
       - var page_name = page
       - for (var x = 0; x < place_holder_list.length; x++)
         - if (place_holder_list[x] == page_name)
