@@ -8,8 +8,17 @@ import SvgIcon from 'material-ui/SvgIcon';
 var Machine = require('../../models/machine.js')
 import io from 'socket.io-client';
 
+//Socket.io connection to localhost:3000
 var socket = io.connect();
+
+//list of colors to indicate machine availability
+//primary = available
+//disabled = not available
+//error = machine under maintenance
 const colors = ["primary", "disabled", "error"];
+
+//list of machines retrieved from database
+var machines = window.machines;
 
 const styleSheet= {
     root: {
@@ -26,10 +35,11 @@ class MachinePage extends React.Component{
             color_indx: 0,
         };
         this.MachineStateChange = this.MachineStateChange.bind(this);
+        this.RenderMachines = this.RenderMachines.bind(this);
     }
 
     MachineStateChange(){
-        console.log("state change triggered");
+        console.log(window.machines);
         this.setState({color_indx: (this.state.color_indx+1) % 3});
     }
 
@@ -41,12 +51,20 @@ class MachinePage extends React.Component{
         socket.emit("MachineColorChange");
     };
 
-    render(){
-        return(
-            <MuiThemeProvider>
+    RenderMachines(){
+        return machines.map(csilMachine => {
+            return(
                 <IconButton>
                     <Icon　color = {colors[this.state.color_indx]} onClick = {this.EmitStateChange.bind(this)}>laptop_chromebook</Icon>
                 </IconButton>
+            );
+        })
+    }
+
+    render(){
+        return(
+            <MuiThemeProvider>
+                {this.RenderMachines}
             </MuiThemeProvider>
 
         );
