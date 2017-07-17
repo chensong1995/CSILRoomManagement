@@ -46,6 +46,28 @@ router.get('/', function(req, res) {
 });
 
 // Author(s)  : Chong
+// Description: This function directs user to booking management
+// Last Update: July 14, 2017
+router.get('/manage', function(req, res) {
+    var username = req.userDisplay.username;
+    var userSource = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    res.render('booking_manage', { 
+        username: username,
+        source: userSource,
+        allowAdmin: req.userDisplay.allowAdmin, 
+        page: "Booking",
+        csrfToken: req.csrfToken(),
+    });
+});
+
+// Author(s)  : Chong
+// Description: This function generates the iCal feed url
+// Last Update: July 14, 2017
+router.post('/icalgenerate', function(req, res) {
+    
+});
+
+// Author(s)  : Chong
 // Description: This function directs user to a calendar of a specific room
 // parameter  : /:room_id the id of the room
 // Last Update: July 14, 2017

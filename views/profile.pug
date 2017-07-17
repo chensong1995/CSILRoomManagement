@@ -65,9 +65,6 @@ html(lang="en")
                 input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
                 p(class="text-danger" id="prompt")
                 input(id="update-info" type="submit" class="btn btn-primary" value="Update Personal Information")
-              div(class="col-md-8 col-xs-10")
-                p(id="tips") You can click your booking record to delete it.
-                div(id="calendar")
 
           div(class="row")
             div(class="col-lg-12")
@@ -92,7 +89,20 @@ html(lang="en")
                           td Not Allowed
                         td #{maxBookings}
 
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-lock")
+                  |  Calendar Settings
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-12")
+                p(id="calendar_feed_notice") Copy the link below and paste it into any calendar app that takes iCal feeds (Google Calendar, iCal, Outlook, etc.) By doing that, you can check your bookings in your calendar app.
+                p(id="calendar_feed") #{calendar_feed}
+
+
     include includes/scripts.html
     script(src="/js/profile.js")
-    script(src="/js/user_calendar_event.js")
+    script(src="/js/calendar_setting.js")
 
