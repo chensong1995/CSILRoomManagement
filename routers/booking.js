@@ -126,6 +126,7 @@ router.post('/', function(req, res) {
         if (err || users.length > 1) { // error occurs, or more than 1 such users are found
             res.status(500).end(); // internal server error
         } else {
+            console.log(1)
             req.models.BookingRecord.find({uid: users[0].id},function (err, records) {
                 if (err) { // if error occurs or no room is found
                     res.status(500).end(); // internal server error
@@ -142,6 +143,7 @@ router.post('/', function(req, res) {
                             if (err) { // if error occurs or no room is found
                                 res.status(500).end(); // internal server error
                             }else{
+                                console.log(2)
                                 records.forEach(function(record) {
                                     // Check whether there is conflict
                                     if((Date.parse ( start ) < Date.parse ( record.start )
@@ -153,23 +155,24 @@ router.post('/', function(req, res) {
                                         result.result = "error";
                                         result.errMsg = "There is time slot conflic, please refresh your page to get up-to-date calendar";
                                         res.send(JSON.stringify(result));
+                                    }
+                                });
+                                console.log(3)
+                                var newBooking = {
+                                    rid: room_id,
+                                    uid: users[0].id,
+                                    start: start,
+                                    end: end,
+                                    title: title,
+                                    name: req.body.room_id,
+                                };
+                                req.models.BookingRecord.create(newBooking, function(err, results) {
+                                    if(err){
+                                        res.status(500).end(); // internal server error
                                     }else{
-                                        var newBooking = {
-                                            rid: room_id,
-                                            uid: users[0].id,
-                                            start: start, // 2 means student
-                                            end: end,
-                                            title: title,
-                                        };
-                                        req.models.BookingRecord.create(newBooking, function(err, results) {
-                                            if(err){
-                                                res.status(500).end(); // internal server error
-                                            }else{
-                                                var result = new Object();
-                                                result.result = "success";
-                                                res.send(JSON.stringify(result));
-                                            }
-                                        });
+                                        var result = new Object();
+                                        result.result = "success";
+                                        res.send(JSON.stringify(result));
                                     }
                                 });
                             }

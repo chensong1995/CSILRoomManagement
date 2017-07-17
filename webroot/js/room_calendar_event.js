@@ -10,7 +10,8 @@ $(document).ready(function() {
 		},
 		dayClick: function(date, jsEvent, view) {
 			var today = new Date();
-			if(Date.parse (date) < Date.parse (today) + Date.parse(today.getTimezoneOffset())){
+			today.setHours(0,0,0,0);
+			if(Date.parse (date) < Date.parse (today) - today.getTimezoneOffset() * 60000 ){
 				// If user click a day before today, show alert
 				alert("You cannot book a room in the past!");
 			}else if(view.name == 'month' || view.name == 'listWeek') {
@@ -55,7 +56,7 @@ $(document).ready(function() {
 				            	}
 				            	
 				            },
-						});		
+						});
 					}else{
 						alert("Please enter a title!");
 					}
@@ -81,6 +82,9 @@ $(document).ready(function() {
 			error: function() {
 				alert("Fail to load records for room, please refresh or contact admin")
 			}
+		},
+		loading: function(bool) {
+			$('#loader').toggle(bool);
 		}
 	});
 });
