@@ -39,7 +39,7 @@ class MachinePage extends React.Component{
     }
 
     MachineStateChange(){
-        console.log(window.machines);
+        console.log(machines[0]);
         this.setState({color_indx: (this.state.color_indx+1) % 3});
     }
 
@@ -54,9 +54,11 @@ class MachinePage extends React.Component{
     RenderMachines(){
         return machines.map(csilMachine => {
             return(
+                <div>
                 <IconButton>
                     <Icon　color = {colors[this.state.color_indx]} onClick = {this.EmitStateChange.bind(this)}>laptop_chromebook</Icon>
                 </IconButton>
+                </div>
             );
         })
     }
@@ -64,7 +66,9 @@ class MachinePage extends React.Component{
     render(){
         return(
             <MuiThemeProvider>
-                {this.RenderMachines}
+                <div>
+                    {this.RenderMachines()}
+                </div>
             </MuiThemeProvider>
 
         );
