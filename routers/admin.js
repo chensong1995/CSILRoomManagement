@@ -129,6 +129,15 @@ router.get('/rooms', function (req, res) {
 });
 
 /*
+ * Author(s)  : Chong
+ * Description: This function directs admin user to booking management page
+ * Last Update: July 16, 2017
+*/
+router.get('/booking', function (req, res) {
+    res.send("Not implemented");
+});
+
+/*
  * Author(s)  : Chen Song
  * Description: This function allows admin to change someone's usergroup. It is not protected by csrf token. (I don't know how to do that when there are multiple fields in one page)
  * Last Update: July 14, 2017

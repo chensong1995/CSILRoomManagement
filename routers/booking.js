@@ -148,7 +148,6 @@ router.post('/', function(req, res) {
         if (err || users.length > 1) { // error occurs, or more than 1 such users are found
             res.status(500).end(); // internal server error
         } else {
-            console.log(1)
             req.models.BookingRecord.find({uid: users[0].id},function (err, records) {
                 if (err) { // if error occurs or no room is found
                     res.status(500).end(); // internal server error
@@ -165,7 +164,6 @@ router.post('/', function(req, res) {
                             if (err) { // if error occurs or no room is found
                                 res.status(500).end(); // internal server error
                             }else{
-                                console.log(2)
                                 records.forEach(function(record) {
                                     // Check whether there is conflict
                                     if((Date.parse ( start ) < Date.parse ( record.start )
@@ -179,7 +177,6 @@ router.post('/', function(req, res) {
                                         res.send(JSON.stringify(result));
                                     }
                                 });
-                                console.log(3)
                                 var newBooking = {
                                     rid: room_id,
                                     uid: users[0].id,
