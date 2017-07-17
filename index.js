@@ -87,7 +87,7 @@ app.get('/dashboard', function(req, res) {
 // Author(s)  : Chen Song, John Liu
 // Description: This function starts the web server
 //              Requires and initiate socket.io
-// Last Update: July 7, 2017
+// Last Update: July 17, 2017
 var server = app.listen(3000, function() {
     console.log('Listening at port 3000');
 });
