@@ -1,0 +1,62 @@
+//- admin-usergroup.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   users
+//-   usergroups
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+    link(rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") User Group Management
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-user")
+                  |  User Groups
+          div(class="info-wrapper")
+            p(class="text-danger" id="prompt")
+              | Hint: Be careful when editing your own privileges... If you remove administrative privileges from yourself, you will 
+              em NOT 
+              | be able to get them back.
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="users_table" class="display")
+                  thead
+                    tr
+                      th id
+                      th Username
+                      th Email
+                      th Type
+                      th User Group
+                  tbody
+                    each user in users
+                      tr
+                        td #{user.id}
+                        td #{user.username}
+                        td #{user.email}
+                        td #{user.type}
+                        td
+                          select(class="usergroup-select" data-id=user.id)
+                            each usergroup in usergroups
+                              - var userBelongsToThisGroup = (usergroup == user.usergroup)
+                              if userBelongsToThisGroup
+                                option(selected="selected") #{usergroup}
+                              else
+                                option #{usergroup}
+
+
+    include includes/scripts.html
+    script(src="/js/admin.js")
+    script(src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js")

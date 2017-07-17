@@ -21,11 +21,25 @@ html(lang="en")
           div(class="row")
             div(class="col-lg-12")
               ol(class="breadcrumb")
+                - var if_maintain = room_in_maintenance
+                - if (!if_maintain)
+                  li
+                    i(class="fa fa-dashboard")
+                    |  First choose a day, then choose a time period to book a room. You can delete your booking from profile page
+                - else
+                  li
+                    i(class="fa fa-dashboard", id="room-in-maintenance")
+                    |  You cannot book this room, but you can still check the status calendar. You can delete your booking from profile page
+          div(class="row", id="loader")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
                 li
+                  div(class="loader")
                   i(class="fa fa-dashboard")
-                  |  First choose a day, then choose a time period to book a room
+                  |  Loading, please wait             
           - var rid = room_id
             div(id="calendar", name=rid)
+            input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
 
     include includes/scripts.html
     script(src="/js/room_calendar_event.js",type="text/javascript")

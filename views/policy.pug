@@ -1,0 +1,41 @@
+//- policy.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   csrfToken
+//-   oldPolicy
+//-   lastUpdate
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          p(class="text-danger" id="prompt")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header")
+                | Computing Science Instructional Labs Policies
+                if !allowAdmin
+                  small | Last Update: #{lastUpdate}
+          if allowAdmin
+            div(class="row")
+              div(class="col-lg-12")
+                textarea(id="policy-edit")
+                  != oldPolicy
+            br
+            div(class="row")
+              div(class="col-xs-1 col-sm-1 col-md-1 col-lg-1")
+                button(class="btn btn-lg btn-primary" id="update") Update
+            input(id="csrfToken" type="hidden" value=csrfToken)
+          else
+            != oldPolicy
+
+    include includes/scripts.html
+    if allowAdmin
+      script(src="/js/plugins/tinymce/tinymce.min.js")
+      script(src="/js/policy.js")

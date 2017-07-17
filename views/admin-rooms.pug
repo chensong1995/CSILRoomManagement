@@ -1,0 +1,50 @@
+//- admin-usergroup.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   rooms
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+    link(rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") Room Management
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-user")
+                  |  Rooms
+          div(class="info-wrapper")
+            p(class="text-danger" id="rooms_prompt")
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="rooms_table" class="display")
+                  thead
+                    tr
+                      th id
+                      th Number
+                      th Under Maintenance
+                  tbody
+                    each room in rooms
+                      tr
+                        td #{room.id}
+                        td #{room.number}
+                        td
+                          if room.isBeingMaintained
+                            input(type="checkbox" class="room-checkbox" data-id=room.id checked)
+                          else
+                            input(type="checkbox" class="room-checkbox" data-id=room.id)
+
+    include includes/scripts.html
+    script(src="/js/admin.js")
+    script(src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js")

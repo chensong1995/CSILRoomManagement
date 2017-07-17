@@ -1,0 +1,40 @@
+//- policy.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   message
+//-   announcements
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header")
+                | Announcements
+          p(class="text-danger" id="prompt")
+            | #{message}
+          if allowAdmin
+            a(href="/announcement/new" class="btn btn-primary") Create New Announcement
+          div(class="info-wrapper")
+            if announcements.length == 0
+              h2 There is no announcement now
+            else
+              div(class="row")
+                div(class="col-lg-10")
+                  ul
+                    each announcement in announcements
+                      li(class="announcement-title")
+                        a(href=announcement.path)
+                          h3 #{announcement.title}
+                        p(class="text-muted")
+                          span(class="glyphicon glyphicon-time")
+                          |  Updated: #{announcement.time}
+
+    include includes/scripts.html

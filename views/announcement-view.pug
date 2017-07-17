@@ -1,0 +1,40 @@
+//- announcement-view.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   announcement
+//-   csrfToken
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header")
+                | #{announcement.title}
+                if !allowAdmin
+                  small | Last Update: #{announcement.lastUpdate}
+          p(class="text-danger" id="prompt")
+          if allowAdmin
+            div(class="row")
+              div(class="col-lg-12")
+                textarea(id="announcement-edit")
+                  != announcement.content
+            br
+            div(class="row")
+              div(class="col-xs-1 col-sm-1 col-md-1 col-lg-1")
+                button(class="btn btn-lg btn-primary" id="update") Update
+            input(id="csrfToken" type="hidden" value=csrfToken)
+          else
+            != announcement.content
+
+    include includes/scripts.html
+    if allowAdmin
+      script(src="/js/plugins/tinymce/tinymce.min.js")
+      script(src="/js/announcement.js")
