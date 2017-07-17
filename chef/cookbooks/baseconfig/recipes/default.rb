@@ -45,13 +45,19 @@ end
 # node packages
 execute 'node-packages' do
   cwd '/home/ubuntu/project/'
-  command 'npm install'
+  command 'npm install --no-bin-links'
 end
 
 ## Install forever to run the server as a daemon process 
 execute 'install_forever' do
   command 'npm install forever -g' 
-end 
+end
+
+# Install webpack
+execute 'install_webpack' do
+	command 'sudo npm install webpack'
+	command 'sudo npm install --g webpack'
+end
 
 # start server
 execute 'node-terminate' do

@@ -17,6 +17,7 @@ var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 // 4. path
 var path = require('path');
+// 5. Socket.io setup
 ////////////////////////////////////////////////////////
 
 
@@ -32,7 +33,7 @@ cookie(app);
 var auth = require('./authentication/authentication.js');
 
 //serve static files
-app.use(express.static('./client/static'));
+app.use(express.static(path.join(__dirname, 'client/static')));
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
@@ -64,6 +65,7 @@ app.use('/admin', auth, admin);
 // 9. Room Booking
 var booking = require('./routers/booking.js');
 app.use('/booking', auth, booking);
+
 ////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
@@ -82,10 +84,12 @@ app.get('/dashboard', function(req, res) {
     res.render('dashboard', { username: username, page: "Dashboard"});
 });
 
-// Author(s)  : Chen Song
+// Author(s)  : Chen Song, John Liu
 // Description: This function starts the web server
+//              Requires and initiate socket.io
 // Last Update: July 7, 2017
-app.listen(3000, function() {
+var server = app.listen(3000, function() {
     console.log('Listening at port 3000');
 });
-
+var io = require('socket.io').listen(server);
+require('./routers/machineEmit.js')(io);
