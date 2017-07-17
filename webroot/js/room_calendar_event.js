@@ -2,6 +2,7 @@ $(document).ready(function() {
 	var if_selectable = !($('#room-in-maintenance').length);
 	var room_id = $('#calendar').attr('name');
 	var csrfToken = $('#csrfToken').val();
+	var overlap_warning = false;
 	$('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
@@ -67,8 +68,7 @@ $(document).ready(function() {
 		selectOverlap: function(event) {
 			var view = $('#calendar').fullCalendar('getView');
 			if(view.name == 'agendaWeek' || view.name == 'agendaDay'){
-				alert("Overlap is not allowed!!");
-				$('#calendar').fullCalendar('unselect');
+				$('#calendar').fullCalendar('unselect');				
 		        return false;
 		    }else{
 		    	return true;
