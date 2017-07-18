@@ -65,6 +65,15 @@ app.use('/admin', auth, admin);
 // 9. Room Booking
 var booking = require('./routers/booking.js');
 app.use('/booking', auth, booking);
+// 10. Policy
+var policy = require('./routers/policy.js');
+app.use('/policy', auth, policy);
+// 11. Announcement
+var announcement = require('./routers/announcement.js');
+app.use('/announcement', auth, announcement);
+// 12. User
+var user = require('./routers/users.js');
+app.use('/user', auth, user);
 
 ////////////////////////////////////////////////////////
 
