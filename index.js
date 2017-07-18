@@ -74,6 +74,9 @@ app.use('/announcement', auth, announcement);
 // 12. User
 var user = require('./routers/users.js');
 app.use('/user', auth, user);
+// 13. Feedback, comment, report violation
+var comment = require('./routers/comment.js');
+app.use('/comment', auth, comment);
 
 ////////////////////////////////////////////////////////
 
