@@ -8,7 +8,6 @@ var app = express();
 var path = require('path');
 
 router.get('/', function(req, res){
-    //res.sendFile(path.resolve(__dirname, '../client/static/home.html'));
     req.models.Machine.all(function(err, machines){
         if(err){
             console.log(err);
@@ -31,10 +30,21 @@ router.get('/', function(req, res){
 });
 
 router.post('/:id', function(req, res){
-    console.log("was here");
-    /*req.models.Machine.find({id: req.body.id}, function(err, Machine_found){
-
-    });*/
+    req.models.Machine.get(req.params.id, function(err, Machine_found){
+        if(err){
+            console.log(err);
+            res.status(500).end();
+        }
+        console.log(Machine_found.name);
+        Machine_found.available = !Machine_found.available; // Change machine's availability status
+        Machine_found.save(function(err){
+            if(err){
+                console.log(err);
+                res.status(500).end();
+            }
+            res.redirect('back');
+        });
+    });
 });
 
 module.exports = router;

@@ -79,11 +79,13 @@ class MachinePage extends React.Component{
                 };
                 return(
                     <div key = {csilMachine.id}>
-                        <IconButton style = {machine_pos}>
+                        <form action = {"/machine/" + csilMachine.id} method = "POST">
+                        <IconButton style = {machine_pos} type = "submit" value = "Submit">
                             <Icon color = {this.DetermineMachineColor(csilMachine.available)} onClick = {() => { //On click of an machine
                                 socket.emit("MachineColorChange", machine_indx); //Emit a event and notify other clients which machine was clicked
                             }}>laptop_chromebook</Icon>
                         </IconButton>
+                        </form>
                     </div>
                 );
             }
