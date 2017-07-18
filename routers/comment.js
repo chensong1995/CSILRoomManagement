@@ -1,6 +1,6 @@
 /*
- * Author(s)  : Chen Song
- * Description: This file handles users profile editing/viewing. The entire file is protected by auth
+ * Author(s)  : Ruiming Jia
+ * Description: This file handles feedback from users.
  * Last Update: July 13, 2017
 */
 
@@ -17,15 +17,14 @@ var nodemailer = require('nodemailer');
 router.use(csrfProtection);
 
 /*
- * Author(s)  : Chen Song
- * Description: This function sends users the profile page
+ * Author(s)  : Ruiming Jia
+ * Description: This function sends the feedback page
  * Last Update: July 13, 2017
 */
 router.get('/', function (req, res) {
     // prepare all view variables
     var username = req.userDisplay.username;
     var email = req.userDisplay.email;
-
     res.render('comment', {
         username: username,
         email: email,
@@ -34,58 +33,41 @@ router.get('/', function (req, res) {
 });
 
 /*
- * Author(s)  : Chen Song
- * Description: This function allows users to update personal infomation
+ * Author(s)  : Ruiming Jia
+ * Description: This function allows users to send feedback
  * Last Update: July 13, 2017
-// Usage      : The client generates a POST request with 1 field: biography (plus csurf token). It will receive 200 if update is successful, and 403 otherwise.
 */
 
 router.post('/', csrfProtection, function (req, res) {
-    /* if (req.body.biography) { // must have this field
-        req.userDisplay.biography = req.body.biography;
-        req.userDisplay.save(function (err) {
-            if (err) {
-                res.sendStatus(500); // internal server error
-            } else {
-                res.status(200).end(); // success
-            }
-        });
-    } else {
-        res.sendStatus(404); // invalid request
-    } */
-
+    var message = req.body.message;
+    var username = req.userDisplay.username;
+    var email = req.userDisplay.email;
     var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: 'csilroombooking@gmail.com',
         pass: 'csilcsilcsil123'
-    }
-}); 
-  //Mail options
+        }
+    }); 
+    //Mail options
     mailOpts = {
-      from: 'Csil Booking System <csilroombooking@gmail.com style="margin: 0pt; padding: 0pt;">',//req.body.name + ' &lt;' + req.body.email + '&gt;', //grab form data from the request body object
-      to: 'csilroombooking@gmail.com',
-      subject: 'Website contact form',
-      text: req.body.message
+        from: username + ' &lt;' + email + '&gt;', //grab user data
+        to: 'csilroombooking@gmail.com',
+        subject: 'Website contact form',
+        replyTo: email, //administrator can reply to the user directly
+        text: message
     }; 
-    
+    // send mail with defined transport object
     transporter.sendMail(mailOpts, function (error, response) {
-        /*
-        if(error){
-        console.log(error);
-    }else{
-        console.log('Message sent: ' + info.response);
-    }  */
-    
-      //Email not sent
-      if (error) {
-          res.render('comment', { title: 'Contact', msg: 'Error occured, message not sent.', err: true, page: 'comment' })
-      }
-      //Yay!! Email sent
-      else {
-          res.render('comment', { title: 'Contact', msg: 'Message sent! Thank you.', err: false, page: 'comment' })
-      } 
-  });    
+        //Email not sent
+        if (error) {
+          res.render('comment', { csrfToken: req.csrfToken(), msg: 'Error occured, message not sent.', err: true })
+        }
+        //Email sent
+        else {
+          res.render('comment', { csrfToken: req.csrfToken(), msg: 'Message sent! Thank you.', err: false })
+        }   
+    });    
 });
 
 
