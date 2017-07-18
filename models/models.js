@@ -17,7 +17,7 @@ var privilege = require('./privilege.js');
 var announcement = require('./announcement.js');
 
 module.exports = function (app) {
-    app.use(orm.express('mysql://csil:csil@120.27.121.163/csil', {
+    app.use(orm.express('mysql://root:password@13.59.137.163/csil', {
         define: function (db, models, next) {
             machine(db, models);
             userDisplay(db, models);
