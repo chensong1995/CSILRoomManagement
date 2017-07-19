@@ -26,7 +26,6 @@ const styles = {
     },
 };
 
-
 class MachinePage extends React.Component{
     constructor(props){
         super(props);
@@ -51,6 +50,10 @@ class MachinePage extends React.Component{
             var machines = this.state.machines; //Duplicate and modify stored machines on this client
             machines[machine_indx].available = !machines[machine_indx].available;
             this.setState({machines: machines}); //Update state for re-render
+        });
+        socket.on('MachinesUpdate', new_machine_status => {
+            console.log(new_machine_status[16].available);
+            this.setState({machines: new_machine_status});
         });
     }
 
