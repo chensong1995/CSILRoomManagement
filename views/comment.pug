@@ -1,0 +1,45 @@
+//- comment.pug
+//- Author(s): Ruiming 
+
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") Feedback
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-user")
+                  |  Send feedback, report violation
+
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-md-4 col-xs-10")
+                form(action='/comment', name='contactus', id='contactus', method='post')
+                  fieldset
+                    p
+                      label(for='message') Message:
+                      br
+                      textarea(name='message', cols='40', rows='10', id='message')
+
+                  
+                  p
+                    input(name='submit', type='submit', value='Send', id='submit')
+                    input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
+            // p(class="text-danger" id="prompt")
+            if(typeof msg !== 'undefined')
+              if(!!err)
+                div(class='msgbox err') #{msg}
+              else
+                div(class='msgbox success') #{msg}
+
+
+
