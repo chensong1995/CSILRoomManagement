@@ -20,6 +20,7 @@ router.get('/events', function(req, res) {
             res.status(500).end(); // internal server error
         }else{
         	var today = new Date();
+            today.setHours(0,0,0,0);
             var record_list = [];
             var start = today;
             var end = req.query.end;
