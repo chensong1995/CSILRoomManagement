@@ -17,19 +17,19 @@ html(lang="en")
               ol(class="breadcrumb")
                 li(class="active")
                   i(class="fa fa-dashboard")
-                  |  Room status calendar for #{room_name}
+                  |  Room status calendar for #{room_name}. Green block means a repeating booking (e.g. Every Monday at that time)
           div(class="row")
             div(class="col-lg-12")
               ol(class="breadcrumb")
                 - var if_maintain = room_in_maintenance
                 - if (!if_maintain)
                   li
-                    i(class="fa fa-dashboard")
-                    |  First choose a day, then choose a time period to book a room. You can delete your booking from profile page
+                    i(class="fa fa-dashboard")  First choose a day, then choose a time period to book a room. You can delete your booking from 
+                      a(href="/booking/manage") booking management page
                 - else
                   li
-                    i(class="fa fa-dashboard", id="room-in-maintenance")
-                    |  You cannot book this room, but you can still check the status calendar. You can delete your booking from profile page
+                    i(class="fa fa-dashboard", id="room-in-maintenance") You cannot book this room, but you can still check the status calendar. You can delete your booking from 
+                      a(href="/booking/manage") booking management page
           div(class="row", id="loader")
             div(class="col-lg-12")
               ol(class="breadcrumb")

@@ -30,37 +30,43 @@ $(document).ready(function() {
 					// If user chooses a period longer than 2 hours
 					alert("Maximum time of a booking is 2 hour! !");
 				}else{
-					var title = prompt('Enter your event Title:');
-					if (title) {
-						jQuery.ajax({
-							url: '/booking',
-            				type: 'POST',
-            				data: {
-            					room_id: room_id,
-				                start: start.format(),
-				                end: end.format(),
-				                title: title,
-				                _csrf: csrfToken,
-				            },
-				            success: function(data) {
-				            	data = JSON.parse(data)
-				            	if(data.result == "success"){
-				            		alert('booking success');
-					            	var eventData = {
-										title: title,
-										start: start,
-										end: end
-									};
-									$('#calendar').fullCalendar('renderEvent', eventData, true);
-				            	}else{
-				            		alert("Booking fail with reason: " + data.errMsg);
-				            	}
-				            	
-				            },
-						});
+					var confirm_text = "Do you want to make this event a repeating event (e.g. Every Monday at the time you choose)"
+					if (confirm(confirm_text) == true) {
+						// Redirect to batch booking page
+						window.location.href = "/booking/batch?start=" + start + "&end=" + end + "&room_number=" + room_id;
 					}else{
-						alert("Please enter a title!");
-					}
+						var title = prompt('Enter your event Title:');
+						if (title) {
+							jQuery.ajax({
+								url: '/booking',
+	            				type: 'POST',
+	            				data: {
+	            					room_id: room_id,
+					                start: start.format(),
+					                end: end.format(),
+					                title: title,
+					                _csrf: csrfToken,
+					            },
+					            success: function(data) {
+					            	data = JSON.parse(data)
+					            	if(data.result == "success"){
+					            		alert('booking success');
+						            	var eventData = {
+											title: title,
+											start: start,
+											end: end
+										};
+										$('#calendar').fullCalendar('renderEvent', eventData, true);
+					            	}else{
+					            		alert("Booking fail with reason: " + data.errMsg);
+					            	}
+					            	
+					            },
+							});
+						}else{
+							alert("Please enter a title!");
+						}
+					}					
 				}
 			}
 			$('#calendar').fullCalendar('unselect');
@@ -81,6 +87,14 @@ $(document).ready(function() {
 			url: '/booking/events/' + $('#calendar').attr('name'),
 			error: function() {
 				alert("Fail to load records for room, please refresh or contact admin")
+			}
+		},
+		eventRender: function(event, element, view){
+			if(!event.rangeStart){
+				return true;
+			}else{
+				return ((Date.parse(moment(event.start).format("YYYY-MM-DD"))) >= (Date.parse(event.rangeStart)))
+					&& ((Date.parse(moment(event.end).format("YYYY-MM-DD"))) <= (Date.parse(event.rangeEnd)));
 			}
 		},
 		loading: function(bool) {

@@ -51,12 +51,53 @@ router.get('/', function(req, res) {
 router.get('/manage', function(req, res) {
     var username = req.userDisplay.username;
     var userSource = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+
     res.render('booking_manage', { 
         username: username,
         source: userSource,
         allowAdmin: req.userDisplay.allowAdmin, 
         page: "Booking",
         csrfToken: req.csrfToken(),
+    });
+});
+
+// Author(s)  : Chong
+// Description: This function directs user to batch booking confirmation
+// Last Update: July 14, 2017
+router.get('/batch', function(req, res) {
+    var username = req.userDisplay.username;
+    var userSource = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var start = new Date(req.query.start/1);
+    var end = new Date(req.query.end/1);
+    res.render('booking_batch', { 
+        username: username,
+        source: userSource,
+        allowAdmin: req.userDisplay.allowAdmin, 
+        page: "Booking",
+        start: start.getHours() + ":" + start.getMinutes(),
+        end: end.getHours() + ":" + end.getMinutes(),
+        roomNumber: req.query.room_number,
+        csrfToken: req.csrfToken(),
+    });
+});
+
+// Author(s)  : Chong
+// Description: This function handle batch booking
+// Last Update: July 14, 2017
+router.post('/batch', function(req, res) {
+    var start = req.body.start;
+    var end = req.body.end;
+    var title = req.body.title;
+    var concurrent_booking_conflict = 0;
+    var room_id = 0;
+    // Using the room number to find the id in database table
+    req.models.Room.find({number: req.body.room_id}, function (err, room) {
+        if (err || room.length < 1) { // if error occurs or no room is found
+            throw err;
+            res.status(500).end(); // internal server error
+        }else{
+            room_id = room[0].id;
+        }
     });
 });
 
@@ -113,12 +154,24 @@ router.get('/events/:room_id', function(req, res) {
                 }else{
                     var record_list = [];
                     records.forEach(function(record) {
-                        if( Date.parse ( start ) <= Date.parse ( record.start )
-                            && Date.parse ( end ) >= Date.parse ( record.end ) ){
+                        if(record.isBatch){
                             var record_obj = new Object();
                             record_obj.title = record.title
                             record_obj.start = record.start
                             record_obj.end = record.end
+                            record_obj.isBatch = record.isBatch;
+                            record_obj.dow = record.dow;
+                            record_obj.rangeStart = record.rangeStart;
+                            record_obj.rangeEnd = record.rangeEnd;
+                            record_obj.backgroundColor = "#3c763d";
+                            record_list.push(record_obj)
+                        }else {
+                            var record_obj = new Object();
+                            record_obj.title = record.title
+                            record_obj.start = record.start
+                            record_obj.end = record.end
+                            record_obj.isBatch = record.isBatch;
+                            record_obj.dow = record.dow;
                             record_list.push(record_obj)
                         }
                     });
@@ -194,6 +247,7 @@ router.post('/', function(req, res) {
                             end: end,
                             title: title,
                             name: req.body.room_id,
+                            isBatch: false
                         };
                         if(result.result == "error"){
                             res.send(JSON.stringify(result));

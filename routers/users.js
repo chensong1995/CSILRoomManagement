@@ -25,15 +25,27 @@ router.get('/events', function(req, res) {
             var start = today;
             var end = req.query.end;
             records.forEach(function(record) {
-				if( Date.parse ( start ) <= Date.parse ( record.start )
-                    && Date.parse ( end ) >= Date.parse ( record.end ) ){
+                if(record.isBatch){
+                    var record_obj = new Object();
+                    record_obj.title = record.title
+                    record_obj.start = record.start
+                    record_obj.end = record.end
+                    record_obj.isBatch = record.isBatch;
+                    record_obj.dow = record.dow;
+                    record_obj.rangeStart = record.rangeStart;
+                    record_obj.rangeEnd = record.rangeEnd;
+                    record_obj.room = record.name;
+                    record_obj.url = '/' + record.id;
+                    record_obj.backgroundColor = "#3c763d";
+                    record_list.push(record_obj)
+                }else {
                     var record_obj = new Object();
                     record_obj.title = record.title;
                     record_obj.start = record.start;
                     record_obj.end = record.end;
                     record_obj.room = record.name;
                     record_obj.url = '/' + record.id;
-                    record_list.push(record_obj);
+                    record_list.push(record_obj)
                 }
             });
             res.send(JSON.stringify(record_list));

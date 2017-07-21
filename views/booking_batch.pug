@@ -1,0 +1,93 @@
+//- booking-batch.pug
+//- Author(s): Chong
+//- variables:
+//-   <All from navbar.pug>
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+    link(rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") Batch Booking Confirmation
+
+          div(class="row", id="loader")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li
+                  div(class="loader")
+                  i(class="fa fa-dashboard")
+                  |  Loading, please wait
+
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="batch-record-table" class="display")
+                  thead
+                    tr
+                      th Room
+                      th Start Date
+                      th End Date
+                      th Time Period
+                      th Repeating Day
+                      th Operation
+                  tbody
+                    tr
+                      td
+                        span(id="room-number") #{roomNumber}
+                      td
+                        div(class="input-group date form_date",data-date="", data-date-format="yyyy-mm-dd", data-link-field="dtp_input2", data-link-format="yyyy-mm-dd")
+                          input(id="startDate", class="form-control", size="16", type="text", value="", readonly)
+                          span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-remove")
+                          span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-calendar")
+
+                      td
+                        div(class="input-group date form_date",data-date="", data-date-format="yyyy-mm-dd", data-link-field="dtp_input2", data-link-format="yyyy-mm-dd")
+                          input(id="endDate", class="form-control", size="16", type="text", value="", readonly)
+                          span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-remove")
+                          span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-calendar")
+
+                      td
+                        span(id="start-time") #{start}
+                        span(id="")  - 
+                        span(id="end-time") #{end}
+                      td
+                        p
+                          input(type="checkbox",id="checkbox-1")
+                          |  Monday
+                        p
+                          input(type="checkbox",id="checkbox-2")
+                          |  Tuesday
+                        p
+                          input(type="checkbox",id="checkbox-3")
+                          |  Wednesday
+                        p
+                          input(type="checkbox",id="checkbox-4")
+                          |  Thursday
+                        p
+                          input(type="checkbox",id="checkbox-5")
+                          |  Friday
+                        p
+                          input(type="checkbox",id="checkbox-6")
+                          |  Sataurday
+                        p
+                          input(type="checkbox",id="checkbox-7")
+                          |  Sunday
+                      td
+                        a(id="batch-booking-confirm") Confirm
+
+          input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
+
+    include includes/scripts.html
+    script(src="/js/batch-booking.js")
+    script(src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js")

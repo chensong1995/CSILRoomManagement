@@ -13,5 +13,9 @@ module.exports = function(db, models) {
         end: String,          // e.g. 2017-05-09T16:00:00-05:00, timestamp of the end of the booking
         title: String,        // e.g. CMPT 470 Office Hour, title of the booking
         name: String,         // e.g. ASB9400
+        isBatch: Boolean,     // e.g. true or false
+        dow: String,          // e.g. [1, 4, 7] means every Mon., Thu. and Sun. 
+        rangeStart: String,   // e.g. 2017-05-09
+        rangeEnd: String      // e.g. 2017-07-09
     });
 };
