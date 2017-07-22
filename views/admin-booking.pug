@@ -1,0 +1,157 @@
+//- admin-usergroup.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   users
+//-   usergroups
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+    link(rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") Booking Management
+
+          div(class="row", id="loader")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li
+                  div(class="loader")
+                  i(class="fa fa-dashboard")
+                  |  Loading, please wait
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-certificate")
+                  |  Input new data then click edit to edit a record. Click the delete to delete a record
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-certificate")
+                  |  Batch Booking Records
+
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="batch-record-table" class="display")
+                  thead
+                    tr
+                      th User
+                      th Room
+                      th Start Date
+                      th End Date
+                      th Start Time
+                      th End Time
+                      th Repeating Day
+                      th Operation
+                  tbody
+                    each batch_record in batch_records
+                      tr(id=batch_record.id)
+                        td(class="room-user",data-user-id=batch_record.uid) #{batch_record.username}
+                        td(class="room-number") #{batch_record.name}
+                        td
+                          div(class="input-group date form_date",data-date=batch_record.rangeStart, data-date-format="yyyy-mm-dd", data-link-field="dtp_input2", data-link-format="yyyy-mm-dd")
+                            input(id="start-date-" + batch_record.id, class="form-control", size="16", type="text", value=batch_record.rangeStart, readonly)
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-remove")
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-calendar")
+                        td
+                          div(class="input-group date form_date",data-date=batch_record.rangeEnd, data-date-format="yyyy-mm-dd", data-link-field="dtp_input2", data-link-format="yyyy-mm-dd")
+                            input(id="end-date-" + batch_record.id, class="form-control", size="16", type="text", value=batch_record.rangeEnd, readonly)
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-remove")
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-calendar")
+
+                        td
+                          input(id="start-time-" + batch_record.id, value=batch_record.start, data-start-time=batch_record.start,size="8")
+
+                        td
+                          input(id="end-time-" + batch_record.id, value=batch_record.end, data-end-time=batch_record.end,size="8")
+
+                        td
+                          - var dayOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sataurday"]
+                          - for (var x = 1; x <= 6; x++)
+                            - if(batch_record.dow.indexOf("" + x) != -1)
+                                p
+                                  input(type="checkbox",id="checkbox-" + x,checked="checked")
+                                  |  #{dayOfWeek[x]}
+                            - else
+                                p
+                                  input(type="checkbox",id="checkbox-" + x)
+                                  |  #{dayOfWeek[x]}
+                          - if(batch_record.dow.indexOf("0") != -1)
+                              p
+                                input(type="checkbox",id="checkbox-7",checked="checked")
+                                |  Sunday
+                          - else
+                              p
+                                input(type="checkbox",id="checkbox-7")
+                                |  Sunday
+
+                        td
+                          p
+                            a(id="batch-booking-modify-" + batch_record.id,class="batch-booking-modify") Edit
+                          p
+                            a(id="batch-booking-delete-" + batch_record.id,class="batch-booking-delete") Delete
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-certificate")
+                  |  Regular Booking Records
+
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="regular-record-table" class="display")
+                  thead
+                    tr
+                      th User
+                      th Room
+                      th Start Time
+                      th End Time
+                      th Operation
+                  tbody
+                    each regular_record in regular_records
+                      tr(id=regular_record.id)
+                        td(class="room-user",data-user-id=regular_record.uid) #{regular_record.username}
+                        td(class="room-number") #{regular_record.name}
+                        td
+                          div(class="input-group date form_date_time",data-date=regular_record.start, data-date-format="yyyy-mm-dd hh:ii", )
+                            input(id="start-date-" + regular_record.id, class="form-control", size="16", type="text", value=regular_record.start, readonly)
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-remove")
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-calendar")
+                        td
+                          div(class="input-group date form_date_time",data-date=regular_record.end, data-date-format="yyyy-mm-dd hh:ii")
+                            input(id="end-date-" + regular_record.id, class="form-control", size="16", type="text", value=regular_record.end, readonly)
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-remove")
+                            span(class="input-group-addon")
+                              span(class="glyphicon glyphicon-calendar")
+
+                        td
+                          p
+                            a(id="regular-booking-modify-" + regular_record.id,class="regular-booking-modify") Edit
+                          p
+                            a(id="regular-booking-delete-" + regular_record.id,class="regular-booking-delete") Delete
+
+
+    include includes/scripts.html
+    script(src="/js/booking-management.js")
+    script(src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js")

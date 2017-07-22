@@ -131,10 +131,51 @@ router.get('/rooms', function (req, res) {
 /*
  * Author(s)  : Chong
  * Description: This function directs admin user to booking management page
- * Last Update: July 16, 2017
+ * Last Update: July 21, 2017
 */
 router.get('/booking', function (req, res) {
-    res.send("Not implemented");
+    var username = req.userDisplay.username;
+    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var regular_records = [];
+    var batch_records = [];
+    var user_id_name_map = new Object();
+
+    req.models.UserDisplay.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                user_id_name_map[results[i].id] = results[i].username;
+            }
+        }
+    });
+
+    req.models.BookingRecord.all(function (err, records) {
+        if (err) { // if error occurs or no room is found
+            throw err;
+            res.status(500).end(); // internal server error
+        }else{      
+            for (var i = records.length - 1; i >= 0; i--) {
+                if(records[i].isBatch){
+                    records[i].username = user_id_name_map[records[i].uid];
+                    batch_records.push(records[i]);
+                }else{
+                    records[i].username = user_id_name_map[records[i].uid];
+                    records[i].start = records[i].start.replace('T',' ');
+                    records[i].end = records[i].end.replace('T',' ');
+                    regular_records.push(records[i]);                        
+                }
+            }
+            res.render('admin-booking', {
+                username: username,
+                source: source,
+                allowAdmin: true,
+                page: 'Booking Management',
+                regular_records: regular_records,
+                batch_records: batch_records
+            });
+        }
+    });
 });
 
 /*
@@ -284,5 +325,66 @@ router.post('/rooms', function (req, res) {
     }
 });
 
+/*
+ * Author(s)  : Chong
+ * Description: This function allows admin user to edit user's booking
+ * Last Update: July 21, 2017
+*/
+router.post('/booking/:booking_id', function (req, res) {
+    var allowAdmin = req.userDisplay.allowAdmin;
+    if(!allowAdmin){
+        res.sendStatus(401);
+    }else{
+        req.models.BookingRecord.find({id: req.params.booking_id},function (err, records) {
+            if (err || records.length != 1) { // if error occurs or not exactly one is found
+                res.status(500).end(); // internal server error
+            }else{
+                if(records[0].isBatch){
+                    records[0].start = req.body.start;
+                    records[0].end = req.body.end;
+                    records[0].rangeStart = req.body.rangeStart;
+                    records[0].rangeEnd = req.body.rangeEnd;
+                    records[0].dow = req.body.dow;
+                }else{
+                    records[0].start = req.body.start;
+                    records[0].end = req.body.end;
+                }
+                records[0].save(function (err) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    }
+});
+
+/*
+ * Author(s)  : Chong
+ * Description: This function allows admin user to delete user's booking
+ * Last Update: July 21, 2017
+*/
+router.delete('/booking/:booking_id', function (req, res) {
+    var allowAdmin = req.userDisplay.allowAdmin;
+    if(!allowAdmin){
+        res.sendStatus(401);
+    }else{
+        req.models.BookingRecord.find({id: req.params.booking_id},function (err, records) {
+            if (err || records.length != 1) { // if error occurs or not exactly one is found
+                res.status(500).end(); // internal server error
+            }else{
+                records[0].remove(function (err) { // callback optional
+                    if(err){
+                        res.status(500).end(); // internal server error
+                    }else{
+                        res.status(200).end(); // success
+                    }
+                });
+            }
+        });
+    }
+});
 
 module.exports = router;
