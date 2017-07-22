@@ -74,8 +74,8 @@ router.get('/batch', function(req, res) {
         source: userSource,
         allowAdmin: req.userDisplay.allowAdmin, 
         page: "Booking",
-        start: start.getHours() + ":" + start.getMinutes(),
-        end: end.getHours() + ":" + end.getMinutes(),
+        start:  ('0' + start.getHours()).slice(-2) + ":" + ('0' + start.getMinutes()).slice(-2),
+        end: ('0' + end.getHours()).slice(-2) + ":" + ('0' + end.getMinutes()).slice(-2),
         roomNumber: req.query.room_number,
         csrfToken: req.csrfToken(),
     });
@@ -90,13 +90,152 @@ router.post('/batch', function(req, res) {
     var title = req.body.title;
     var concurrent_booking_conflict = 0;
     var room_id = 0;
+    console.log(req.body);
     // Using the room number to find the id in database table
-    req.models.Room.find({number: req.body.room_id}, function (err, room) {
+    req.models.Room.find({number: req.body.room_number}, function (err, room) {
         if (err || room.length < 1) { // if error occurs or no room is found
-            throw err;
             res.status(500).end(); // internal server error
         }else{
             room_id = room[0].id;
+        }
+    });
+    req.models.UserDisplay.find({sid: req.cookies.sid}, function (err, users) { 
+        if (err || users.length > 1) { // error occurs, or more than 1 such users are found
+            res.status(500).end(); // internal server error
+        } else {
+            if(users[0].maxBookings <= 0){
+                // The user is not allowed to book a room
+                var result = new Object();
+                result.result = "error";
+                result.errMsg = "You are not allowed to book a room, please double-check or contact admin";
+                res.send(JSON.stringify(result));
+            }else{
+                // Extend the batch record to multiple records
+                var request_batch_record_list = extendBatchRecords(
+                                                    room_id,
+                                                    users[0].id,
+                                                    title,
+                                                    req.body.room_number,
+                                                    req.body.start,
+                                                    req.body.end,
+                                                    req.body.rangeStart,
+                                                    req.body.rangeEnd,
+                                                    req.body.dow);
+                req.models.BookingRecord.all(function (err, records) {
+                    if (err) { // if error occurs or no room is found
+                        throw err;
+                        res.status(500).end(); // internal server error
+                    }else{
+                        var result = new Object();
+                        records.forEach(function(record) {
+                            console.log(1);
+                            if(record.isBatch){
+                                console.log("Found a batch record in database\n");
+                                var batch_record_list = extendBatchRecords(
+                                                            record.rid,
+                                                            record.uid,
+                                                            record.title,
+                                                            record.number,
+                                                            record.start,
+                                                            record.end,
+                                                            record.rangeStart,
+                                                            record.rangeEnd,
+                                                            record.dow);                                
+                                batch_record_list.forEach(function(batch_record){
+                                    request_batch_record_list.forEach(function(requested_record){
+                                        // Check whether there is time conflict
+                                        if((Date.parse ( requested_record.start ) < Date.parse ( batch_record.start )
+                                            && Date.parse ( requested_record.end ) > Date.parse ( batch_record.start ))
+                                            || ( Date.parse ( requested_record.start ) >= Date.parse ( batch_record.start )
+                                                 && Date.parse ( requested_record.start ) <= Date.parse ( batch_record.end ))
+                                            || (Date.parse ( requested_record.start ) >= Date.parse ( requested_record.end ))){
+                                            if(batch_record.rid == room_id){
+                                                // If conflict happens in the same room, reject the booking request
+                                                result.result = "error";
+                                                result.errMsg = "There is time slot conflict, please refresh your page to get up-to-date calendar";
+                                            }else if(batch_record.uid = users[0].id){
+                                                // If conflict happens for the same person in different room
+                                                if(concurrent_booking_conflict <= 0){
+                                                    concurrent_booking_conflict++;
+                                                    if(concurrent_booking_conflict >= users[0].maxBookings){
+                                                        // concurrent booking conflict invalid
+                                                        // e.g. user tries to book the same time period for two different rooms, but his maxBooking value is 1
+                                                        result.result = "error";
+                                                        result.errMsg = "You can only book " + users[0].maxBookings + " rooms for the same time period";
+                                                    }
+                                                }
+                                                
+                                            }
+                                        }
+                                    });
+                                });
+                            }else{
+                                console.log("Found a regular record");
+                                console.log(record);
+                                request_batch_record_list.forEach(function(requested_record){
+                                    // Check whether there is time conflict
+                                    console.log(Date.parse ( requested_record.start ));
+                                    console.log(Date.parse ( record.start ));
+                                    console.log(Date.parse ( requested_record.end ));
+                                    console.log(Date.parse ( record.end ));
+                                    if((Date.parse ( requested_record.start ) < Date.parse ( record.start )
+                                        && Date.parse ( requested_record.end ) > Date.parse ( record.start ))
+                                        || ( Date.parse ( requested_record.start ) >= Date.parse ( record.start )
+                                             && Date.parse ( requested_record.start ) <= Date.parse ( record.end ))
+                                        || (Date.parse ( requested_record.start ) >= Date.parse ( requested_record.end ))){
+                                        if(record.rid == room_id){
+                                            // If conflict happens in the same room, reject the booking request
+                                            console.log("conflict!");
+                                            console.log(requested_record);
+                                            console.log(JSON.stringify(record));
+                                            console.log("---------------");
+                                            result.result = "error";
+                                            result.errMsg = "There is time slot conflict, please refresh your page to get up-to-date calendar";
+                                        }else if(record.uid = users[0].id){
+                                            // If conflict happens for the same person in different room
+                                            concurrent_booking_conflict++;
+                                            if(concurrent_booking_conflict >= users[0].maxBookings){
+                                                // concurrent booking conflict invalid
+                                                // e.g. user tries to book the same time period for two different rooms, but his maxBooking value is 1
+                                                result.result = "error";
+                                                result.errMsg = "You can only book " + users[0].maxBookings + " rooms for the same time period";
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        req.models.Room.find({number: req.body.room_number}, function () {
+                            console.log(2);
+                            var newBooking = {
+                                rid: room_id,
+                                uid: users[0].id,
+                                start: start,
+                                end: end,
+                                title: title,
+                                name: req.body.room_number,
+                                isBatch: true,
+                                dow: req.body.dow,
+                                rangeStart: req.body.rangeStart,
+                                rangeEnd: req.body.rangeEnd,
+                            };
+                            if(result.result == "error"){
+                                res.send(JSON.stringify(result));
+                            }else{
+                                req.models.BookingRecord.create(newBooking, function(err, results) {
+                                    if(err){
+                                        res.status(500).end(); // internal server error
+                                    }else{
+                                        var result = new Object();
+                                        result.result = "success";
+                                        res.send(JSON.stringify(result));
+                                    }
+                                });
+                            }      
+                        });
+                    }
+                });
+            }
         }
     });
 });
@@ -210,7 +349,6 @@ router.post('/', function(req, res) {
                 result.result = "error";
                 result.errMsg = "You are not allowed to book a room, please double-check or contact admin";
                 res.send(JSON.stringify(result));
-                res.status(403).end();
             }else{
                 req.models.BookingRecord.all(function (err, records) {
                     if (err) { // if error occurs or no room is found
@@ -218,24 +356,61 @@ router.post('/', function(req, res) {
                     }else{
                         var result = new Object();
                         records.forEach(function(record) {
-                            // Check whether there is time conflict
-                            if((Date.parse ( start ) < Date.parse ( record.start )
-                                && Date.parse ( end ) > Date.parse ( record.start ))
-                                || ( Date.parse ( start ) >= Date.parse ( record.start )
-                                     && Date.parse ( start ) <= Date.parse ( record.end ))
-                                || (Date.parse ( start ) >= Date.parse ( end ))){
-                                if(record.rid == room_id){
-                                    // If conflict happens in the same room, reject the booking request
-                                    result.result = "error";
-                                    result.errMsg = "There is time slot conflict, please refresh your page to get up-to-date calendar";
-                                }else if(record.uid = users[0].id){
-                                    // If conflict happens for the same person in different room
-                                    concurrent_booking_conflict++;
-                                    if(concurrent_booking_conflict >= users[0].maxBookings){
-                                        // concurrent booking conflict invalid
-                                        // e.g. user tries to book the same time period for two different rooms, but his maxBooking value is 1
+                            if(record.isBatch){
+                                console.log("Found a batch record in database\n");
+                                var batch_record_list = extendBatchRecords(
+                                                            record.rid,
+                                                            record.uid,
+                                                            record.title,
+                                                            record.number,
+                                                            record.start,
+                                                            record.end,
+                                                            record.rangeStart,
+                                                            record.rangeEnd,
+                                                            record.dow);                                
+                                batch_record_list.forEach(function(batch_record){
+                                    // Check whether there is time conflict
+                                    if((Date.parse ( start ) < Date.parse ( batch_record.start )
+                                        && Date.parse ( end ) > Date.parse ( batch_record.start ))
+                                        || ( Date.parse ( start ) >= Date.parse ( batch_record.start )
+                                             && Date.parse ( start ) <= Date.parse ( batch_record.end ))
+                                        || (Date.parse ( start ) >= Date.parse ( end ))){
+                                        if(batch_record.rid == room_id){
+                                            // If conflict happens in the same room, reject the booking request
+                                            result.result = "error";
+                                            result.errMsg = "There is time slot conflict, please refresh your page to get up-to-date calendar";
+                                        }else if(batch_record.uid = users[0].id){
+                                            // If conflict happens for the same person in different room
+                                            concurrent_booking_conflict++;
+                                            if(concurrent_booking_conflict >= users[0].maxBookings){
+                                                // concurrent booking conflict invalid
+                                                // e.g. user tries to book the same time period for two different rooms, but his maxBooking value is 1
+                                                result.result = "error";
+                                                result.errMsg = "You can only book " + users[0].maxBookings + " rooms for the same time period";
+                                            }
+                                        }
+                                    }
+                                });
+                            }else{
+                                // Check whether there is time conflict
+                                if((Date.parse ( start ) < Date.parse ( record.start )
+                                    && Date.parse ( end ) > Date.parse ( record.start ))
+                                    || ( Date.parse ( start ) >= Date.parse ( record.start )
+                                         && Date.parse ( start ) <= Date.parse ( record.end ))
+                                    || (Date.parse ( start ) >= Date.parse ( end ))){
+                                    if(record.rid == room_id){
+                                        // If conflict happens in the same room, reject the booking request
                                         result.result = "error";
-                                        result.errMsg = "You can only book " + users[0].maxBookings + " rooms for the same time period";
+                                        result.errMsg = "There is time slot conflict, please refresh your page to get up-to-date calendar";
+                                    }else if(record.uid = users[0].id){
+                                        // If conflict happens for the same person in different room
+                                        concurrent_booking_conflict++;
+                                        if(concurrent_booking_conflict >= users[0].maxBookings){
+                                            // concurrent booking conflict invalid
+                                            // e.g. user tries to book the same time period for two different rooms, but his maxBooking value is 1
+                                            result.result = "error";
+                                            result.errMsg = "You can only book " + users[0].maxBookings + " rooms for the same time period";
+                                        }
                                     }
                                 }
                             }
@@ -264,62 +439,55 @@ router.post('/', function(req, res) {
                         }                     
                     }
                 });
-            }            
-            // req.models.BookingRecord.find({uid: users[0].id},function (err, records) {
-            //     if (err) { // if error occurs or no room is found
-            //         res.status(500).end(); // internal server error
-            //     }else{
-            //         if(users[0].maxBookings <= 0){
-            //             // The user has reach the maximum booking number
-            //             var result = new Object();
-            //             result.result = "error";
-            //             result.errMsg = "You are not allowed to book a room, please double-check or contact admin";
-            //             res.send(JSON.stringify(result));
-            //         }else{
-            //             // Try to book this room
-            //             req.models.BookingRecord.find({rid: room_id},function (err, records) {
-            //                 if (err) { // if error occurs or no room is found
-            //                     res.status(500).end(); // internal server error
-            //                 }else{
-            //                     records.forEach(function(record) {
-            //                         // Check whether there is conflict
-            //                         if((Date.parse ( start ) < Date.parse ( record.start )
-            //                             && Date.parse ( end ) > Date.parse ( record.start ))
-            //                             || ( Date.parse ( start ) >= Date.parse ( record.start )
-            //                                  && Date.parse ( start ) <= Date.parse ( record.end ))
-            //                             || (Date.parse ( start ) >= Date.parse ( end ))){
-            //                             var result = new Object();
-            //                             result.result = "error";
-            //                             result.errMsg = "There is time slot conflict, please refresh your page to get up-to-date calendar";
-            //                             res.send(JSON.stringify(result));
-            //                         }else{
-
-            //                         }
-            //                     });
-            //                     var newBooking = {
-            //                         rid: room_id,
-            //                         uid: users[0].id,
-            //                         start: start,
-            //                         end: end,
-            //                         title: title,
-            //                         name: req.body.room_id,
-            //                     };
-            //                     req.models.BookingRecord.create(newBooking, function(err, results) {
-            //                         if(err){
-            //                             res.status(500).end(); // internal server error
-            //                         }else{
-            //                             var result = new Object();
-            //                             result.result = "success";
-            //                             res.send(JSON.stringify(result));
-            //                         }
-            //                     });
-            //                 }
-            //             });
-            //         }
-            //     }
-            // });
+            }
         }
     });
 });
+
+function extendBatchRecords(roomId, userId, title, roomName, startTime, endTime, startDate, endDate, dow){
+    var extended_record_list = [];
+    var dowList = JSON.parse(dow);
+    console.log(dowList);
+    var start = new Date(startDate);
+    console.log(start);
+    var end = new Date(endDate);
+    console.log(end);
+    for (var d = start; d <= end; d.setDate(d.getDate() + 1)) {
+        console.log(d);
+        dowList.forEach(function(dow){
+            if(dow / 1 == d.getDay() / 1){
+                console.log("dow = " + dow + " and day is " + d.getDay());
+                var startString = "";
+                var endString = "";
+                var dd = d.getDate();
+                var mm = d.getMonth()+1; //January is 0!
+                var yyyy = d.getFullYear();
+
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                }
+                startString += yyyy + "-" + mm + "-" + dd + "T" + startTime + ":00";
+                endString = yyyy + "-" + mm + "-" + dd + "T" + endTime + ":00";
+                console.log(startString);
+                console.log(endString);
+                var booking_record = {
+                    rid: roomId,
+                    uid: userId,
+                    start: startString,
+                    end: endString,
+                    title: title,
+                    name: roomName,
+                };
+                console.log(booking_record);
+                extended_record_list.push(booking_record);
+            }
+        });
+    }
+    return extended_record_list;
+}
 
 module.exports = router;

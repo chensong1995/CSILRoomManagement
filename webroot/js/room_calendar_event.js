@@ -31,6 +31,8 @@ $(document).ready(function() {
 					alert("Maximum time of a booking is 2 hour! !");
 				}else{
 					var confirm_text = "Do you want to make this event a repeating event (e.g. Every Monday at the time you choose)"
+					confirm_text += "\n\nClick Yes(Ensure) for booking it as a repeating event";
+					confirm_text += "\nClick No(Cancel) for booking it as a event only happens once";
 					if (confirm(confirm_text) == true) {
 						// Redirect to batch booking page
 						window.location.href = "/booking/batch?start=" + start + "&end=" + end + "&room_number=" + room_id;

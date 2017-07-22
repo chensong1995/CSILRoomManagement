@@ -27,13 +27,16 @@ $(document).ready(function () {
     	var csrfToken = $('#csrfToken').val();
     	var roomNumber = $('#room-number').text();
     	var dow = "[";
-    	if($('#checkbox-1').is(":checked")){
-    		dow += "1";
+    	if($('#checkbox-7').is(":checked")){
+    		dow += "0,";
     	}
-    	for (var i = 2; i <= 7; i++) {
-    		if($('#checkbox-' + 'i' ).is(":checked")){
-	    		dow += "," + i;
+    	for (var i = 1; i <= 6; i++) {
+    		if($('#checkbox-' + i ).is(":checked")){
+	    		dow += "" + i + ",";
 	    	}
+    	}
+    	if(dow.substr(dow.length - 1) == ","){
+    		dow = dow.substring(0, dow.length-1);
     	}
     	dow += "]";
     	if(dow == "[]"){
@@ -41,6 +44,9 @@ $(document).ready(function () {
     	}
     	if(!startDate || !endDate){
     		alert("Please choose the time period");
+    	}
+    	if(Date.parse(startDate) > Date.parse(endDate)){
+    		alert("End date is later than start date, please check your input");
     	}
     	var title = prompt('Enter your event Title:');
 		if (title) {
@@ -64,7 +70,7 @@ $(document).ready(function () {
 	            	data = JSON.parse(data)
 	            	if(data.result == "success"){
 	            		alert('booking success');
-						$('#calendar').fullCalendar('renderEvent', eventData, true);
+	            		window.location.href = "/booking";
 	            	}else{
 	            		alert("Booking fail with reason: " + data.errMsg);	            	
 	            	}	            	
@@ -72,6 +78,7 @@ $(document).ready(function () {
 	            error: function(){
 	            	$('#loader').toggle();
 	            	alert("Unknown error, please refresh or contact admin");
+	            	window.location.href = "/booking";
 	            },
 			});
 		}else{
