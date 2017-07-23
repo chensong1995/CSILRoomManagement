@@ -19,38 +19,38 @@ var machine = {
     coordinate_y: Number, // Y coordiante of machine in csil
 };
 
-const connectionString = 'mysql://csil:csil@120.27.121.163/csil';
+//const connectionString = 'mysql://csil:csil@120.27.121.163/csil';
+const connectionString = 'mysql://root:password@13.59.137.163/csil';
 
 module.exports = function(io){
-    //setInterval(function(){console.log("hello");}, 3000);
+    orm.connect(connectionString, function(err, db){ //Connect to db
+        var Machine = db.define('machines_display', machine);
+        setInterval(function(){
+            Machine.all(function(err, machines_retrieved){
+                if(err){
+                    throw(err);
+                    console.log(err);
+                    return;
+                };
+
+                var new_machine_status = [];
+                machines_retrieved.forEach(function(machineObj){
+
+                    tmpMachineObj = new Object();
+                    tmpMachineObj.id = machineObj.id;
+                    tmpMachineObj.name = machineObj.name;
+                    tmpMachineObj.room = machineObj.room;
+                    tmpMachineObj.available = machineObj.available;
+                    tmpMachineObj.heartbeat = machineObj.heartbeat;
+                    tmpMachineObj.coordinate_x = machineObj.coordinate_x;
+                    tmpMachineObj.coordinate_y = machineObj.coordinate_y;
+                    new_machine_status.push(tmpMachineObj);
+                });
+                console.log(new_machine_status[16].available);
+                io.sockets.emit("MachinesUpdate", new_machine_status); //Attach new machines status in event and emit the event to clients
+            });
+        }, 60000); //Update machines status every 60 sec
     io.sockets.on('connection', function(socket){ //Socket event listener
-        orm.connect(connectionString, function(err, db){ //Connect to db
-            var Machine = db.define('machines_display', machine);
-            setInterval(function(){
-               Machine.all(function(err, machines_retrieved){
-                   if(err){
-                       throw(err);
-                       console.log(err);
-                       return;
-                   };
-
-                   var new_machine_status = [];
-                   machines_retrieved.forEach(function(machineObj){
-
-                       tmpMachineObj = new Object();
-                       tmpMachineObj.id = machineObj.id;
-                       tmpMachineObj.name = machineObj.name;
-                       tmpMachineObj.room = machineObj.room;
-                       tmpMachineObj.available = machineObj.available;
-                       tmpMachineObj.heartbeat = machineObj.heartbeat;
-                       tmpMachineObj.coordinate_x = machineObj.coordinate_x;
-                       tmpMachineObj.coordinate_y = machineObj.coordinate_y;
-                       new_machine_status.push(tmpMachineObj);
-                   });
-                   console.log(new_machine_status[16].available);
-                  io.sockets.emit("MachinesUpdate", new_machine_status); //Attach new machines status in event and emit the event to clients
-               });
-            }, 60000); //Update machines status every 60 sec
             socket.on("MachineColorChange", function(machine_indx){ //On receiving a MachineColorChange event
                 io.sockets.emit("MachineColorChange", machine_indx); //Emit MachineColorChange event to all listeners
             });

@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file implements an API that allows users to send heartbeat messages to our server. This allows us to tell if a machine is currently being used.
- * Last Update: July 8, 2017
+ * Last Update: July 22, 2017
 */
 
 /*
@@ -41,7 +41,7 @@ function isRequestVaild(req) {
 
 // Author(s)  : Chen Song
 // Description: This function handles heartbeat messages received from users
-// Last Update: July 7, 2017
+// Last Update: July 22, 2017
 router.post('/', function(req, res) {
     if (isRequestVaild(req)) {
         req.models.Machine.find({name: req.body.name, room: req.body.room}, function (err, machines) {
@@ -51,7 +51,7 @@ router.post('/', function(req, res) {
                 res.sendStatus(403); // the machine does not exist in our database
             } else {
                 machine = machines[0];
-                machine.heartbeat = new Date(parseInt(req.body.time) * 1000); // update heartbeat
+                machine.heartbeat = new Date(parseInt(req.body.time) * 1000).toLocaleString(undefined, {timeZone: 'America/Vancouver'}); // update heartbeat
                 // We do NOT change the machine availability here. 
                 // It is managed by a SQL event that is executed every 30 seconds.
                 machine.save(function(err) {

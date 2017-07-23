@@ -92,8 +92,27 @@ app.set('views', path.join(__dirname, 'views'));
 // Description: This function tests the pug template file
 // Last Update: July 13, 2017
 app.get('/dashboard', function(req, res) {
-    var username = 'Visitor';
-    res.render('dashboard', { username: username, page: "Dashboard"});
+    req.models.Machine.all(function(err, machines){
+        if(err){
+            console.log(err);
+            res.status(500).end();
+        }
+        var machines_retrieved = [];
+        machines.forEach(function(machine){
+            var tmpMachineObj = new Object();
+            tmpMachineObj.id = machine.id;
+            tmpMachineObj.name = machine.name;
+            tmpMachineObj.room = machine.room;
+            tmpMachineObj.available = machine.available;
+            tmpMachineObj.heartbeat = machine.heartbeat;
+            tmpMachineObj.coordinate_x = machine.coordinate_x;
+            tmpMachineObj.coordinate_y = machine.coordinate_y;
+            machines_retrieved.push(tmpMachineObj);
+        });
+        var username = 'Visitor';
+        res.render('dashboard', { username: username, page: "Dashboard", machines: JSON.stringify(machines_retrieved)});
+        //res.render(path.resolve(__dirname, '../client/static/home.pug'), {title: 'Machines overview', machines: JSON.stringify(machines_retrieved)});
+    })
 });
 
 // Author(s)  : Chen Song, John Liu
