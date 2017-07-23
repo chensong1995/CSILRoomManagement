@@ -36,3 +36,7 @@
 .announcement-title {
     list-style-type: none;
 }
+
+.side-nav > li > ul > li > a.active {
+    background-color: #000;
+}

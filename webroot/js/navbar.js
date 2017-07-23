@@ -1,10 +1,16 @@
 /*
  * Author(s)  : Chen Song
  * Description: The client program for navbar
- * Last Update: July 14, 2017
+ * Last Update: July 22, 2017
 */
 
 $(document).ready(function () {
+    /*
+     * Author(s)  : Chen Song
+     * Description: Initialize multi-level dropdown
+     * Last Update: July 22, 2017
+    */
+    $('#side-menu').metisMenu();
     /*
      * Author(s)  : Chen Song
      * Description: The client program for changing password

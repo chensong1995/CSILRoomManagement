@@ -4,7 +4,7 @@
 //-   username
 //-   source ('CSIL Account' or 'SFU Central Authentication Service')
 //-   allowAdmin (true or false)
-//-   page (see place_holder_list)
+//-   page (see the name attribute of place_holder_list)
 nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
   div(class="navbar-header")
     button(type="button", class="navbar-toggle", data-toggle="collapse", data-target=".navbar-ex1-collapse")
@@ -38,36 +38,126 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
             |  Log Out
 
   div(class="collapse navbar-collapse navbar-ex1-collapse")
-    ul(class="nav navbar-nav side-nav")
-      - var place_holder_list = ["Dashboard", "Booking", "Announcement", "Report Violation", "Policy"]
-      - var route_list = ["dashboard", "booking", "announcement", "comment", "policy"]
-      - var icons = ["fa-dashboard", "fa-book", "glyphicon-bullhorn", "fa-comments", "fa-star"]
-      - if (allowAdmin)
-        - place_holder_list = ["Dashboard", "Booking", "Announcement", "Reported Violations", "Policy", "Privilege Management", "User Group Management", "Room Management", "Booking Management"]
-        - route_list = ["dashboard", "booking", "announcement", "comment", "policy", "admin/privileges", "admin/usergroup", "admin/rooms", "admin/booking"]
-        - icons = ["fa-dashboard", "fa-book", "glyphicon-bullhorn", "fa-comments", "fa-star", "fa-tags", "fa-group", "fa-home", "fa-calendar"]
+    ul(class="nav navbar-nav side-nav" id="side-menu")
+      - var place_holder_list = []
+      - if (!allowAdmin)
+        - 
+          place_holder_list = [{ 
+                                  name: "Dashboard", 
+                                  route: "/",
+                                  isMulti: false,
+                                  icon: "fa-dashboard"
+                                }, {
+                                  name: "Booking",
+                                  route: "/booking",
+                                  isMulti: false,
+                                  icon: "fa-book"
+                                }, {
+                                  name: "Announcements",
+                                  route: "/announcement",
+                                  isMulti: false,
+                                  icon: "glyphicon-bullhorn"
+                                }, {
+                                  name: "Report Violations",
+                                  route: "/comment",
+                                  isMulti: false,
+                                  icon: "fa-comments"
+                                }, {
+                                  name: "Policy",
+                                  route: "/policy",
+                                  isMulti: false,
+                                  icon: "fa-star"
+                                }]
+      - else
+        -
+          place_holder_list = [{ 
+                                  name: "Dashboard", 
+                                  route: "/",
+                                  isMulti: false,
+                                  icon: "fa-dashboard"
+                                }, {
+                                  name: "Booking",
+                                  route: "/booking",
+                                  isMulti: false,
+                                  icon: "fa-book"
+                                }, {
+                                  name: "Announcements",
+                                  route: "/announcement",
+                                  isMulti: false,
+                                  icon: "glyphicon-bullhorn"
+                                }, {
+                                  name: "Report Violations",
+                                  route: "/comment",
+                                  isMulti: false,
+                                  icon: "fa-comments"
+                                }, {
+                                  name: "Policy",
+                                  route: "/policy",
+                                  isMulti: false,
+                                  icon: "fa-star"
+                                }, {
+                                  name: "Managements",
+                                  isMulti: true,
+                                  icon: "fa-tags",
+                                  list: [{
+                                    name: "Privileges",
+                                    route: "/admin/privileges"
+                                  }, {
+                                    name: "User Groups",
+                                    route: "/admin/usergroup"
+                                  }, {
+                                    name: "Rooms",
+                                    route: "/admin/rooms"
+                                  }, {
+                                    name: "Bookings",
+                                    route: "/admin/booking"
+                                  }]
+                                }]
       - var page_name = page
       - for (var x = 0; x < place_holder_list.length; x++)
-        - if (place_holder_list[x] == page_name)
+        - if (place_holder_list[x].isMulti)
+          - var isActive = false
+          - for (var i = 0; i < place_holder_list[x].list.length; i++)
+            - if (place_holder_list[x].name + " " + place_holder_list[x].list[i].name == page_name)
+              - isActive = true
+          - if (isActive)
             li(class="active")
-              - if (item == "Dashboard")
-                  a(href="/")
-                    i(class="fa fa-fw " + icons[x])
-                    |  #{place_holder_list[x]}
-              - else
-                  a(href="/" + route_list[x])
-                      i(class="fa fa-fw " + icons[x])
-                      |  #{place_holder_list[x]}
-        - else
+              a(href="#")
+                i(class="fa fa-fw " + place_holder_list[x].icon)
+                |  #{place_holder_list[x].name}
+                span(class="fa arrow")
+              ul(class="nav nav-second-level collapse in")
+                - for (var i = 0; i < place_holder_list[x].list.length; i++)
+                  - if (place_holder_list[x].name + " " + place_holder_list[x].list[i].name == page_name)
+                    li 
+                      a(class="active" href=place_holder_list[x].list[i].route)
+                        |  #{place_holder_list[x].list[i].name}
+                  - else
+                    li
+                      a(href=place_holder_list[x].list[i].route)
+                        |  #{place_holder_list[x].list[i].name}
+          - else
             li
-              - if (place_holder_list[x] == "Dashboard")
-                  a(href="/")
-                    i(class="fa fa-fw " + icons[x])
-                    |  #{place_holder_list[x]}
-              - else
-                  a(href="/" + route_list[x])
-                      i(class="fa fa-fw " + icons[x])
-                      |  #{place_holder_list[x]}
+              a(href="#")
+                i(class="fa fa-fw " + place_holder_list[x].icon)
+                |  #{place_holder_list[x].name}
+                span(class="fa arrow")
+              ul(class="nav nav-second-level collapse")
+                - for (var i = 0; i < place_holder_list[x].list.length; i++)
+                  li
+                    a(href=place_holder_list[x].list[i].route)
+                      |  #{place_holder_list[x].list[i].name}
+        - else
+          - if (place_holder_list[x].name == page_name)
+              li(class="active")
+                a(href=place_holder_list[x].route)
+                    i(class="fa fa-fw " + place_holder_list[x].icon)
+                    |  #{place_holder_list[x].name}
+          - else
+              li
+                a(href=place_holder_list[x].route)
+                    i(class="fa fa-fw " + place_holder_list[x].icon)
+                    |  #{place_holder_list[x].name}
 
 //- Please always put the following at the very bottom. -- Chen
 if source == 'CSIL Account'
