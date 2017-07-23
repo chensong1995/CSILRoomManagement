@@ -25,8 +25,8 @@ $(document).ready(function () {
         showMeridian: 1
     });
     // Chong, I fixed the rendering issue on mobile devices here
-    $('#batch-record-table').DataTable({ "sScrollX": "100%" });
-    $('#regular-record-table').DataTable({ "sScrollX": "100%" });
+    $('#batch-record-table').DataTable();
+    $('#regular-record-table').DataTable();
     $('.info-wrapper').toggle();
     $('#loader').toggle();
 
