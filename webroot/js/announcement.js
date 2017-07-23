@@ -10,7 +10,7 @@ $(document).ready(function () {
         height: 500,
         menubar: false,
         plugins: "link",
-        toolbar: 'bold italic underline strikethrough alignleft aligncenter alignright alignjustify styleselect formatselect fontselect fontsizeselect link bullist numlist outdent indent blockquote undo redo removeformat subscript superscript'
+        toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect | fontselect fontsizeselect | link | bullist numlist | outdent indent blockquote | undo redo | removeformat subscript superscript'
     });
 
     // create

@@ -1,7 +1,7 @@
 /*
- * Author(s)  : Ruiming Jia
+ * Author(s)  : Ruiming Jia, Chen Song
  * Description: This file handles feedback from users.
- * Last Update: July 13, 2017
+ * Last Update: July 22, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -17,25 +17,30 @@ var nodemailer = require('nodemailer');
 router.use(csrfProtection);
 
 /*
- * Author(s)  : Ruiming Jia
+ * Author(s)  : Ruiming Jia, Chen Song
  * Description: This function sends the feedback page
- * Last Update: July 13, 2017
+ * Last Update: July 22, 2017
 */
 router.get('/', function (req, res) {
     // prepare all view variables
     var username = req.userDisplay.username;
-    var email = req.userDisplay.email;
+    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+    var allowAdmin = req.userDisplay.allowAdmin;
+    var page = "Report Violations";
+    // Jia, I fixed the rendering issue here. -- Chen Song
     res.render('comment', {
         username: username,
-        email: email,
+        source: source,
+        allowAdmin: allowAdmin,
+        page: page,
         csrfToken: req.csrfToken()
     });
 });
 
 /*
- * Author(s)  : Ruiming Jia
+ * Author(s)  : Ruiming Jia, Chen Song
  * Description: This function allows users to send feedback
- * Last Update: July 13, 2017
+ * Last Update: July 22, 2017
 */
 
 router.post('/', csrfProtection, function (req, res) {
@@ -60,13 +65,21 @@ router.post('/', csrfProtection, function (req, res) {
     // send mail with defined transport object
     transporter.sendMail(mailOpts, function (error, response) {
         //Email not sent
-        if (error) {
-          res.render('comment', { csrfToken: req.csrfToken(), msg: 'Error occured, message not sent.', err: true })
-        }
-        //Email sent
-        else {
-          res.render('comment', { csrfToken: req.csrfToken(), msg: 'Message sent! Thank you.', err: false })
-        }   
+        // Jia, I fixed the rendering issue here. -- Chen Song
+        var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+        var allowAdmin = req.userDisplay.allowAdmin;
+        var page = "Report Violations";
+        var msg = error ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
+        var err = error ? true : false;
+        res.render('comment', {
+            username: username,
+            source: source,
+            allowAdmin: allowAdmin,
+            page: page,
+            csrfToken: req.csrfToken(), 
+            msg: msg, 
+            err: err
+        });
     });    
 });
 

@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles announcement logics. The entire file is protected by auth
- * Last Update: July 15, 2017
+ * Last Update: July 22, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -24,14 +24,14 @@ var orm = require('orm');
 /*
  * Author(s)  : Chen Song
  * Description: This function sends users the announcement homepage
- * Last Update: July 15, 2017
+ * Last Update: July 22, 2017
 */
 router.get('/', function (req, res) {
     // prepare all view variables
     var username = req.userDisplay.username;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
-    var page = "Announcement";
+    var page = "Announcements";
     var announcements = [];
     var message = undefined;
     if (req.query.message) {
@@ -72,7 +72,7 @@ router.get('/new', adminAuth, function (req, res) {
     var username = req.userDisplay.username;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
-    var page = "Announcement";
+    var page = "Announcements";
     res.render('announcement-new', {
         username: username,
         source: source,
@@ -118,7 +118,7 @@ router.get('/:slug', function (req, res) {
     var username = req.userDisplay.username;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
-    var page = "Announcement";
+    var page = "Announcements";
     var announcement = {};
     req.models.Announcement.find({slug: req.params.slug}, function (err, results) {
         if (err || results.length != 1) {
