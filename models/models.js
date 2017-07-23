@@ -15,6 +15,7 @@ var room = require('./room.js');
 var bookingRecord = require('./booking-record.js');
 var privilege = require('./privilege.js');
 var announcement = require('./announcement.js');
+var calendarKey = require('./ical-key.js');
 
 //const connectionString = 'mysql://csil:csil@120.27.121.163/csil';
 const connectionString = 'mysql://root:password@13.59.137.163/csil';
@@ -30,6 +31,7 @@ module.exports = function (app) {
             bookingRecord(db, models);
             privilege(db, models);
             announcement(db, models);
+            calendarKey(db, models);
             next();
         }
     }));

@@ -139,6 +139,20 @@ router.get('/booking', function (req, res) {
     var regular_records = [];
     var batch_records = [];
     var user_id_name_map = new Object();
+    var rooms = [];
+
+    req.models.Room.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                rooms.push({
+                    id: results[i].id,
+                    number: results[i].number,
+                });
+            }
+        }
+    });
 
     req.models.UserDisplay.find(function (err, results) {
         if (err) {
@@ -172,7 +186,8 @@ router.get('/booking', function (req, res) {
                 allowAdmin: true,
                 page: 'Managements Bookings', // modified for multi-level dropdown in sidebar -- Chen
                 regular_records: regular_records,
-                batch_records: batch_records
+                batch_records: batch_records,
+                rooms: rooms
             });
         }
     });
@@ -330,22 +345,34 @@ router.post('/rooms', function (req, res) {
  * Description: This function allows admin user to edit user's booking
  * Last Update: July 21, 2017
 */
-router.post('/booking/:booking_id', function (req, res) {
+router.put('/booking/:booking_id', function (req, res) {
     var allowAdmin = req.userDisplay.allowAdmin;
     if(!allowAdmin){
         res.sendStatus(401);
     }else{
+        var rid = "0";
+        req.models.Room.find({number:req.body.roomname}, function (err, room) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                rid = room[0].id;
+            }
+        });
         req.models.BookingRecord.find({id: req.params.booking_id},function (err, records) {
             if (err || records.length != 1) { // if error occurs or not exactly one is found
                 res.status(500).end(); // internal server error
             }else{
                 if(records[0].isBatch){
+                    records[0].rid = rid;
+                    records[0].name = req.body.roomname;
                     records[0].start = req.body.start;
                     records[0].end = req.body.end;
                     records[0].rangeStart = req.body.rangeStart;
                     records[0].rangeEnd = req.body.rangeEnd;
                     records[0].dow = req.body.dow;
                 }else{
+                    records[0].rid = rid;
+                    records[0].name = req.body.roomname;
                     records[0].start = req.body.start;
                     records[0].end = req.body.end;
                 }

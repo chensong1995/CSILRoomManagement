@@ -41,12 +41,15 @@ $(document).ready(function () {
     	dow += "]";
     	if(dow == "[]"){
     		alert("Please select at least one day of the week");
+    		return;
     	}
     	if(!startDate || !endDate){
     		alert("Please choose the time period");
+    		return;
     	}
     	if(Date.parse(startDate) > Date.parse(endDate)){
     		alert("End date is later than start date, please check your input");
+    		return;
     	}
     	var title = prompt('Enter your event Title:');
 		if (title) {

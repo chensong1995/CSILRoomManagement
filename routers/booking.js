@@ -147,7 +147,7 @@ router.post('/batch', function(req, res) {
                                         if((Date.parse ( requested_record.start ) < Date.parse ( batch_record.start )
                                             && Date.parse ( requested_record.end ) > Date.parse ( batch_record.start ))
                                             || ( Date.parse ( requested_record.start ) >= Date.parse ( batch_record.start )
-                                                 && Date.parse ( requested_record.start ) <= Date.parse ( batch_record.end ))
+                                                 && Date.parse ( requested_record.start ) < Date.parse ( batch_record.end ))
                                             || (Date.parse ( requested_record.start ) >= Date.parse ( requested_record.end ))){
                                             if(batch_record.rid == room_id){
                                                 // If conflict happens in the same room, reject the booking request
@@ -181,7 +181,7 @@ router.post('/batch', function(req, res) {
                                     if((Date.parse ( requested_record.start ) < Date.parse ( record.start )
                                         && Date.parse ( requested_record.end ) > Date.parse ( record.start ))
                                         || ( Date.parse ( requested_record.start ) >= Date.parse ( record.start )
-                                             && Date.parse ( requested_record.start ) <= Date.parse ( record.end ))
+                                             && Date.parse ( requested_record.start ) < Date.parse ( record.end ))
                                         || (Date.parse ( requested_record.start ) >= Date.parse ( requested_record.end ))){
                                         if(record.rid == room_id){
                                             // If conflict happens in the same room, reject the booking request
@@ -241,13 +241,6 @@ router.post('/batch', function(req, res) {
 });
 
 // Author(s)  : Chong
-// Description: This function generates the iCal feed url
-// Last Update: July 14, 2017
-router.post('/icalgenerate', function(req, res) {
-    
-});
-
-// Author(s)  : Chong
 // Description: This function directs user to a calendar of a specific room
 // parameter  : /:room_id the id of the room
 // Last Update: July 14, 2017
@@ -278,6 +271,16 @@ router.get('/:room_id', function(req, res) {
 // Last Update: July 14, 2017
 router.get('/events/:room_id', function(req, res) {
     var username = req.userDisplay.username;
+    var user_id_name_map = new Object();
+    req.models.UserDisplay.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                user_id_name_map[results[i].id] = results[i].username;
+            }
+        }
+    });
     req.models.Room.find({number: req.params.room_id}, function (err, room) {
         if (err || room.length < 1) { // if error occurs or no room is found
             res.status(500).end(); // internal server error
@@ -293,8 +296,10 @@ router.get('/events/:room_id', function(req, res) {
                 }else{
                     var record_list = [];
                     records.forEach(function(record) {
+                        var username = user_id_name_map[record.uid];
                         if(record.isBatch){
                             var record_obj = new Object();
+                            record_obj.username = username;
                             record_obj.title = record.title
                             record_obj.start = record.start
                             record_obj.end = record.end
@@ -306,6 +311,7 @@ router.get('/events/:room_id', function(req, res) {
                             record_list.push(record_obj)
                         }else {
                             var record_obj = new Object();
+                            record_obj.username = username;
                             record_obj.title = record.title
                             record_obj.start = record.start
                             record_obj.end = record.end
@@ -373,7 +379,7 @@ router.post('/', function(req, res) {
                                     if((Date.parse ( start ) < Date.parse ( batch_record.start )
                                         && Date.parse ( end ) > Date.parse ( batch_record.start ))
                                         || ( Date.parse ( start ) >= Date.parse ( batch_record.start )
-                                             && Date.parse ( start ) <= Date.parse ( batch_record.end ))
+                                             && Date.parse ( start ) < Date.parse ( batch_record.end ))
                                         || (Date.parse ( start ) >= Date.parse ( end ))){
                                         if(batch_record.rid == room_id){
                                             // If conflict happens in the same room, reject the booking request
@@ -396,7 +402,7 @@ router.post('/', function(req, res) {
                                 if((Date.parse ( start ) < Date.parse ( record.start )
                                     && Date.parse ( end ) > Date.parse ( record.start ))
                                     || ( Date.parse ( start ) >= Date.parse ( record.start )
-                                         && Date.parse ( start ) <= Date.parse ( record.end ))
+                                         && Date.parse ( start ) < Date.parse ( record.end ))
                                     || (Date.parse ( start ) >= Date.parse ( end ))){
                                     if(record.rid == room_id){
                                         // If conflict happens in the same room, reject the booking request

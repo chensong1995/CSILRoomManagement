@@ -8,6 +8,9 @@ var router = express.Router();
 // 2. csurf protection
 var csurf = require('csurf'); 
 var csrfProtection = csurf({ cookie: true });
+// 3. ical generator
+var ical = require('ical-generator');
+var bcrypt = require('bcryptjs');
 ////////////////////////////////////////////////////////
 
 // Author(s)  : Chong
@@ -28,6 +31,7 @@ router.get('/events', function(req, res) {
                 if(record.isBatch){
                     var record_obj = new Object();
                     record_obj.title = record.title
+                    record_obj.roomname = record.name
                     record_obj.start = record.start
                     record_obj.end = record.end
                     record_obj.isBatch = record.isBatch;
@@ -41,6 +45,7 @@ router.get('/events', function(req, res) {
                 }else {
                     var record_obj = new Object();
                     record_obj.title = record.title;
+                    record_obj.roomname = record.name;
                     record_obj.start = record.start;
                     record_obj.end = record.end;
                     record_obj.room = record.name;
@@ -69,6 +74,40 @@ router.delete('/events/:record_id', function(req, res) {
 			    	res.status(200).end(); // success
 			    }
 			});
+        }
+    });
+});
+
+// Author(s)  : Chong
+// Description: This function generates the iCal feed url
+// Last Update: July 22, 2017
+router.get('/icalkey', function(req, res) {
+    var uid = req.userDisplay.id;
+    req.models.CalendarKey.find({uid:uid},function(err, keys){
+        if (err) { // if error occurs
+            res.status(500).end(); // internal server error
+        }else{
+            if(keys.length < 1){
+                var newKey = new Object();
+                newKey.uid = uid;
+                newKey.ckey = bcrypt.hashSync("" + uid, 10) + ".ics";
+                console.log(newKey.ckey);
+                req.models.CalendarKey.create(newKey, function(err, results) {
+                    if(err){
+                        res.status(500).end(); // internal server error
+                    }else{
+                        var result = new Object();
+                        result.result = "success";
+                        result.key = newKey.ckey;
+                        res.send(JSON.stringify(result));
+                    }
+                });
+            }else{
+                var result = new Object();
+                result.result = "success";
+                result.key = keys[0].ckey;
+                res.send(JSON.stringify(result));
+            }
         }
     });
 });
