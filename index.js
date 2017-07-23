@@ -88,9 +88,9 @@ app.set('views', path.join(__dirname, 'views'));
 ////////////////////////////////////////////////////////
 
 
-// Author(s)  : Chong, Chen Song
+// Author(s)  : Chong, Chen Song, John Liu
 // Description: This function tests the pug template file
-// Last Update: July 13, 2017
+// Last Update: July 22, 2017
 app.get('/dashboard', function(req, res) {
     req.models.Machine.all(function(err, machines){
         if(err){

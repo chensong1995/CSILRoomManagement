@@ -41,7 +41,7 @@ router.get('/privileges', function (req, res) {
             res.render('admin-privileges', {
                 username: username,
                 source: source,
-                page: 'Privilege Management',
+                page: 'Managements Privileges', // modified for multi-level dropdown in sidebar -- Chen
                 allowAdmin: true,
                 privileges: privileges
             });
@@ -85,7 +85,7 @@ router.get('/usergroup', function (req, res) {
                         username: username,
                         source: source,
                         allowAdmin: true,
-                        page: 'User Group Management',
+                        page: 'Managements User Groups', // modified for multi-level dropdown in sidebar -- Chen
                         users: users,
                         usergroups: usergroups
                     });
@@ -121,7 +121,7 @@ router.get('/rooms', function (req, res) {
                 username: username,
                 source: source,
                 allowAdmin: true,
-                page: 'Room Management',
+                page: 'Managements Rooms', // modified for multi-level dropdown in sidebar -- Chen
                 rooms: rooms
             });
         }
@@ -170,7 +170,7 @@ router.get('/booking', function (req, res) {
                 username: username,
                 source: source,
                 allowAdmin: true,
-                page: 'Booking Management',
+                page: 'Managements Bookings', // modified for multi-level dropdown in sidebar -- Chen
                 regular_records: regular_records,
                 batch_records: batch_records
             });
@@ -378,7 +378,7 @@ router.delete('/booking/:booking_id', function (req, res) {
                 records[0].remove(function (err) { // callback optional
                     if(err){
                         res.status(500).end(); // internal server error
-                    }else{
+                    } else{
                         res.status(200).end(); // success
                     }
                 });

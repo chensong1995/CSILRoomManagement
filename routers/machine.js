@@ -35,7 +35,6 @@ router.post('/:id', function(req, res){
             console.log(err);
             res.status(500).end();
         }
-        console.log(Machine_found.name);
         Machine_found.available = !Machine_found.available; // Change machine's availability status
         Machine_found.save(function(err){
             if(err){

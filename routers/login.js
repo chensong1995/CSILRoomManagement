@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song, Chong
  * Description: This file handles login (CAS and our own authentication service).
- * Last Update: July 13, 2017
+ * Last Update: July 22, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ var bcrypt = require('bcryptjs');
 
 // Author(s)  : Chen Song, Chong, Ruiming Jia
 // Description: This function handles CAS login
-// Last Update: July 13, 2017
+// Last Update: July 22, 2017
 router.get('/', function (req, res) {
     req.models.UserDisplay.find({sid: req.cookies.sid}, function (err, users) { // check if user has already logged in
         if (err || users.length > 1) { // error occurs, or more than 1 such users are found
@@ -35,7 +35,7 @@ router.get('/', function (req, res) {
             if (params.has('ticket')) {
                 params.delete('ticket');
             }
-            var myURL = 'http://localhost:8080/login';
+            var myURL = 'http://' + req.headers.host + ":8080/login";
             if (params.toString().length != 0) {
                 myURL = myURL + '?' + params.toString();
             }
@@ -105,7 +105,8 @@ router.get('/', function (req, res) {
                                         }
                                     });
                                 } else {
-                                    res.sendStatus(403); // someone fakes a ticket
+                                    //res.sendStatus(403); // someone fakes a ticket
+                                    res.send(xml)
                                 }
                             }
                         });
