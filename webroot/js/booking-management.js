@@ -1,7 +1,7 @@
 /*
- * Author(s)  : Chong
+ * Author(s)  : Chong, Chen Song
  * Description: The client program for batch booking
- * Last Update: July 20, 2017
+ * Last Update: July 22, 2017
 */
 $('.info-wrapper').toggle();
 
@@ -24,8 +24,9 @@ $(document).ready(function () {
 		forceParse: 0,
         showMeridian: 1
     });
-    $('#batch-record-table').DataTable();
-    $('#regular-record-table').DataTable();
+    // Chong, I fixed the rendering issue on mobile devices here
+    $('#batch-record-table').DataTable({ "sScrollX": "100%" });
+    $('#regular-record-table').DataTable({ "sScrollX": "100%" });
     $('.info-wrapper').toggle();
     $('#loader').toggle();
 
