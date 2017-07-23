@@ -15,7 +15,8 @@ $(document).ready(function () {
         $('#prompt').text('working on that...');
         $.post('/admin/usergroup', { // post the username and usergroup
             id: $(this).data('id'),
-            usergroup: $(this).find(":selected").text()
+            usergroup: $(this).find(":selected").text(),
+            _csrf: $('#csrfToken').data('token')
         },
         function () {
             $('#prompt').text('update success');
@@ -28,7 +29,8 @@ $(document).ready(function () {
         $('#privileges_prompt').text('working on that...');
         $.post('/admin/allowadmin', { // post the id and allowadmin
             id: $(this).parent().parent().data('id'),
-            allowadmin: ($(this).find(":selected").text() == 'Yes')
+            allowadmin: ($(this).find(":selected").text() == 'Yes'),
+            _csrf: $('#csrfToken').data('token')
         },
         function () {
             $('#privileges_prompt').text('update success');
@@ -45,7 +47,8 @@ $(document).ready(function () {
         $(this).text(parseInt($(this).text()));
         $.post('/admin/maxbookings', { // post the id and maxbookings
             id: $(this).parent().data('id'),
-            maxbookings: $(this).text()
+            maxbookings: $(this).text(),
+            _csrf: $('#csrfToken').data('token')
         },
         function () {
             $('#privileges_prompt').text('update success');
@@ -58,7 +61,8 @@ $(document).ready(function () {
         $('#privileges_prompt').text('working on that...');
         $.post('/admin/description', { // post the id and description
             id: $(this).parent().data('id'),
-            description: $(this).text()
+            description: $(this).text(),
+            _csrf: $('#csrfToken').data('token')
         },
         function () {
             $('#privileges_prompt').text('update success');
@@ -71,7 +75,8 @@ $(document).ready(function () {
         $('#rooms_prompt').text('working on that...');
         $.post('/admin/rooms', { // post the id and isbeingmaintained
             id: $(this).data('id'),
-            isbeingmaintained: $(this).is(':checked')
+            isbeingmaintained: $(this).is(':checked'),
+            _csrf: $('#csrfToken').data('token')
         },
         function () {
             $('#rooms_prompt').text('update success');
