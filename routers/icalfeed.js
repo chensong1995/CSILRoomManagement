@@ -17,7 +17,7 @@ var ical = require('ical-generator');
 router.get('/:ical_key', function(req, res) {
     req.models.CalendarKey.find({ckey:req.params.ical_key},function(err, keys){
         if (err || keys.length < 1) { // if error occurs
-            res.status(500).end(); // internal server error
+            res.status(404).end(); // internal server error
         }else{
             var uid = keys[0].uid;
             req.models.BookingRecord.find({uid: uid},function (err, records) {
