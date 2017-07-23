@@ -65,7 +65,8 @@ class MachinePage extends React.Component{
             return "primary";
         }
         else{
-            return "disabled";
+            return "error";
+            //return "disabled";
         }
     }
 
@@ -86,6 +87,7 @@ class MachinePage extends React.Component{
                             <Icon color = {this.DetermineMachineColor(csilMachine.available)} onClick = {() => { //On click of an machine
                                 socket.emit("MachineColorChange", machine_indx); //Emit a event and notify other clients which machine was clicked
                             }}>laptop_chromebook</Icon>
+                            <text style={{fontSize: 10, color: "#cc0000"}}>{csilMachine.name}</text>
                         </IconButton>
                         </form>
                     </div>
