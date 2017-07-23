@@ -46,12 +46,27 @@ module.exports = function(io){
                     tmpMachineObj.coordinate_y = machineObj.coordinate_y;
                     new_machine_status.push(tmpMachineObj);
                 });
-                console.log(new_machine_status[16].available);
                 io.sockets.emit("MachinesUpdate", new_machine_status); //Attach new machines status in event and emit the event to clients
             });
         }, 60000); //Update machines status every 60 sec
     io.sockets.on('connection', function(socket){ //Socket event listener
             socket.on("MachineColorChange", function(machine_indx){ //On receiving a MachineColorChange event
+                orm.connect(connectionString, function(err, db){
+                    var Machine = db.define('machines_display', machine);
+                    Machine.get(machine_indx, function(err, Machine_found){
+                        if(err){
+                            console.log(err);
+                            return;
+                        }
+                        Machine_found.available = !Machine_found.available; //// Change machine's availability status
+                        Machine_found.save(function(err){
+                            if(err){
+                                console.log(err);
+                                return;
+                            }
+                        })
+                    })
+                });
                 io.sockets.emit("MachineColorChange", machine_indx); //Emit MachineColorChange event to all listeners
             });
         });
