@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song, Chong
  * Description: This file handles logout (CAS and our own authentication service).
- * Last Update: July 13, 2017
+ * Last Update: July 22, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@ router.get('/', function (req, res) {
                     if (user.type == 'other') { // user logged in using the csil account
                         res.redirect('/login');
                     } else { // sfu user
-                        var myapp = 'http://localhost:8080/';
+                        var myapp = 'http://' + req.headers.host + ":8080";
                         res.redirect('https://cas.sfu.ca/cas/appLogout?app=' + myapp + '&url=' + myapp);
                     }
                 }
