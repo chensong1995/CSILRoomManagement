@@ -28,6 +28,7 @@ router.get('/events', function(req, res) {
                 if(record.isBatch){
                     var record_obj = new Object();
                     record_obj.title = record.title
+                    record_obj.roomname = record.name
                     record_obj.start = record.start
                     record_obj.end = record.end
                     record_obj.isBatch = record.isBatch;
@@ -41,6 +42,7 @@ router.get('/events', function(req, res) {
                 }else {
                     var record_obj = new Object();
                     record_obj.title = record.title;
+                    record_obj.roomname = record.name;
                     record_obj.start = record.start;
                     record_obj.end = record.end;
                     record_obj.room = record.name;
@@ -71,6 +73,13 @@ router.delete('/events/:record_id', function(req, res) {
 			});
         }
     });
+});
+
+// Author(s)  : Chong
+// Description: This function generates the iCal feed url
+// Last Update: July 22, 2017
+router.post('/icalgenerate', function(req, res) {
+    res.status(500).end();
 });
 
 module.exports = router;

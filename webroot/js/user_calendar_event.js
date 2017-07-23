@@ -23,6 +23,10 @@ $(document).ready(function() {
 			}
 		},
 		eventRender: function(event, element, view){
+			if(event.roomname){
+				console.log(element);
+				element.append("<p>Room: " + event.roomname + "</p>");
+			}
 			if(!event.rangeStart){
 				return true;
 			}else{

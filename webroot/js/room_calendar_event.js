@@ -20,6 +20,9 @@ $(document).ready(function() {
 				$('#calendar').fullCalendar('changeView', 'agendaDay');
 				$('#calendar').fullCalendar('gotoDate', date);      
 			}
+			if(!if_selectable){
+				alert("This room is in maintenance. You can only check the status. You cannot book it");
+			}
 		},
 		selectable: if_selectable,
 		selectHelper: true,
@@ -72,7 +75,8 @@ $(document).ready(function() {
 													start: start,
 													end: end
 												};
-												$('#calendar').fullCalendar('renderEvent', eventData, true);
+												//$('#calendar').fullCalendar('renderEvent', eventData, true);
+												$('#calendar').fullCalendar( 'refetchEvents' );
 							            	}else{
 							            		alert("Booking fail with reason: " + data.errMsg);
 							            	}
@@ -108,6 +112,10 @@ $(document).ready(function() {
 			}
 		},
 		eventRender: function(event, element, view){
+			if(event.username){
+				console.log(element);
+				element.append("<p>Booked by: " + event.username + "</p>");
+			}
 			if(!event.rangeStart){
 				return true;
 			}else{
