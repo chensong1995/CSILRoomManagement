@@ -1,13 +1,13 @@
 #
 # Author(s)  : Chen Song
 # Description: This file implements an user program that calls our live API to report machine status.
-# Last Update: July 7, 2017
+# Last Update: July 22, 2017
 #
 
 # How to use on ubuntu:
 # 1. Edit ".bash_login" in your home directory. It is a text file.
 # 2. At the end of the file, add "python2 /path/to/reporter.py <room> <name> <server-address> &"
-#    e.g. python2 /home/chen/Documents/SFU/CMPT470/project/reporter/reporter.py developers chen-t470s localhost 3000 &
+#    e.g. python2 /home/chen/Documents/SFU/CMPT470/project/reporter/reporter.py developers chen-t470s localhost 8080 &
 # 3. Note that the server address does not contain "/live" prefix
 
 import httplib, urllib, time
