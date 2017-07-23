@@ -52,7 +52,6 @@ class MachinePage extends React.Component{
             this.setState({machines: machines}); //Update state for re-render
         });
         socket.on('MachinesUpdate', new_machine_status => {
-            console.log(new_machine_status[16].available);
             this.setState({machines: new_machine_status});
         });
     }

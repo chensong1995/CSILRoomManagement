@@ -16,8 +16,11 @@ var bookingRecord = require('./booking-record.js');
 var privilege = require('./privilege.js');
 var announcement = require('./announcement.js');
 
+//const connectionString = 'mysql://csil:csil@120.27.121.163/csil';
+const connectionString = 'mysql://root:password@13.59.137.163/csil';
+
 module.exports = function (app) {
-    app.use(orm.express('mysql://root:password@13.59.137.163/csil', {
+    app.use(orm.express(connectionString, {
         define: function (db, models, next) {
             machine(db, models);
             userDisplay(db, models);

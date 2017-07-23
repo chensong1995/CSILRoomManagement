@@ -2,9 +2,18 @@
 doctype html
 html(lang="en")
   head
-    include includes/header.html
+      meta(charset='UTF-8')
+      link(rel='stylesheet', href='/app.css')
+      link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:300,400,500')
+      link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+      include includes/header.html
   body
     div(id="wrapper")
+      h3(style='color:#ff9933;', align='center') CSIL Machine Status
+      script(type='text/javascript').
+        var machines = JSON.parse('!{machines}');
+      #machine
+      script(src='/bundle.js')
       include includes/navbar.pug
 
     include includes/scripts.html
