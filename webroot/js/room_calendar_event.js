@@ -31,44 +31,60 @@ $(document).ready(function() {
 					alert("Maximum time of a booking is 2 hour! !");
 				}else{
 					var confirm_text = "Do you want to make this event a repeating event (e.g. Every Monday at the time you choose)"
-					confirm_text += "\n\nClick Yes(Ensure) for booking it as a repeating event";
-					confirm_text += "\nClick No(Cancel) for booking it as a event only happens once";
-					if (confirm(confirm_text) == true) {
-						// Redirect to batch booking page
-						window.location.href = "/booking/batch?start=" + start + "&end=" + end + "&room_number=" + room_id;
-					}else{
-						var title = prompt('Enter your event Title:');
-						if (title) {
-							jQuery.ajax({
-								url: '/booking',
-	            				type: 'POST',
-	            				data: {
-	            					room_id: room_id,
-					                start: start.format(),
-					                end: end.format(),
-					                title: title,
-					                _csrf: csrfToken,
-					            },
-					            success: function(data) {
-					            	data = JSON.parse(data)
-					            	if(data.result == "success"){
-					            		alert('booking success');
-						            	var eventData = {
-											title: title,
-											start: start,
-											end: end
-										};
-										$('#calendar').fullCalendar('renderEvent', eventData, true);
-					            	}else{
-					            		alert("Booking fail with reason: " + data.errMsg);
-					            	}
-					            	
-					            },
-							});
-						}else{
-							alert("Please enter a title!");
-						}
-					}					
+					confirm_text += "\n\nClick 'Batch Booking' for booking it as a repeating event";
+					confirm_text += "\nClick 'Regular Booking' for booking it as a event only happens once";
+
+					bootbox.confirm({
+					    message: confirm_text,
+					    buttons: {
+					        confirm: {
+					            label: 'Batch Booking',
+					            className: 'btn-success'
+					        },
+					        cancel: {
+					            label: 'Regular Booking',
+					            className: 'btn-danger'
+					        }
+					    },
+					    callback: function (result) {
+					        if (result == true) {
+								// Redirect to batch booking page
+								window.location.href = "/booking/batch?start=" + start + "&end=" + end + "&room_number=" + room_id;
+							}else{
+								var title = prompt('Enter your event Title:');
+								if (title) {
+									jQuery.ajax({
+										url: '/booking',
+			            				type: 'POST',
+			            				data: {
+			            					room_id: room_id,
+							                start: start.format(),
+							                end: end.format(),
+							                title: title,
+							                _csrf: csrfToken,
+							            },
+							            success: function(data) {
+							            	data = JSON.parse(data)
+							            	if(data.result == "success"){
+							            		alert('booking success');
+								            	var eventData = {
+													title: title,
+													start: start,
+													end: end
+												};
+												$('#calendar').fullCalendar('renderEvent', eventData, true);
+							            	}else{
+							            		alert("Booking fail with reason: " + data.errMsg);
+							            	}
+							            	
+							            },
+									});
+								}else{
+									alert("Please enter a title!");
+								}
+							}
+					    }
+					});					
 				}
 			}
 			$('#calendar').fullCalendar('unselect');
