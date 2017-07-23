@@ -15,6 +15,9 @@ end
 execute 'ntp_restart' do
   command 'service ntp restart'
 end
+execute 'time_zone_setting' do
+  command 'timedatectl set-timezone America/Vancouver'
+end
 
 # Node.js
 execute 'add-NodeSource-APT' do
