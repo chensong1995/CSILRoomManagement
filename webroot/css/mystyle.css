@@ -40,3 +40,7 @@
 .side-nav > li > ul > li > a.active {
     background-color: #000;
 }
+
+.dataTables_wrapper {
+    overflow-x: scroll;
+}

@@ -12,6 +12,10 @@ var router = express.Router();
 // 2. Admin authetication
 var adminAuth = require('../authentication/admin.js');
 router.use(adminAuth);
+// 3. csurf protection
+var csurf = require('csurf'); 
+var csrfProtection = csurf({ cookie: true });
+router.use(csrfProtection);
 ////////////////////////////////////////////////////////
 
 
@@ -35,7 +39,7 @@ router.get('/privileges', function (req, res) {
                     id: results[i].id,
                     description: results[i].description,
                     allowAdmin: results[i].allowAdmin,
-                    maxBookings: results[i].maxBookings,
+                    maxBookings: results[i].maxBookings
                 });
             }
             res.render('admin-privileges', {
@@ -43,7 +47,8 @@ router.get('/privileges', function (req, res) {
                 source: source,
                 page: 'Managements Privileges', // modified for multi-level dropdown in sidebar -- Chen
                 allowAdmin: true,
-                privileges: privileges
+                privileges: privileges,
+                csrfToken: req.csrfToken()
             });
         }
     });
@@ -87,7 +92,8 @@ router.get('/usergroup', function (req, res) {
                         allowAdmin: true,
                         page: 'Managements User Groups', // modified for multi-level dropdown in sidebar -- Chen
                         users: users,
-                        usergroups: usergroups
+                        usergroups: usergroups,
+                        csrfToken: req.csrfToken()
                     });
                 }
             });
@@ -122,7 +128,8 @@ router.get('/rooms', function (req, res) {
                 source: source,
                 allowAdmin: true,
                 page: 'Managements Rooms', // modified for multi-level dropdown in sidebar -- Chen
-                rooms: rooms
+                rooms: rooms,
+                csrfToken: req.csrfToken()
             });
         }
     });
@@ -139,6 +146,20 @@ router.get('/booking', function (req, res) {
     var regular_records = [];
     var batch_records = [];
     var user_id_name_map = new Object();
+    var rooms = [];
+
+    req.models.Room.find(function (err, results) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else {
+            for (var i = 0; i < results.length; i++) {
+                rooms.push({
+                    id: results[i].id,
+                    number: results[i].number,
+                });
+            }
+        }
+    });
 
     req.models.UserDisplay.find(function (err, results) {
         if (err) {
@@ -172,7 +193,9 @@ router.get('/booking', function (req, res) {
                 allowAdmin: true,
                 page: 'Managements Bookings', // modified for multi-level dropdown in sidebar -- Chen
                 regular_records: regular_records,
-                batch_records: batch_records
+                batch_records: batch_records,
+                rooms: rooms,
+                csrfToken: req.csrfToken()
             });
         }
     });
@@ -184,7 +207,7 @@ router.get('/booking', function (req, res) {
  * Last Update: July 14, 2017
  * Usage      : The client generates a POST request with 2 fields: id, and usergroup. It will receive 200 if update is successful, and 403 otherwise.
 */
-router.post('/usergroup', function (req, res) {
+router.post('/usergroup', csrfProtection, function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
     if (req.body.id && req.body.usergroup) { // must have these two fields
         req.models.UserDisplay.get(req.body.id, function (err, user) {
@@ -218,7 +241,7 @@ router.post('/usergroup', function (req, res) {
  * Last Update: July 14, 2017
  * Usage      : The client generates a POST request with 2 fields: id, and allowadmin. It will receive 200 if update is successful, and 403 otherwise.
 */
-router.post('/allowadmin', function (req, res) {
+router.post('/allowadmin', csrfProtection, function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
     if (req.body.id && req.body.allowadmin) {
         req.models.Privilege.get(req.body.id, function (err, privilege) {
@@ -246,7 +269,7 @@ router.post('/allowadmin', function (req, res) {
  * Last Update: July 14, 2017
  * Usage      : The client generates a POST request with 2 fields: id, and maxbookings. It will receive 200 if update is successful, and 403 otherwise.
 */
-router.post('/maxbookings', function (req, res) {
+router.post('/maxbookings', csrfProtection, function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
     if (req.body.id && req.body.maxbookings) {
         req.models.Privilege.get(req.body.id, function (err, privilege) {
@@ -275,7 +298,7 @@ router.post('/maxbookings', function (req, res) {
  * Last Update: July 14, 2017
  * Usage      : The client generates a POST request with 2 fields: id, and maxbookings. It will receive 200 if update is successful, and 403 otherwise.
 */
-router.post('/description', function (req, res) {
+router.post('/description', csrfProtection, function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
     if (req.body.id && req.body.description) {
         req.models.Privilege.get(req.body.id, function (err, privilege) {
@@ -303,7 +326,7 @@ router.post('/description', function (req, res) {
  * Last Update: July 15, 2017
  * Usage      : The client generates a POST request with 2 fields: id, and isbeingmaintained. It will receive 200 if update is successful, and 403 otherwise.
 */
-router.post('/rooms', function (req, res) {
+router.post('/rooms', csrfProtection, function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
     if (req.body.id && req.body.isbeingmaintained) {
         req.models.Room.get(req.body.id, function (err, room) {
@@ -330,22 +353,34 @@ router.post('/rooms', function (req, res) {
  * Description: This function allows admin user to edit user's booking
  * Last Update: July 21, 2017
 */
-router.post('/booking/:booking_id', function (req, res) {
+router.put('/booking/:booking_id', csrfProtection, function (req, res) {
     var allowAdmin = req.userDisplay.allowAdmin;
     if(!allowAdmin){
         res.sendStatus(401);
     }else{
+        var rid = "0";
+        req.models.Room.find({number:req.body.roomname}, function (err, room) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                rid = room[0].id;
+            }
+        });
         req.models.BookingRecord.find({id: req.params.booking_id},function (err, records) {
             if (err || records.length != 1) { // if error occurs or not exactly one is found
                 res.status(500).end(); // internal server error
             }else{
                 if(records[0].isBatch){
+                    records[0].rid = rid;
+                    records[0].name = req.body.roomname;
                     records[0].start = req.body.start;
                     records[0].end = req.body.end;
                     records[0].rangeStart = req.body.rangeStart;
                     records[0].rangeEnd = req.body.rangeEnd;
                     records[0].dow = req.body.dow;
                 }else{
+                    records[0].rid = rid;
+                    records[0].name = req.body.roomname;
                     records[0].start = req.body.start;
                     records[0].end = req.body.end;
                 }
@@ -366,7 +401,7 @@ router.post('/booking/:booking_id', function (req, res) {
  * Description: This function allows admin user to delete user's booking
  * Last Update: July 21, 2017
 */
-router.delete('/booking/:booking_id', function (req, res) {
+router.delete('/booking/:booking_id', csrfProtection, function (req, res) {
     var allowAdmin = req.userDisplay.allowAdmin;
     if(!allowAdmin){
         res.sendStatus(401);

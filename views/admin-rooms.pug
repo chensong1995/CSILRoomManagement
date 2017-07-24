@@ -3,6 +3,7 @@
 //- variables:
 //-   <All from navbar.pug>
 //-   rooms
+//-   csrfToken
 doctype html
 html(lang="en")
   head
@@ -17,6 +18,7 @@ html(lang="en")
           div(class="row")
             div(class="col-lg-12")
               h1(class="page-header") Room Management
+          div(id="csrfToken" data-token=csrfToken)
 
           div(class="row")
             div(class="col-lg-12")

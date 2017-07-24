@@ -77,6 +77,9 @@ app.use('/user', auth, user);
 // 13. Feedback, comment, report violation
 var comment = require('./routers/comment.js');
 app.use('/comment', auth, comment);
+// 14. ical feed
+var icalfeed = require('./routers/icalfeed.js');
+app.use('/icalfeed', icalfeed);
 
 ////////////////////////////////////////////////////////
 
