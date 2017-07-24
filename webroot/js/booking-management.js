@@ -169,7 +169,8 @@ function isTimeValid(start, end){
     }
     if(parseInt(start.substring(0,2)) > parseInt(end.substring(0,2))){
         return false;
-    }else if(parseInt(start.substring(3,5)) >parseInt(end.substring(3,5))){
+    }else if((parseInt(start.substring(0,2)) == parseInt(end.substring(0,2)))
+        &&(parseInt(start.substring(3,5)) >= parseInt(end.substring(3,5)))){
         return false;
     }
     return true;
