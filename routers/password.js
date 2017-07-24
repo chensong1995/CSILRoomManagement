@@ -11,6 +11,8 @@ var express = require('express');
 var router = express.Router();
 // 2. bcrypt
 var bcrypt = require('bcryptjs');
+// 3. mailer
+var mailer = require('../email/email.js');
 ////////////////////////////////////////////////////////
 
 // Author(s)  : Chen Song
@@ -24,9 +26,17 @@ router.post('/', function (req, res) {
             req.userDisplay.password = encryptPassword(req.body.newpassword);
             req.userDisplay.save(function (err) {
                 if (err) {
-                    res.send(err);
                     res.sendStatus(500); // internal server error
                 } else {
+                    // send a email
+                    if (req.userDisplay.notification == 1) { // user wants a notification
+                        var subject = 'Your Password has been changed';
+                        var text = 'We noticed that you have recently changed your password on our website. Please report to us if you are confused.';
+                        mailer.send({
+                            email: req.userDisplay.email,
+                            name: req.userDisplay.username
+                        }, subject, text);
+                    }
                     res.status(200).end(); // good
                 }
             });

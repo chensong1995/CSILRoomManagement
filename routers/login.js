@@ -105,8 +105,7 @@ router.get('/', function (req, res) {
                                         }
                                     });
                                 } else {
-                                    //res.sendStatus(403); // someone fakes a ticket
-                                    res.send(xml)
+                                    res.sendStatus(403); // someone fakes a ticket
                                 }
                             }
                         });

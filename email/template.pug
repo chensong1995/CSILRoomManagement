@@ -1,0 +1,49 @@
+//- admin-usergroup.pug
+//- Author(s): Chen Song
+//- variables:
+//-   receiverName
+//-   text
+//-   ourName
+//-   ourAddress
+doctype html
+html(lang="en")
+  head
+    meta(name="viewport" content="width=device-width")
+    meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+  body(style="background-color:#f6f6f6;font-family:sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.4;margin:0;padding:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;")
+    table(border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;background-color:#f6f6f6;width:100%;")
+      tr
+        td(style="font-family:sans-serif;font-size:14px;vertical-align:top;") &nbsp;
+        td(style="font-family:sans-serif;font-size:14px;vertical-align:top;display:block;max-width:580px;padding:10px;width:580px;Margin:0 auto !important;")
+          div(style="box-sizing:border-box;display:block;Margin:0 auto;max-width:580px;padding:10px;")
+            //- START CENTERED WHITE CONTAINER
+            //- Preview
+            span(style="color:transparent;display:none;height:0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;visibility:hidden;width:0;") #{text}
+            table(style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:3px;width:100%;")
+              //- START MAIN CONTENT AREA
+              tr
+                td(style="font-family:sans-serif;font-size:14px;vertical-align:top;box-sizing:border-box;padding:20px;")
+                  table(border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;")
+                    tr
+                      td(style="font-family:sans-serif;font-size:14px;vertical-align:top;")
+                        p(style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;")
+                          | Hi #{receiverName},
+                        p(style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;")
+                          | #{text}
+                        p(style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;")
+                          | Regards,
+                        p(style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;")
+                          | #{ourName}
+            //- START FOOTER
+            div(style="clear:both;padding-top:10px;text-align:center;width:100%;")
+              table(border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;")
+                tr
+                  td(style="font-family:sans-serif;font-size:14px;vertical-align:top;color:#999999;font-size:12px;text-align:center;")
+                    span(style="color:#999999;font-size:12px;text-align:center;") #{ourAddress}
+                    br
+                    | Don't like these emails? Please change your settings in the profile page.
+                tr
+                  td(style="font-family:sans-serif;font-size:14px;vertical-align:top;color:#999999;font-size:12px;text-align:center;")
+                    | Powered by 
+                    a(href="http://htmlemail.io" style="color:#3498db;text-decoration:underline;color:#999999;font-size:12px;text-align:center;text-decoration:none;") HTMLemail
+        td(style="font-family:sans-serif;font-size:14px;vertical-align:top;") &nbsp;
