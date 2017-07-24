@@ -20,8 +20,9 @@ function sendEmail(email, subject, text){
         from: 'Csil Booking System <csilroombooking@gmail.com style="margin: 0pt; padding: 0pt;">', // sender address
         to: email, // list of receivers
         subject: subject,//'Room Booking Reminder', // Subject line
-        text: text,//'Hello, you have 30 minutes left for your room reservation.', // plaintext body
-        //html: '<b>Hello, you have 30 minutes left for your room reservation.</b>' // html body
+        //text: text,//'Hello, you have 30 minutes left for your room reservation.', // plaintext body
+        html: '<h2>' + subject + '</h2> <p>' + text + '</p>' + '<p>' + 'Thank you,' + '</p>' + 
+        '<p>' + 'Csil Booking System' + '</p>'// html body
     };
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
