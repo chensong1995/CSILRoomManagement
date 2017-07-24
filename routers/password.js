@@ -30,7 +30,7 @@ router.post('/', function (req, res) {
                 } else {
                     // send a email
                     if (req.userDisplay.notification == 1) { // user wants a notification
-                        var subject = 'Your Password has been changed';
+                        var subject = 'Your Password Has Been Changed';
                         var text = 'We noticed that you have recently changed your password on our website. Please report to us if you are confused.';
                         mailer.send({
                             email: req.userDisplay.email,
