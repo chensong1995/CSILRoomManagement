@@ -43,24 +43,27 @@ class Room extends React.Component{
         var today = new Date();
         var currentTime = today.getHours + ":" + today.getMinutes();
         rooms.map(room => {
+            room.available = "available";
             if(room.isBeingMaintained){
-                room.available = false;
+                room.available = "maintaining";
             }
             else{
                 records.map(record => {
-                    if(record.isBatch){ //if record is batch, compare with hours and minutes
-                        var currentDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate;
-                        if(currentDate >= record.rangeStart && currentDate <= record.rangeEnd){
-                            if(currentTime >= record.start && currentTime <= record.end){
-                                room.available = false;
+                    if(record.rid == room.id){
+                        if(record.isBatch){ //if record is batch, compare with hours and minutes
+                            var currentDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate;
+                            if(currentDate >= record.rangeStart && currentDate <= record.rangeEnd){
+                                if(currentTime >= record.start && currentTime <= record.end){
+                                    room.available = "occupied";
+                                }
                             }
                         }
-                    }
-                    else{ //else, compare with full time
-                        var startTime = new Date(record.start);
-                        var endTime = new Date(record.end);
-                        if(Date.parse(today) >= Date.parse(startTime) && Date.parse(today) <= Date.parse(endTime)){
-                            room.available = false;
+                        else{ //else, compare with full time
+                            var startTime = new Date(record.start);
+                            var endTime = new Date(record.end);
+                            if(Date.parse(today) >= Date.parse(startTime) && Date.parse(today) <= Date.parse(endTime)){
+                                room.available = "occupied";
+                            }
                         }
                     }
                 });
@@ -78,11 +81,14 @@ class Room extends React.Component{
     };
 
     DetermineRoomColor(room){
-        if(room.available){
+        if(room.available == "available"){
             return "green";
         }
-        else{
+        else if(room.available == "occupied"){
             return "red";
+        }
+        else if(room.available == "maintaining"){
+            return "yellow";
         }
     }
 
@@ -99,14 +105,26 @@ class Room extends React.Component{
                    stroke: "black",
                    strokeWidth: 10,
                };
+               var submitBtn = {
+                   display: "none",
+               }
+               var txt_posX = (csilRoom.width/2 >= 100)?(csilRoom.width/2):20;
+               var txt_posY = (csilRoom.height/2 >= 50)?(csilRoom.height/2):30;
+               var txt_size = ((csilRoom.width*csilRoom.height)>=15625)?("20px"):"10px";
+
                return(
                    <div key = {csilRoom.id}>
-                       <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
-                           <g>
-                               <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
-                               <text fontSize = "20px" x = {0} y = {50} fill = "blue">hello world</text>
-                           </g>
-                       </svg>
+                       <form action={"/booking/"+csilRoom.number}  method="GET">
+                           <label>
+                               <input type = "submit" style={submitBtn}/>
+                               <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
+                                   <g>
+                                       <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
+                                       <text fontFamily="Arial" fontSize = {txt_size} x = {txt_posX} y = {txt_posY} fill = "blue">{csilRoom.number}</text>
+                                   </g>
+                               </svg>
+                           </label>
+                       </form>
                    </div>
                )
            }

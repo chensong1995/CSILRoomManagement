@@ -150,6 +150,7 @@ app.get('/dashboard', function(req, res) {
                 records.forEach(function(record){
                     var tmpRecordObj = new Object();
                     tmpRecordObj.id = record.id;
+                    tmpRecordObj.rid = record.rid;
                     tmpRecordObj.start = record.start;
                     tmpRecordObj.end = record.end;
                     tmpRecordObj.isBatch = record.isBatch;
