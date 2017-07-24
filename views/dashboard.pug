@@ -19,8 +19,20 @@ html(lang="en")
       
       script(type='text/javascript').
         var machines = JSON.parse('!{machines}');
+        var rooms = JSON.parse('!{rooms}');
+        var records = JSON.parse('!{records}');
       #machine
-      script(src='/bundle.js')
+
+    div(id="wrapper")
+      include includes/navbar.pug
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") CSIL Room Status Overview
+      #room
+      script(src='/Machine.bundle.js')
+      script(src='/Room.bundle.js')
 
     include includes/scripts.html
   style.

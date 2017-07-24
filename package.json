@@ -17,6 +17,7 @@
   "author": "John Liu, Chong Zhao, Chen Song, Ruiming Jia",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-preset-es2017": "^6.24.1",

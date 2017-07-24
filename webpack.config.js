@@ -4,10 +4,13 @@ var webpack = require('webpack');
 module.exports = {
   context: __dirname,
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./client/app/main.jsx",
+  entry: {
+    Machine: "./client/app/main.jsx",
+    Room: "./client/app/room.jsx",
+  },
   output: {
     path: __dirname + "/client/static",
-    filename: "bundle.js"
+    filename: "[name].bundle.js"
   },
   module: {
   	loaders: [
