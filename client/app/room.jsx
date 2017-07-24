@@ -117,12 +117,14 @@ class Room extends React.Component{
                        <form action={"/booking/"+csilRoom.number}  method="GET">
                            <label>
                                <input type = "submit" style={submitBtn}/>
-                               <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
-                                   <g>
-                                       <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
-                                       <text fontFamily="Arial" fontSize = {txt_size} x = {txt_posX} y = {txt_posY} fill = "blue">{csilRoom.number}</text>
-                                   </g>
-                               </svg>
+                               <button>
+                                   <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
+                                       <g>
+                                           <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
+                                           <text fontFamily="Arial" fontSize = {txt_size} x = {txt_posX} y = {txt_posY} fill = "blue">{csilRoom.number}</text>
+                                       </g>
+                                   </svg>
+                               </button>
                            </label>
                        </form>
                    </div>
