@@ -11,6 +11,7 @@ var csrfProtection = csurf({ cookie: true });
 // 3. ical generator
 var ical = require('ical-generator');
 var bcrypt = require('bcryptjs');
+var mailer = require('../email/email.js');
 ////////////////////////////////////////////////////////
 
 // Author(s)  : Chong
@@ -71,7 +72,15 @@ router.delete('/events/:record_id', function(req, res) {
 			    if(err){
 			    	res.status(500).end(); // internal server error
 			    }else{
-			    	res.status(200).end(); // success
+                    if (req.userDisplay.notification == 1) { // user wants a notification
+                        var subject = 'Your have successfully delete a room booking';
+                        var text = 'For more details, please check our website';
+                        mailer.send({
+                            email: req.userDisplay.email,
+                            name: req.userDisplay.username
+                        }, subject, text);
+                    }
+                    res.status(200).end(); // success
 			    }
 			});
         }

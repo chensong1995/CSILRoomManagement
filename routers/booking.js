@@ -12,6 +12,7 @@ var router = express.Router();
 // 2. csurf protection
 var csurf = require('csurf'); 
 var csrfProtection = csurf({ cookie: true });
+var mailer = require('../email/email.js');
 ////////////////////////////////////////////////////////
 
 router.use(csrfProtection);
@@ -226,6 +227,14 @@ router.post('/batch', function(req, res) {
                                     if(err){
                                         res.status(500).end(); // internal server error
                                     }else{
+                                        if (req.userDisplay.notification == 1) { // user wants a notification
+                                            var subject = 'Your have successfully booked a room';
+                                            var text = 'For more details, please check our website';
+                                            mailer.send({
+                                                email: req.userDisplay.email,
+                                                name: req.userDisplay.username
+                                            }, subject, text);
+                                        }
                                         var result = new Object();
                                         result.result = "success";
                                         res.send(JSON.stringify(result));
@@ -437,6 +446,14 @@ router.post('/', function(req, res) {
                                 if(err){
                                     res.status(500).end(); // internal server error
                                 }else{
+                                    if (req.userDisplay.notification == 1) { // user wants a notification
+                                        var subject = 'Your have successfully booked a room';
+                                        var text = 'For more details, please check our website';
+                                        mailer.send({
+                                            email: req.userDisplay.email,
+                                            name: req.userDisplay.username
+                                        }, subject, text);
+                                    }
                                     var result = new Object();
                                     result.result = "success";
                                     res.send(JSON.stringify(result));
