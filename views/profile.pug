@@ -99,10 +99,16 @@ html(lang="en")
             div(class="row")
               div(class="col-lg-12")
                 p(id="calendar_feed_notice") Copy the link below and paste it into any calendar app that takes iCal feeds (Google Calendar, iCal, Outlook, etc.) By doing that, you can check your bookings in your calendar app.
-                p(id="calendar_feed")  
+                p(class="calendar_feed",id="calendar_feed")  
+                p(class="ical-tips-header") Tips
+                ul(class="ical_tips")
+                  li
+                    a(href="https://www.howtogeek.com/howto/30834/add-an-ical-or-.ics-calendar-to-google-calendar/") How to import iCal feed into Google calendar
+                  li
+                    a(href="http://support.doodle.com/customer/en/portal/articles/1143090-connect-ical-icloud-with-doodle-via-ics-feed") How to import iCal feed into iCal
+                  li
+                    a(href="https://support.office.com/en-us/article/View-and-subscribe-to-Internet-Calendars-f6248506-e144-4508-b658-c838b6067597") How to import iCal feed into Outlook
                   
-
-
     include includes/scripts.html
     script(src="/js/profile.js")
     script(src="/js/calendar_setting.js")

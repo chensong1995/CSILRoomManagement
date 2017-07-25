@@ -65,6 +65,9 @@ $(document).ready(function() {
 			        jQuery.ajax({
 						url: '/user/events' + event.url,
 	    				type: 'DELETE',
+	    				data: {
+			                _csrf: csrfToken,
+			            },
 			            success: function(data) {
 			            	alert("Successfully delete this booking slot");
 			            	$('#calendar').fullCalendar( 'refetchEvents' );

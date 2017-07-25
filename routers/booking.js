@@ -53,12 +53,35 @@ router.get('/manage', function(req, res) {
     var username = req.userDisplay.username;
     var userSource = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
 
-    res.render('booking_manage', { 
-        username: username,
-        source: userSource,
-        allowAdmin: req.userDisplay.allowAdmin, 
-        page: "Booking",
-        csrfToken: req.csrfToken(),
+    var regular_records = [];
+    var batch_records = [];
+
+    req.models.BookingRecord.all(function (err, records) {
+        if (err) { // if error occurs or no room is found
+            throw err;
+            res.status(500).end(); // internal server error
+        }else{      
+            for (var i = records.length - 1; i >= 0; i--) {
+                if(records[i].isBatch){
+                    records[i].username = username;
+                    batch_records.push(records[i]);
+                }else{
+                    records[i].username = username;
+                    records[i].start = records[i].start.replace('T',' ');
+                    records[i].end = records[i].end.replace('T',' ');
+                    regular_records.push(records[i]);                        
+                }
+            }
+            res.render('booking_manage', {
+                username: username,
+                source: userSource,
+                allowAdmin: req.userDisplay.allowAdmin,
+                page: 'Manage Bookings', // modified for multi-level dropdown in sidebar -- Chen
+                regular_records: regular_records,
+                batch_records: batch_records,
+                csrfToken: req.csrfToken()
+            });
+        }
     });
 });
 

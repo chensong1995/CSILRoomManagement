@@ -14,6 +14,8 @@ var bcrypt = require('bcryptjs');
 var mailer = require('../email/email.js');
 ////////////////////////////////////////////////////////
 
+router.use(csrfProtection);
+
 // Author(s)  : Chong
 // Description: This function returns the booking records of one user
 // Last Update: July 14, 2017
@@ -60,6 +62,22 @@ router.get('/events', function(req, res) {
 });
 
 // Author(s)  : Chong
+// Description: This function directs user to booking management
+// Last Update: July 14, 2017
+router.get('/calendar', function(req, res) {
+    var username = req.userDisplay.username;
+    var userSource = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+
+    res.render('booking_calendar', { 
+        username: username,
+        source: userSource,
+        allowAdmin: req.userDisplay.allowAdmin, 
+        page: "Booking",
+        csrfToken: req.csrfToken(),
+    });
+});
+
+// Author(s)  : Chong
 // Description: This function deletes the booking records of one user
 // Parameter  : /:record_id
 // Last Update: July 14, 2017
@@ -73,7 +91,7 @@ router.delete('/events/:record_id', function(req, res) {
 			    	res.status(500).end(); // internal server error
 			    }else{
                     if (req.userDisplay.notification == 1) { // user wants a notification
-                        var subject = 'Your have successfully delete a room booking';
+                        var subject = 'Your have successfully deleted a booking record';
                         var text = 'For more details, please check our website';
                         mailer.send({
                             email: req.userDisplay.email,

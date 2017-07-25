@@ -1,29 +1,136 @@
-//- user-profile.pug
+//- admin-usergroup.pug
+//- Author(s): Chen Song
+//- variables:
+//-   <All from navbar.pug>
+//-   users
+//-   usergroups
+//-   csrfToken
 doctype html
 html(lang="en")
   head
     include includes/header.html
+    link(rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
   body
     div(id="wrapper")
       include includes/navbar.pug
+
       div(id="page-wrapper")
         div(class="container-fluid")
           div(class="row")
             div(class="col-lg-12")
-              h1(class="page-header") CSIL Room Booking
+              h1(class="page-header") Booking Management
+          div(id="csrfToken" data-token=csrfToken)
+
+          div(class="row", id="loader")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li
+                  div(class="loader")
+                  i(class="fa fa-book")
+                  |  Loading, please wait
 
           div(class="row")
             div(class="col-lg-12")
               ol(class="breadcrumb")
                 li(class="active")
-                  i(class="fa fa-dashboard")  Booking management
+                  i(class="fa fa-book")
+                  |  Click the delete to delete a record
 
           div(class="row")
             div(class="col-lg-12")
-              p(id="") You can click on your booking record to delete it. Green block means a repeating booking (e.g. Every Monday at that time)
-              div(id="calendar")
-          
-          input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-book")
+                  |  Batch Booking Records
+
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="batch-record-table" class="display")
+                  thead
+                    tr
+                      th User
+                      th Room
+                      th Start Date
+                      th End Date
+                      th Start Time
+                      th End Time
+                      th Repeating Day
+                      th Operation
+                  tbody
+                    each batch_record in batch_records
+                      tr(id=batch_record.id)
+                        td(class="room-user",data-user-id=batch_record.uid) #{batch_record.username}
+
+                        td(class="room-number") #{batch_record.name}
+
+                        td #{batch_record.rangeStart}
+
+                        td #{batch_record.rangeEnd}
+
+                        td #{batch_record.start}
+                            
+                        td #{batch_record.end}
+
+                        td
+                          - var dayOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sataurday"]
+                          - for (var x = 1; x <= 6; x++)
+                            - if(batch_record.dow.indexOf("" + x) != -1)
+                                p
+                                  input(type="checkbox",id="checkbox-" + x + '-' +batch_record.id,checked="checked",disabled)
+                                  |  #{dayOfWeek[x]}
+                            - else
+                                p
+                                  input(type="checkbox",id="checkbox-" + x + '-' +batch_record.id,disabled)
+                                  |  #{dayOfWeek[x]}
+                          - if(batch_record.dow.indexOf("0") != -1)
+                              p
+                                input(type="checkbox",id="checkbox-7" + '-' +batch_record.id,checked="checked",disabled)
+                                |  Sunday
+                          - else
+                              p
+                                input(type="checkbox",id="checkbox-7" + '-' +batch_record.id,disabled)
+                                |  Sunday
+
+                        td
+                          p
+                            a(id="batch-booking-delete-" + batch_record.id,class="booking-delete",href="#") Delete
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-book")
+                  |  Regular Booking Records
+
+          div(class="info-wrapper")
+            div(class="row")
+              div(class="col-lg-12")
+                table(id="regular-record-table" class="display")
+                  thead
+                    tr
+                      th User
+                      th Room
+                      th Start Time
+                      th End Time
+                      th Operation
+                  tbody
+                    each regular_record in regular_records
+                      tr(id=regular_record.id)
+                        td(class="room-user",data-user-id=regular_record.uid) #{regular_record.username}
+
+                        td(class="room-number")  #{regular_record.name}
+
+                        td #{regular_record.start}
+
+                        td #{regular_record.end}
+
+                        td
+                          p
+                            a(id="regular-booking-delete-" + regular_record.id,class="booking-delete",href="#") Delete
+
+
 
     include includes/scripts.html
-    script(src="/js/user_calendar_event.js",type="text/javascript")
+    script(src="/js/user-booking-management.js")
+    script(src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js")
