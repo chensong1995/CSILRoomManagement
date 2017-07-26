@@ -56,7 +56,7 @@ router.get('/manage', function(req, res) {
     var regular_records = [];
     var batch_records = [];
 
-    req.models.BookingRecord.all(function (err, records) {
+    req.models.BookingRecord.find({uid: req.userDisplay.id},function (err, records) {
         if (err) { // if error occurs or no room is found
             throw err;
             res.status(500).end(); // internal server error
