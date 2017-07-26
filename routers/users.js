@@ -72,7 +72,7 @@ router.get('/calendar', function(req, res) {
         username: username,
         source: userSource,
         allowAdmin: req.userDisplay.allowAdmin, 
-        page: "Booking",
+        page: "Bookings My Calendar",
         csrfToken: req.csrfToken(),
     });
 });

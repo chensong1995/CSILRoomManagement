@@ -29,7 +29,7 @@ $(document).ready(function() {
 		select: function(start, end) {
 			var view = $('#calendar').fullCalendar('getView');
 			if(view.name == 'agendaWeek' || view.name == 'agendaDay'){
-				if(end - start >= 7200000){
+				if(end - start > 7200000){
 					// If user chooses a period longer than 2 hours
 					alert("Maximum time of a booking is 2 hour! !");
 				}else{
@@ -94,8 +94,13 @@ $(document).ready(function() {
 		selectOverlap: function(event) {
 			var view = $('#calendar').fullCalendar('getView');
 			if(view.name == 'agendaWeek' || view.name == 'agendaDay'){
-				$('#calendar').fullCalendar('unselect');				
-		        return false;
+				if(!(((Date.parse(moment(event.start).format("YYYY-MM-DD"))) >= (Date.parse(event.rangeStart)))
+					&& ((Date.parse(moment(event.end).format("YYYY-MM-DD"))) <= (Date.parse(event.rangeEnd))))){
+					return true;
+				}else{
+					$('#calendar').fullCalendar('unselect');				
+		        	return false;
+				}				
 		    }else{
 		    	return true;
 		    }
@@ -116,6 +121,10 @@ $(document).ready(function() {
 			if(!event.rangeStart){
 				return true;
 			}else{
+				if(!(((Date.parse(moment(event.start).format("YYYY-MM-DD"))) >= (Date.parse(event.rangeStart)))
+					&& ((Date.parse(moment(event.end).format("YYYY-MM-DD"))) <= (Date.parse(event.rangeEnd))))){
+					element.remove();
+				}
 				return ((Date.parse(moment(event.start).format("YYYY-MM-DD"))) >= (Date.parse(event.rangeStart)))
 					&& ((Date.parse(moment(event.end).format("YYYY-MM-DD"))) <= (Date.parse(event.rangeEnd)));
 			}
