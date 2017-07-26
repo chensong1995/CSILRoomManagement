@@ -21,6 +21,8 @@ var path = require('path');
 const { URLSearchParams } = require('url');
 // 7. bcrypt
 var bcrypt = require('bcryptjs');
+// 8. mailer
+var mailer = require('../email/email.js');
 ////////////////////////////////////////////////////////
 
 // Author(s)  : Chen Song, Chong, Ruiming Jia
@@ -97,6 +99,13 @@ router.get('/', function (req, res) {
                                                 email: username + "@sfu.ca",
                                                 notification: 1
                                             };
+                                            // send a email
+                                            var subject = 'Welcome to CSIL Room Management System';
+                                            var text = 'It is your first login to our system. Welcome! ';
+                                            mailer.send({
+                                                email: newUser.email,
+                                                name: newUser.username
+                                            }, subject, text);
                                             req.models.User.create(newUser, doRedirect);
                                         } else {
                                             var user = users[0];

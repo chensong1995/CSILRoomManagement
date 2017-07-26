@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles signups in our own authentication service.
- * Last Update: July 14, 2017
+ * Last Update: July 26, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -11,11 +11,13 @@ var express = require('express');
 var router = express.Router();
 // 2. bcrypt
 var bcrypt = require('bcryptjs');
+// 3. mailer
+var mailer = require('../email/email.js');
 ////////////////////////////////////////////////////////
 
 // Author(s)  : Chen Song, Ruiming Jia
 // Description: This function handles CSIL account signup
-// Last Update: July 14, 2017
+// Last Update: July 26, 2017
 // Usage      : The client generates a POST request with three fields: username, password, and email. It will receive 200 if signup is successful, and 403 if username already exists.
 router.post('/', function (req, res) {
     res.setHeader('Content-Type', 'text/plain');
@@ -33,6 +35,14 @@ router.post('/', function (req, res) {
             if (err) { // username already exists
                 res.sendStatus(403); 
             } else {
+                // send a email
+                var subject = 'Welcome to CSIL Room Management System';
+                var text = 'This email confirms that you have created an account on our website. ';
+                mailer.send({
+                    email: newUser.email,
+                    name: newUser.username
+                }, subject, text);
+                // response
                 res.status(200).end(); // success
             }
         });
