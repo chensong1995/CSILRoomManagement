@@ -97,6 +97,15 @@ app.set('views', path.join(__dirname, 'views'));
 var async = require('async'); //Require async for multiple queries
 app.get('/dashboard', function(req, res) {
     async.parallel({
+        currentUser: function(callback){
+          req.models.UserDisplay.find({sid: req.cookies.sid}, function(err, user){
+              if(err){
+                  console.log(err);
+                  return;
+              }
+              callback(null, user[0]);
+          })
+        },
         Machines: function (callback) {
             req.models.Machine.all(function (err, machines) {
                 if (err) {
@@ -162,8 +171,9 @@ app.get('/dashboard', function(req, res) {
             });
         }
     },function(err, results){
-        var username = 'Visitor';
-        res.render('dashboard', { username: username, page: "Dashboard",
+        var username = (results.currentUser)?results.currentUser.username:"Visitor";
+        var allowAdmin = (results.currentUser)?results.currentUser.allowAdmin:false;
+        res.render('dashboard', { username: username, allowAdmin: allowAdmin, page: "Dashboard",
             machines: JSON.stringify(results.Machines),
             rooms: JSON.stringify(results.Rooms),
             records: JSON.stringify(results.Booking),

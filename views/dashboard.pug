@@ -30,6 +30,9 @@ html(lang="en")
           script(src='/Room.bundle.js')
 
     include includes/scripts.html
+    if allowAdmin
+      script(src="/js/plugins/tinymce/tinymce.min.js")
+      script(src="/js/policy.js")
   style.
     body {
     background-color: white;

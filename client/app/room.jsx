@@ -33,7 +33,6 @@ class Room extends React.Component{
         this.DetermineRoomColor = this.DetermineRoomColor.bind(this);
 
         this.UpdateRoomAvailability();
-        console.log(rooms);
         this.state = {
             rooms: rooms, //list of rooms retrieved from database
         };
@@ -73,7 +72,6 @@ class Room extends React.Component{
 
     componentDidMount(){
         socket.on('UpdateRecord', new_booking_records => {
-            console.log("was here");
             records = new_booking_records;
             this.UpdateRoomAvailability(rooms);
             this.setState({rooms: rooms});
@@ -82,13 +80,13 @@ class Room extends React.Component{
 
     DetermineRoomColor(room){
         if(room.available == "available"){
-            return "green";
+            return "#99ff99";
         }
         else if(room.available == "occupied"){
-            return "red";
+            return "#ff6666";
         }
         else if(room.available == "maintaining"){
-            return "yellow";
+            return "#ffff66";
         }
     }
 
