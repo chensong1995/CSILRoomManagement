@@ -34,10 +34,8 @@ html(lang="en")
                       label(for='message') Message:
                       br
                       textarea(name='message', cols='40', rows='10', id='message')
-                  
-                  p
-
-                    input(name='submit', type='submit', value='Send', id='submit')
+                                    
+                    input(id="submit" name='submit' type="submit" class="btn btn-primary" value="Send")
                     input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
             // p(class="text-danger" id="prompt")
             if(typeof msg !== 'undefined')

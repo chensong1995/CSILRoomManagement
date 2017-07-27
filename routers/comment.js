@@ -271,7 +271,6 @@ router.get('/:id', function (req, res) {
  * Last Update: July 26, 2017
 */
 router.post('/:id', csrfProtection, function (req, res) {
-    console.log('here2');
     req.models.Feedback.find({id: req.params.id}, function (err, results) {
         if (err || results.length != 1) {
             res.sendStatus(500); // internal server error
