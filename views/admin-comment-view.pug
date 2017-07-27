@@ -1,0 +1,37 @@
+//- admin-comment-view.pug
+//- Author(s): Ruiming Jia
+//- variables:
+//-   <All from navbar.pug>
+//-   message
+//-   feedbacks
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header")
+                | View Feedbacks
+          p(class="text-danger" id="prompt")
+            | #{message}
+          div(class="info-wrapper")
+            if feedbacks.length == 0
+              h2 There is no previous feedbacks
+            else
+              div(class="row")
+                div(class="col-lg-10")
+                  ul
+                    each feedback in feedbacks
+                      li(class="feedback-message")
+                        p
+                          |  #{feedback.username}                  
+                        p
+                          |  #{feedback.message}
+
+    include includes/scripts.html

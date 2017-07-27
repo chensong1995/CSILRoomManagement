@@ -48,29 +48,56 @@ router.get('/view', function (req, res) {
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
     var page = "Report Violations View Feedback";
-    var feedbacks = [];
-    //fetch previous feedback from database
-    req.models.Feedback.find({username: req.userDisplay.username}, function (err, results) {
-        if (err) {
-            res.sendStatus(500); // internal server error
-        } else {
-            for (var i = 0; i < results.length; i++) {
-                feedbacks.push({
-                    username: results[i].username,
-                    message: results[i].message
+    if (!allowAdmin) {
+        var feedbacks = [];
+        //fetch previous feedback from database
+        req.models.Feedback.find({username: req.userDisplay.username}, function (err, results) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                for (var i = 0; i < results.length; i++) {
+                    feedbacks.push({
+                        username: results[i].username,
+                        message: results[i].message
+                    });
+                }
+                // Jia, I fixed the rendering issue here. -- Chen Song
+                res.render('comment-view', {
+                    username: username,
+                    source: source,
+                    allowAdmin: allowAdmin,
+                    page: page,
+                    feedbacks: feedbacks,
+                    csrfToken: req.csrfToken()
                 });
             }
-            // Jia, I fixed the rendering issue here. -- Chen Song
-            res.render('comment-view', {
-                username: username,
-                source: source,
-                allowAdmin: allowAdmin,
-                page: page,
-                feedbacks: feedbacks,
-                csrfToken: req.csrfToken()
-            });
-        }
-    });
+        });
+    }
+    else { //admin page
+        var feedbacks = [];
+        //fetch all feedbacks from database
+        req.models.Feedback.find({sendByAdmin: 0}, function (err, results) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                for (var i = 0; i < results.length; i++) {
+                    feedbacks.push({
+                        username: results[i].username,
+                        message: results[i].message
+                    });
+                }
+                res.render('admin-comment-view', {
+                    username: username,
+                    source: source,
+                    allowAdmin: allowAdmin,
+                    page: page,
+                    feedbacks: feedbacks,
+                    csrfToken: req.csrfToken()
+                });
+            }
+        });
+
+    }
 });
 
 /*
