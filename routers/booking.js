@@ -493,11 +493,8 @@ function extendBatchRecords(roomId, userId, title, roomName, startTime, endTime,
     var end = new Date(endDate);
     console.log(end);
     for (var d = start; d <= end; d.setDate(d.getDate() + 1)) {
-        console.log(d);
-        console.log(d.getDay());
         dowList.forEach(function(dow){
             if(dow / 1 == (d.getDay() / 1 + 1) % 7){
-                console.log("dow = " + dow + " and day is " + d.getDay());
                 var startString = "";
                 var endString = "";
                 var dd = d.getDate();
@@ -521,7 +518,6 @@ function extendBatchRecords(roomId, userId, title, roomName, startTime, endTime,
                     title: title,
                     name: roomName,
                 };
-                console.log(booking_record);
                 extended_record_list.push(booking_record);
             }
         });
