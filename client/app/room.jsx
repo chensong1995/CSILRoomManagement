@@ -108,6 +108,13 @@ class Room extends React.Component{
                var submitBtn = {
                    display: "none",
                }
+
+               var button = {
+                   background: "transparent",
+                   border: "none",
+                   fontSize: 0,
+               };
+
                var txt_posX = (csilRoom.width/2 >= 100)?(csilRoom.width/2):20;
                var txt_posY = (csilRoom.height/2 >= 50)?(csilRoom.height/2):30;
                var txt_size = ((csilRoom.width*csilRoom.height)>=15625)?("20px"):"10px";
@@ -117,7 +124,7 @@ class Room extends React.Component{
                        <form action={"/booking/"+csilRoom.number}  method="GET">
                            <label>
                                <input type = "submit" style={submitBtn}/>
-                               <button>
+                               <button style={button}>
                                    <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
                                        <g>
                                            <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
