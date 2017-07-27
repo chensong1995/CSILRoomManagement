@@ -47,40 +47,78 @@ router.post('/', csrfProtection, function (req, res) {
     var message = req.body.message;
     var username = req.userDisplay.username;
     var email = req.userDisplay.email;
-    var transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: 'csilroombooking@gmail.com',
-        pass: 'csilcsilcsil123'
+    var feedbacks = [];
+        //insert message into database
+    req.models.Feedback.create({
+        username: req.userDisplay.username,
+        message: req.body.message
+    }, function (err) {
+        if (err) {
+            res.sendStatus(500); // internal server error
+        } else { // success
+            var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'csilroombooking@gmail.com',
+                pass: 'csilcsilcsil123'
+                }
+            }); 
+            //Mail options
+            mailOpts = {
+                from: username + ' &lt;' + email + '&gt;', //grab user data
+                to: 'csilroombooking@gmail.com',
+                subject: 'Website contact form',
+                replyTo: email, //administrator can reply to the user directly
+                text: message
+            }; 
+            // send mail with defined transport object
+            transporter.sendMail(mailOpts, function (error, response) {
+                //Email not sent
+                // Jia, I fixed the rendering issue here. -- Chen Song
+                var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+                var allowAdmin = req.userDisplay.allowAdmin;
+                var page = "Report Violations";
+                var msg = error ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
+                var err = error ? true : false;
+                
+                req.models.Feedback.find({username: req.userDisplay.username}, function (err, results) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else {
+                        for (var i = 0; i < results.length; i++) {
+                            feedbacks.push({
+                                username: results[i].username,
+                                message: results[i].message
+                            });
+                        }
+                        // Jia, I fixed the rendering issue here. -- Chen Song
+                        res.render('comment', {
+                            username: username,
+                            source: source,
+                            allowAdmin: allowAdmin,
+                            page: page,
+                            feedbacks: feedbacks,
+                            csrfToken: req.csrfToken(),
+                            msg: msg,
+                            err: err
+                        });
+                    }
+                });
+                /*res.render('comment', {
+                    username: username,
+                    source: source,
+                    allowAdmin: allowAdmin,
+                    page: page,
+                    csrfToken: req.csrfToken(), 
+                    msg: msg, 
+                    message: message,
+                    err: err
+                }); */
+            });            
         }
-    }); 
-    //Mail options
-    mailOpts = {
-        from: username + ' &lt;' + email + '&gt;', //grab user data
-        to: 'csilroombooking@gmail.com',
-        subject: 'Website contact form',
-        replyTo: email, //administrator can reply to the user directly
-        text: message
-    }; 
-    // send mail with defined transport object
-    transporter.sendMail(mailOpts, function (error, response) {
-        //Email not sent
-        // Jia, I fixed the rendering issue here. -- Chen Song
-        var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
-        var allowAdmin = req.userDisplay.allowAdmin;
-        var page = "Report Violations";
-        var msg = error ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
-        var err = error ? true : false;
-        res.render('comment', {
-            username: username,
-            source: source,
-            allowAdmin: allowAdmin,
-            page: page,
-            csrfToken: req.csrfToken(), 
-            msg: msg, 
-            err: err
-        });
-    });    
+    });
+
+    
 });
 
 
