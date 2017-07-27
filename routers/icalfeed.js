@@ -77,7 +77,7 @@ function extendBatchRecords(roomId, userId, title, roomName, startTime, endTime,
     var end = new Date(endDate);
     for (var d = start; d <= end; d.setDate(d.getDate() + 1)) {
         dowList.forEach(function(dow){
-            if(dow / 1 == d.getDay() / 1){
+            if(dow / 1 == (d.getDay() / 1 + 1) % 7){
                 var startString = "";
                 var endString = "";
                 var dd = d.getDate();
