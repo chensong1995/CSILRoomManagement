@@ -6,7 +6,6 @@ html(lang="en")
       link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:300,400,500')
       link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
       include includes/header.html
-      include includes/navbar.pug
 
   body
     div(id="wrapper")
@@ -17,22 +16,18 @@ html(lang="en")
             div(class="col-lg-12")
               h1(class="page-header") CSIL Machine Status Overview
       
-      script(type='text/javascript').
-        var machines = JSON.parse('!{machines}');
-        var rooms = JSON.parse('!{rooms}');
-        var records = JSON.parse('!{records}');
-      #machine
+          script(type='text/javascript').
+            var machines = JSON.parse('!{machines}');
+            var rooms = JSON.parse('!{rooms}');
+            var records = JSON.parse('!{records}');
+          #machine
 
-    div(id="wrapper")
-      include includes/navbar.pug
-      div(id="page-wrapper")
-        div(class="container-fluid")
           div(class="row")
             div(class="col-lg-12")
               h1(class="page-header") CSIL Room Status Overview
-      #room
-      script(src='/Machine.bundle.js')
-      script(src='/Room.bundle.js')
+          #room
+          script(src='/Machine.bundle.js')
+          script(src='/Room.bundle.js')
 
     include includes/scripts.html
   style.
