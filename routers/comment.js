@@ -132,8 +132,8 @@ router.post('/', csrfProtection, function (req, res) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else { // success
-                console.log('1');
-                /*var transporter = nodemailer.createTransport({
+                
+                var transporter = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
                     user: 'csilroombooking@gmail.com',
@@ -167,7 +167,7 @@ router.post('/', csrfProtection, function (req, res) {
                         err: err
                     }); 
                 });  
-                */    
+                    
                 
                     res.render('comment', {
                     username: username,
@@ -183,50 +183,7 @@ router.post('/', csrfProtection, function (req, res) {
         });
     }
     else { //admin
-        /*
-        req.models.Feedback.find({id: req.params.id}, function (err, results) {
-            if (err || results.length != 1) {
-                res.sendStatus(500); // internal server error
-            } else {
-                var username = results[0].username;
-                var pmessage = results[0].message;
-                console.log('2');
-            }
-        });
-        var time = new Date();
-        if (req.body.content !== undefined) { // must have these fields
-            // prepare all view variables
-            req.models.Feedback.create({
-                username: username,
-                message: req.body.message,
-                sendByAdmin: 1,
-                preMessage: pmessage,
-                time: time
-            }, function (err) {
-                var msg = err ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
-                var err = err ? true : false;
-                if (err) {
-                    res.sendStatus(500); // internal server error
-                } else { // success
-                    console.log('3');
-                    var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
-                    var allowAdmin = req.userDisplay.allowAdmin;
-                    res.render('comment', {
-                        username: req.userDisplay.username,
-                        source: source,
-                        allowAdmin: allowAdmin,
-                        page: "Report Violations Send Feedback",
-                        csrfToken: req.csrfToken(), 
-                        msg: msg, 
-                        err: err
-                    });       
-                }
-            });
-        } else {
-            res.sendStatus(403); // invalid request
-        }
-    */
-
+        // admin page: /comment/messageid
     }
     
 });
@@ -271,7 +228,6 @@ router.get('/:id', function (req, res) {
  * Last Update: July 26, 2017
 */
 router.post('/:id', csrfProtection, function (req, res) {
-    console.log('here2');
     req.models.Feedback.find({id: req.params.id}, function (err, results) {
         if (err || results.length != 1) {
             res.sendStatus(500); // internal server error
