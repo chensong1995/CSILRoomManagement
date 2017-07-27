@@ -10,6 +10,7 @@ module.exports = function(db, models) {
         username: String,    // e.g. csa102, admin	
         message: String,    // messages
         sendByAdmin: Number,//0: send by user, 1: send by admin
-        preMessage: String	//previous message that is being replied
+        preMessage: String,	//previous message that is being replied
+        time: Date
     });
 };

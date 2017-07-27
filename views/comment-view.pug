@@ -31,5 +31,8 @@ html(lang="en")
                       li(class="feedback-message")
                         p
                           |  #{feedback.message}
+                        p(class="text-muted")
+                          span(class="glyphicon glyphicon-time")
+                          |  Sent on: #{feedback.time}
 
     include includes/scripts.html

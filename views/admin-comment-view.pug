@@ -29,9 +29,12 @@ html(lang="en")
                   ul
                     each feedback in feedbacks
                       li(class="feedback-message")
-                        p
-                          |  User:  #{feedback.username}                  
+                        a(href=feedback.path)
+                          h4  Reply to:  #{feedback.username}         
                         p
                           |  Message:  #{feedback.message}
+                        p(class="text-muted")
+                          span(class="glyphicon glyphicon-time")
+                          |  Sent on: #{feedback.time}
 
     include includes/scripts.html
