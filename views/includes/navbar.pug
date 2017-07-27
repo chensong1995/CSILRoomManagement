@@ -111,9 +111,15 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
                                   icon: "fa-info-circle"
                                 }, {
                                   name: "Report Violations",
-                                  route: "/comment",
-                                  isMulti: false,
-                                  icon: "fa-comments"
+                                  isMulti: true,
+                                  icon: "fa-comments",
+                                  list: [{
+                                    name: "Send Feedback",
+                                    route: "/comment"
+                                  }, {
+                                    name: "View Feedback",
+                                    route: "/comment/view"
+                                  }]
                                 }, {
                                   name: "Policy",
                                   route: "/policy",
