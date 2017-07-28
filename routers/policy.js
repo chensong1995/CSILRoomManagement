@@ -27,7 +27,7 @@ router.get('/', function (req, res) {
     var username = req.userDisplay.username;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
-    var page = "Policy";
+    var page = "Lab Policies";
     var oldPolicy = "";
     var lastUpdate = "";
     req.models.Announcement.get(1, function (err, policy) {
