@@ -25,7 +25,7 @@
 * Passwords are stored on the CAS server instead of our server. 
 
 ### CSIL Accounts
-* We also created our own authentication service to allow enternal users to use our system. Passwords are stored on our server using the bcrypt encryption.
+* We also created our own authentication service to allow external users to use our system. Passwords are stored on our server using the bcrypt encryption.
 
 ### User Information
 * We store the following information for each user:
@@ -44,7 +44,7 @@
   4. Instructor
 * Different user groups have different privileges, which can be edited by users with administrative privileges:
   1. Whether or not the user group has administrative privileges.
-  2. The maximum number of concurrent bookings. Concurrent bookings are defined as two or more bookings with time conflict.
+  2. The maximum number of concurrent bookings. Concurrent bookings are defined as two or more bookings with time conflicts.
 
 ### Administrative Privileges
 * Users with administrative privileges can do the following:
@@ -63,15 +63,15 @@
   2. The Machine Live Status API. It is not protected because we are not able to send clients CSRF tokens. We discussed with Professor Gregory Baker about the possibility of using secret keys. However, this will not work either, since the API uses unencrypted HTTP protocol.
 
 ## CSIL Machine Live Status
-* This module allows users to know the availibility of each workstation in the CSIL. A workstation is availible if it is logged out (no one is using it), and is occupied if it is logged in.
+* This module allows users to know the availability of each workstation in the CSIL. A workstation is available if it is logged out (no one is using it), and is occupied if it is logged in.
 * The back end of this module is implemented as an HTTP API. To deploy this service, one should make HTTP requests from the workstations in CSIL once logged in. Instructions for people who want to call this API:
-  1. Please send a POST request to http://<our_url>/live every 10 seconds
+  1. Please send a POST request to http://localhost/live:8080 every 10 seconds (Change localhost to your domain name if you want to deploy this project)
   2. In the request body, please include these parameters:
     * room, e.g. "ASB9700", "ASB9804"
     * machine name, e.g. "a01", "a02"
     * time, an unix timestamp. E.g. 1499469022
   3. You will receive a 200 response if everything works well
-  4. After your request is received, the avalibility of the machine will be updated in no more than 1 minute
+  4. After your request is received, the availability of the machine will be updated in no more than 1 minute
   5. A sample client program is implemented as /reporter/reporter.py
 
 ## Announcements
