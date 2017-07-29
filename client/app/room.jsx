@@ -102,15 +102,7 @@ class Room extends React.Component{
                    fill: this.DetermineRoomColor(csilRoom),
                    stroke: "black",
                    strokeWidth: 10,
-               };
-               var submitBtn = {
-                   display: "none",
-               }
-
-               var button = {
-                   background: "transparent",
-                   border: "none",
-                   fontSize: 0,
+                   cursor: "pointer",
                };
 
                var txt_posX = (csilRoom.width/2 >= 100)?(csilRoom.width/2):20;
@@ -118,21 +110,18 @@ class Room extends React.Component{
                var txt_size = ((csilRoom.width*csilRoom.height)>=15625)?("20px"):"10px";
 
                return(
-                   <div key = {csilRoom.id}>
-                       <form action={"/booking/"+csilRoom.number}  method="GET">
+                   <a href = "/booking/">
+                       <div key = {csilRoom.id}>
                            <label>
-                               <input type = "submit" style={submitBtn}/>
-                               <button style={button}>
-                                   <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
-                                       <g>
-                                           <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
-                                           <text fontFamily="Arial" fontSize = {txt_size} x = {txt_posX} y = {txt_posY} fill = "blue">{csilRoom.number}</text>
-                                       </g>
-                                   </svg>
-                               </button>
+                               <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
+                                   <g>
+                                       <rect width={csilRoom.width} height={csilRoom.height} style={room_style}/>
+                                       <text fontFamily="Arial" fontSize = {txt_size} x = {txt_posX} y = {txt_posY} fill = "blue">{csilRoom.number}</text>
+                                   </g>
+                               </svg>
                            </label>
-                       </form>
-                   </div>
+                       </div>
+                   </a>
                )
            }
         });
