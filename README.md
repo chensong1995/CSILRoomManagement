@@ -9,6 +9,7 @@
   * Hi, I am a third year student at SFU. I am part of the SFU-ZJU Computing Science Dual Degree Program. My student number is 301324024.
   * In this project, I am responsible for the authentication module, the announcement module, and the lab policy module. Together with John Liu, I developed the machine live status module (I implemented the back end, while John implemented the front end). I also created the email module together with Ruiming Jia.
 * Ruiming Jia
+  * Hi, I am a fourth year computing science student at SFU. I am responsible for the feedback/report violation module in this project.
 
 ## Authentication
 * Users have to log in before they can visit our website. We developed two authentication systems, and they are used together. Students, teaching assistants, and faculties can log in through the SFU Central Authentication Service using their Computing ID. External users, such as a company that would like to host a job fair in the CSIL, can create and log in with a "CSIL account".
@@ -30,7 +31,7 @@
 ### User Information
 * We store the following information for each user:
   1. Username
-  2. Email
+  2. Email address
   3. Account Source (SFU Central Authentication Service, or CSIL Account)
   4. Wants email notifications or not
   5. Biography
@@ -100,3 +101,17 @@ Our system provides each user with a calendar view. Users can check or delete th
 
 ## iCal feed
 Our system generates iCal feed for each user. A user can use this iCal feed in their calendar Apps. Our iCal feed supports Google Calendar, iCal, Outlook, etc. 
+
+##Email notification
+Our system supports email notifications in booking system, user profile system, including cancle booking, booking confirmation, booking reminder(30 minutes before your booking), sign-up confirmation, and password changing notification.
+Administrators will receive a email if users send a message in feedback section, and administrator can decide to reply to the user by email or our system.
+
+##Feedback
+Our system allows users send feedbacks, report violations to administrators. 
+
+### Different views for user and administrator
+Users can see his/her previous messages sent to administator, and messages replied from administrator. User can click to reply to a specefic message from administrator. 
+Administrators can see messages from all users, and click to reply to a specific message to the user. If the user reply to the message to administrator again, there will be a previous message section to clearly find out the topic.
+
+### Report Violation
+Users can click on any machine to report the person sitting there, the system will automatically generate a message in the text area: "Reporting user at #{MachineRoom}: #{reportMachine} for the following reason(s):", just fill out the message and click send.
