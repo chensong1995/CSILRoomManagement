@@ -1,0 +1,49 @@
+//- comment.pug
+//- Author(s): Ruiming 
+//- variables:
+//-   <All from navbar.pug>
+doctype html
+html(lang="en")
+  head
+    include includes/header.html
+  body
+    div(id="wrapper")
+      include includes/navbar.pug
+      div(id="page-wrapper")
+        div(class="container-fluid")
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header") Feedback
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+        
+                    i(class="fa fa-user")
+                    |  Reply to message "#{pmessage}" from #{usernameReply} 
+
+          div(class="info-wrapper")
+
+
+            div(class="row")
+              div(class="col-md-4 col-xs-10")
+                form(action=path, name='contactus', id='contactus', method='post')
+                  fieldset
+                    p
+                      label(for='message') Message:
+                      br
+                      textarea(name='message', cols='40', rows='10', id='message')
+                  
+                    input(id="submit" name='submit' type="submit" class="btn btn-primary" value="Send")
+
+                    
+                    input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
+            
+            if(typeof msg !== 'undefined')
+              if(!!err)
+                p(class="text-danger") #{msg}
+              else
+                p(class="text-danger") #{msg}
+
+    include includes/scripts.html
+
