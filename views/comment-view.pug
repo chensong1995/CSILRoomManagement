@@ -17,7 +17,7 @@ html(lang="en")
           div(class="row")
             div(class="col-lg-12")
               h1(class="page-header")
-                | View Feedbacks
+                | View Your Previous Feedbacks
           p(class="text-danger" id="prompt")
             | #{message}
           div(class="info-wrapper")
@@ -34,5 +34,29 @@ html(lang="en")
                         p(class="text-muted")
                           span(class="glyphicon glyphicon-time")
                           |  Sent on: #{feedback.time}
+          div(class="row")
+            div(class="col-lg-12")
+              h1(class="page-header")
+                | Messages from Admin
+          p(class="text-danger" id="prompt")
+            | #{message}
+          div(class="info-wrapper")
+            if feedbacks.length == 0
+              h2 There is no messages from Admin
+            else
+              div(class="row")
+                div(class="col-lg-10")
+                  ul
+                    each feedbackAdmin in feedbacksAdmin
+                      li(class="feedback-message")
+                        a(href=feedbackAdmin.path)
+                          h4  Reply to Admin
+                        p
+                          | Regarding the massage: #{feedbackAdmin.message} 
+                        p(class="text-muted")
+                          | From your previous message: #{feedbackAdmin.pmessage} 
+                        p(class="text-muted")
+                          span(class="glyphicon glyphicon-time")
+                          |  Sent on: #{feedbackAdmin.time}
 
     include includes/scripts.html

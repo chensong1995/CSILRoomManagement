@@ -6,11 +6,12 @@
 
 module.exports = function(db, models) {
     models.Feedback = db.define('feedback', {
-        id: String,                  // e.g. 1, 2, 3
-        username: String,    // e.g. csa102, admin	
-        message: String,    // messages
-        sendByAdmin: Number,//0: send by user, 1: send by admin
-        preMessage: String,	//previous message that is being replied
+        id: String,             // e.g. 1, 2, 3
+        uid: String,			// user ID
+        username: String,    	// e.g. csa102, admin	
+        message: String,    	// messages
+        sendByAdmin: Number,	//0: send by user, 1: send by admin
+        preMessage: String,		//previous message that is being replied
         time: Date
     });
 };

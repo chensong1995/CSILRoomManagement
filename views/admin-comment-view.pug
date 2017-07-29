@@ -33,8 +33,10 @@ html(lang="en")
                           h4  Reply to:  #{feedback.username}         
                         p
                           |  Message:  #{feedback.message}
+                        if feedback.hasPreMsg
+                          p(class="text-muted")  Regarding your previous message:  #{feedback.pmessage}
                         p(class="text-muted")
                           span(class="glyphicon glyphicon-time")
                           |  Sent on: #{feedback.time}
-
+                        
     include includes/scripts.html

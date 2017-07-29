@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Ruiming Jia, Chen Song
  * Description: This file handles feedback from users.
- * Last Update: July 22, 2017
+ * Last Update: July 27, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ router.get('/', function (req, res) {
 /*
  * Author(s)  : Ruiming Jia
  * Description: This function sends the feedback-view page
- * Last Update: July 22, 2017
+ * Last Update: July 26, 2017
 */
 router.get('/view', function (req, res) {
     // prepare all view variables
@@ -49,10 +49,28 @@ router.get('/view', function (req, res) {
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
     var page = "Report Violations View Feedback";
-    if (!allowAdmin) {
+    if (!allowAdmin) { //user page
+        //feedbacks from admin
+        var feedbacksAdmin = [];
+        req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 1}, function (err, results) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                for (var i = 0; i < results.length; i++) {
+                    feedbacksAdmin.push({
+                        username: results[i].username,      
+                        message: results[i].message,        //message from admin
+                        pmessage: results[i].preMessage,    //user's original message
+                        time: results[i].time.toLocaleString(undefined, {timeZone: 'America/Vancouver'}),
+                        path: '/comment/' + results[i].id
+                    });
+                }                
+            }
+        });
+
         var feedbacks = [];
-        //fetch previous feedback from database
-        req.models.Feedback.find({username: req.userDisplay.username}, function (err, results) {
+        //fetch user's previous feedbacks from database
+        req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 0}, function (err, results) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else {
@@ -70,6 +88,7 @@ router.get('/view', function (req, res) {
                     allowAdmin: allowAdmin,
                     page: page,
                     feedbacks: feedbacks,
+                    feedbacksAdmin: feedbacksAdmin,
                     csrfToken: req.csrfToken()
                 });
             }
@@ -83,9 +102,16 @@ router.get('/view', function (req, res) {
                 res.sendStatus(500); // internal server error
             } else {
                 for (var i = 0; i < results.length; i++) {
+                    if (results[i].preMessage != "" ) {
+                        hasPreMsg = true;
+                    } else {
+                        hasPreMsg = false;
+                    }
                     feedbacks.push({
                         username: results[i].username,
                         message: results[i].message,
+                        hasPreMsg: hasPreMsg,
+                        pmessage: results[i].preMessage,
                         time: results[i].time.toLocaleString(undefined, {timeZone: 'America/Vancouver'}),
                         path: '/comment/' + results[i].id
                     });
@@ -94,6 +120,7 @@ router.get('/view', function (req, res) {
                     username: username,
                     source: source,
                     allowAdmin: allowAdmin,
+                    hasPreMsg: hasPreMsg,
                     page : "View Feedback",
                     feedbacks: feedbacks,
                     csrfToken: req.csrfToken()
@@ -113,15 +140,17 @@ router.get('/view', function (req, res) {
 router.post('/', csrfProtection, function (req, res) {
     var message = req.body.message;
     var username = req.userDisplay.username;
+    var uid = req.userDisplay.id;
     var email = req.userDisplay.email;
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
     var time = new Date();
-
+    // user page: send feedback
     if (!allowAdmin) {
         //insert message into database
         req.models.Feedback.create({
             username: req.userDisplay.username,
+            uid: uid,
             message: req.body.message,
             sendByAdmin: 0,
             preMessage: "",
@@ -167,23 +196,11 @@ router.post('/', csrfProtection, function (req, res) {
                         err: err
                     }); 
                 });  
-                    
-                
-                    res.render('comment', {
-                    username: username,
-                    source: source,
-                    allowAdmin: allowAdmin,
-                    page: "Report Violations Send Feedback",
-                    csrfToken: req.csrfToken(), 
-                    msg: msg, 
-                    err: err
-                });
-
             }
         });
     }
     else { //admin
-        // admin page: /comment/messageid
+        // admin reply to a message: /comment/messageID
     }
     
 });
@@ -199,46 +216,76 @@ router.get('/:id', function (req, res) {
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
     var page = "Report Violations Send Feedback";
-    //var feedback = {};
-    req.models.Feedback.find({id: req.params.id}, function (err, results) {
-        if (err || results.length != 1) {
-            res.sendStatus(500); // internal server error
-        } else {
-            var usernameReply = results[0].username;
-            var pmessage = results[0].message;
-            var path = '/comment/' + req.params.id;
-            res.render('comment-reply', {
-                username: username,
-                usernameReply: usernameReply,
-                source: source,
-                allowAdmin: allowAdmin,
-                page: page,
-                path: path,
-                pmessage: pmessage,
-                csrfToken: req.csrfToken()
-            });
-        }
-    });
+
+    //user reply to admin
+    if (!allowAdmin){
+        req.models.Feedback.find({id: req.params.id}, function (err, results) {
+            if (err || results.length != 1) {
+                res.sendStatus(500); // internal server error
+            } else {
+                var usernameReply = "Admin";
+                var pmessage = results[0].message;
+                var path = '/comment/' + req.params.id;
+                res.render('comment-reply', {
+                    username: username,
+                    usernameReply: usernameReply,
+                    source: source,
+                    allowAdmin: allowAdmin,
+                    page: page,
+                    path: path,
+                    pmessage: pmessage,
+                    csrfToken: req.csrfToken()
+                });
+            }
+        });
+    }
+    //admin reply to user
+    else {
+        req.models.Feedback.find({id: req.params.id}, function (err, results) {
+            if (err || results.length != 1) {
+                res.sendStatus(500); // internal server error
+            } else {
+                var usernameReply = results[0].username;
+                var pmessage = results[0].message;
+                var path = '/comment/' + req.params.id;
+                res.render('comment-reply', {
+                    username: username,
+                    usernameReply: usernameReply,
+                    source: source,
+                    allowAdmin: allowAdmin,
+                    page: page,
+                    path: path,
+                    pmessage: pmessage,
+                    csrfToken: req.csrfToken()
+                });
+            }
+        });
+
+    }
 });
 
 
 /*
  * Author(s)  : Ruiming Jia
- * Description: This function allows admin reply to user's feedback and save the message to database
+ * Description: This function allows admin reply to user's feedback and save the message to database, also handles user's reply
  * Last Update: July 26, 2017
 */
 router.post('/:id', csrfProtection, function (req, res) {
-    req.models.Feedback.find({id: req.params.id}, function (err, results) {
-        if (err || results.length != 1) {
-            res.sendStatus(500); // internal server error
-        } else {
-            var usernameReply = results[0].username;
-            var pmessage = results[0].message;
-
-            var time = new Date();
+    var allowAdmin = req.userDisplay.allowAdmin;
+    //admin send message to user
+    if (allowAdmin) {
+        req.models.Feedback.find({id: req.params.id}, function (err, results) {
+            if (err || results.length != 1) {
+                res.sendStatus(500); // internal server error
+            } else {
+                var usernameReply = results[0].username;
+                var pmessage = results[0].message;
+                var uid = results[0].uid;
+                var time = new Date();
                 // prepare all view variables
                 req.models.Feedback.create({
                     username: usernameReply,
+                    uid: uid,
                     message: req.body.message,
                     sendByAdmin: 1,
                     preMessage: pmessage,
@@ -264,14 +311,51 @@ router.post('/:id', csrfProtection, function (req, res) {
                         });       
                     }
                 });
-
-
-        }
-    });
-
-
-
-    
+            }
+        });
+    }
+    else {
+        //user send message to Admin
+        req.models.Feedback.find({id: req.params.id}, function (err, results) {
+            if (err || results.length != 1) {
+                res.sendStatus(500); // internal server error
+            } else {
+                var usernameReply = results[0].username;
+                var pmessage = results[0].message;
+                var uid = results[0].uid;
+                var time = new Date();
+                // prepare all view variables
+                req.models.Feedback.create({
+                    username: usernameReply,
+                    uid: uid,
+                    message: req.body.message,
+                    sendByAdmin: 0,
+                    preMessage: pmessage,
+                    time: time
+                }, function (err) {
+                    var msg = err ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
+                    var err = err ? true : false;
+                    if (err) {
+                        res.sendStatus(500); // internal server error
+                    } else { // success
+                        var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
+                        var allowAdmin = req.userDisplay.allowAdmin;
+                        res.render('comment-reply', {
+                            usernameReply: usernameReply,
+                            username: req.userDisplay.username,
+                            pmessage: pmessage,
+                            source: source,
+                            allowAdmin: allowAdmin,
+                            page: "Report Violations Send Feedback",
+                            csrfToken: req.csrfToken(), 
+                            msg: msg, 
+                            err: err
+                        });       
+                    }
+                });
+            }
+        });
+    }   
 });
 
 module.exports = router;
