@@ -183,7 +183,6 @@ router.post('/', csrfProtection, function (req, res) {
                 transporter.sendMail(mailOpts, function (error, response) {
                     //Email not sent
                     // Jia, I fixed the rendering issue here. -- Chen Song
-                    console.log('11');
                     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
                     var allowAdmin = req.userDisplay.allowAdmin;
                     var msg = error ? 'Error occured, message not sent.' : 'Message sent! Thank you.';

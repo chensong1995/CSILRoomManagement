@@ -42,12 +42,11 @@ html(lang="en")
                                     
                     input(id="submit" name='submit' type="submit" class="btn btn-primary" value="Send")
                     input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
-            // p(class="text-danger" id="prompt")
             if(typeof msg !== 'undefined')
               if(!!err)
-                div(class='msgbox err') #{msg}
+                p(class="text-danger") #{msg}
               else
-                div(class='msgbox success') #{msg}
+                p(class="text-danger") #{msg}
 
     include includes/scripts.html
 
