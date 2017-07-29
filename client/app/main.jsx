@@ -80,16 +80,35 @@ class MachinePage extends React.Component{
                     left: x,
                     top: y,
                 };
-                return(
-                    <div key = {csilMachine.id}>
-                        <IconButton style = {machine_pos} type = "submit" value = "Submit">
-                            <Icon color = {this.DetermineMachineColor(csilMachine.available)} onClick = {() => { //On click of an machine
-                                socket.emit("MachineColorChange", machine_indx); //Emit a event and notify other clients which machine was clicked
-                            }}>laptop_chromebook</Icon>
-                            <text style={{fontSize: 10, color: "#cc0000"}}>{csilMachine.name}</text>
-                        </IconButton>
-                    </div>
-                );
+                var invisBtn = {
+                    position: "absolute",
+                    left: x,
+                    top: y,
+                    pointerEvents: "none",
+                };
+                if(!csilMachine.available){
+                    return(
+                        <div key = {csilMachine.id}>
+                            <IconButton style = {machine_pos} type = "submit" value = "Submit">
+                                <Icon color = {this.DetermineMachineColor(csilMachine.available)} onClick = {()=>{
+                                    location.href = '/comment/?MachineName=' + csilMachine.name + '&RoomNumber=' + csilMachine.room;
+                                }
+                                }>laptop_chromebook</Icon>
+                                <text style={{fontSize: 10, color: "#cc0000"}}>{csilMachine.name}</text>
+                            </IconButton>
+                        </div>
+                    );
+                }
+                else{
+                    return(
+                        <div key = {csilMachine.id}>
+                            <IconButton style = {invisBtn} type = "submit" value = "Submit">
+                                <Icon color = {this.DetermineMachineColor(csilMachine.available)}>laptop_chromebook</Icon>
+                                <text style={{fontSize: 10, color: "#cc0000"}}>{csilMachine.name}</text>
+                            </IconButton>
+                        </div>
+                    );
+                }
             }
         })
     }

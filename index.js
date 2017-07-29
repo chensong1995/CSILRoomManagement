@@ -172,8 +172,10 @@ app.get('/dashboard', function(req, res) {
         }
     },function(err, results){
         var username = (results.currentUser)?results.currentUser.username:"Visitor";
+        var notloggedIn = (username == "Visitor")?true:false;
         var allowAdmin = (results.currentUser)?results.currentUser.allowAdmin:false;
         res.render('dashboard', { username: username, allowAdmin: allowAdmin, page: "Dashboard",
+            notloggedIn: notloggedIn,
             machines: JSON.stringify(results.Machines),
             rooms: JSON.stringify(results.Rooms),
             records: JSON.stringify(results.Booking),

@@ -32,7 +32,8 @@ nav(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
             i(class="fa fa-fw fa-gear")
             |  Settings
         li(class="divider")
-        li
+        if !notloggedIn
+         li
           a(href="/logout")
             i(class="fa fa-fw fa-power-off")
             |  Log Out

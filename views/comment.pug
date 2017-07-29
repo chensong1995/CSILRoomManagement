@@ -33,7 +33,12 @@ html(lang="en")
                     p
                       label(for='message') Message:
                       br
-                      textarea(name='message', cols='40', rows='10', id='message')
+                      if reportMachine
+                       textarea(name='message', cols='40', rows='10', id='message')
+                        | Reporting user at #{MachineRoom}: #{reportMachine} for the following reason(s):
+
+                      else
+                       textarea(name='message', cols='40', rows='10', id='message')
                                     
                     input(id="submit" name='submit' type="submit" class="btn btn-primary" value="Send")
                     input(id="csrfToken" type="hidden" name="_csrf" value=csrfToken)
