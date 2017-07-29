@@ -17,7 +17,7 @@ var nodemailer = require('nodemailer');
 router.use(csrfProtection);
 
 /*
- * Author(s)  : Ruiming Jia, Chen Song
+ * Author(s)  : Ruiming Jia, Chen Song, John Liu
  * Description: This function sends the feedback page
  * Last Update: July 22, 2017
 */
@@ -34,7 +34,9 @@ router.get('/', function (req, res) {
         allowAdmin: allowAdmin,
         page: page,
         message: req.body.message,
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        reportMachine: req.query.MachineName,
+        MachineRoom: req.query.RoomNumber,
     });
 });
 
