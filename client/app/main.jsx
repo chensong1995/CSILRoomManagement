@@ -88,15 +88,14 @@ class MachinePage extends React.Component{
                 };
                 if(!csilMachine.available){
                     return(
-                        <div key = {csilMachine.id}>
-                            <IconButton style = {machine_pos} type = "submit" value = "Submit">
-                                <Icon color = {this.DetermineMachineColor(csilMachine.available)} onClick = {()=>{
-                                    location.href = '/comment/?MachineName=' + csilMachine.name + '&RoomNumber=' + csilMachine.room;
-                                }
-                                }>laptop_chromebook</Icon>
-                                <text style={{fontSize: 10, color: "#cc0000"}}>{csilMachine.name}</text>
-                            </IconButton>
-                        </div>
+                        <a href={'/comment/?MachineName=' + csilMachine.name + '&RoomNumber=' + csilMachine.room}>
+                            <div key = {csilMachine.id}>
+                                <IconButton style = {machine_pos} type = "submit" value = "Submit">
+                                    <Icon color = {this.DetermineMachineColor(csilMachine.available)}>laptop_chromebook</Icon>
+                                    <text style={{fontSize: 10, color: "#cc0000"}}>{csilMachine.name}</text>
+                                </IconButton>
+                            </div>
+                        </a>
                     );
                 }
                 else{
