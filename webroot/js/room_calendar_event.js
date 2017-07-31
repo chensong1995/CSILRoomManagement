@@ -14,7 +14,7 @@ $(document).ready(function() {
 			today.setHours(0,0,0,0);
 			if(Date.parse (date) < Date.parse (today) - today.getTimezoneOffset() * 60000 ){
 				// If user click a day before today, show alert
-				bootbox.alert("You cannot book a room in the past!");
+				bootbox.alert("You cannot book a period in the past!");
 			}else if(view.name == 'month' || view.name == 'listWeek') {
 				// If user is not in agendaDay view, change the view to agendaDay
 				$('#calendar').fullCalendar('changeView', 'agendaDay');
