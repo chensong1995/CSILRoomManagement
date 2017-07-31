@@ -26,6 +26,14 @@ html(lang="en")
             var machines = JSON.parse('!{machines}');
             var rooms = JSON.parse('!{rooms}');
             var records = JSON.parse('!{records}');
+
+          div(class="row")
+            div(class="col-lg-12")
+              ol(class="breadcrumb")
+                li(class="active")
+                  i(class="fa fa-dashboard")
+                  |  To report an incident of violation, click on the violated occupied machine to help us locate the incidence.
+
           #machine
 
           div(class="row")
