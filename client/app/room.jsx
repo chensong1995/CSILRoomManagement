@@ -105,7 +105,7 @@ class Room extends React.Component{
                    cursor: "pointer",
                };
 
-               var txt_posX = (csilRoom.width/2 >= 145)?(csilRoom.width/2):7;
+               var txt_posX = (csilRoom.width/2 >= 50)?(csilRoom.width/5):7;
                var txt_posY = (csilRoom.height/2 >= 50)?(csilRoom.height/2):30;
                var txt_size = ((csilRoom.width*csilRoom.height)>=15625)?("20px"):"14px";
                txt_size = ((csilRoom.width*csilRoom.height) >= 36894)?("35px"):txt_size;
