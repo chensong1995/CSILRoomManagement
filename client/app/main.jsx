@@ -36,6 +36,8 @@ class MachinePage extends React.Component{
         this.MachineStateChange = this.MachineStateChange.bind(this);
         this.RenderMachines = this.RenderMachines.bind(this);
         this.DetermineMachineColor = this.DetermineMachineColor.bind(this);
+        this.AvailableMachines = 0;
+        this.OccupiedMachines = 0;
     }
 
     MachineStateChange(machine_indx){
@@ -52,6 +54,8 @@ class MachinePage extends React.Component{
             this.setState({machines: machines}); //Update state for re-render
         });
         socket.on('MachinesUpdate', new_machine_status => {
+            this.AvailableMachines = 0;
+            this.OccupiedMachines = 0;
             this.setState({machines: new_machine_status});
         });
     }
@@ -62,9 +66,11 @@ class MachinePage extends React.Component{
         //disabled = not available
         //error = machine under maintenance
         if(availability){
+            this.AvailableMachines++;
             return "primary";
         }
         else{
+            this.OccupiedMachines++;
             return "error";
             //return "disabled";
         }
@@ -113,13 +119,16 @@ class MachinePage extends React.Component{
     }
 
     render(){
-        // Safari 3.0+ "[object HTMLElementConstructor]"
-        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-        // Internet Explorer 6-11
-        var isIE = /*@cc_on!@*/false || !!document.documentMode;
-        if(isSafari || isIE){
-            alert('not supported');
-        }
+        var available_stat_pos = {
+            position: "absolute",
+            left: 203,
+            top: 61.5,
+        };
+        var occupied_stat_pos = {
+            position: "absolute",
+            left: 203,
+            top: 90.5,
+        };
         return(
             <MuiThemeProvider>
                 <div style = {styles.img}>
@@ -127,6 +136,8 @@ class MachinePage extends React.Component{
                         <List className = {"Machines"}>
                             {this.RenderMachines()}
                         </List>
+                    <text style={available_stat_pos}>x {this.AvailableMachines}</text>
+                    <text style={occupied_stat_pos}>x {this.OccupiedMachines}</text>
                 </div>
             </MuiThemeProvider>
 
