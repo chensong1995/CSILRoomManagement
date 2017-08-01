@@ -8,6 +8,18 @@ html(lang="en")
       include includes/header.html
 
   body
+    script.
+        // Safari 3.0+ "[object HTMLElementConstructor]"
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) {
+                return p.toString() === "[object SafariRemoteNotification]";
+            })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+        // Opera 8.0+
+        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+        if (isSafari || isIE) {
+            alert('Warning: You are browsing our website with a unsupported browser, some of the features may not be functional');
+        }
     div(id="wrapper")
       include includes/navbar.pug
       div(id="page-wrapper")

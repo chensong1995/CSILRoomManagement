@@ -17,9 +17,9 @@ var socket = io.connect();
 //primary = available
 //disabled = not available
 //error = machine under maintenance
-const colors = ["primary", "disabled", "error"];
+var colors = ["primary", "disabled", "error"];
 
-const styles = {
+var styles = {
     img: {
         position: "relative",
 
@@ -113,6 +113,13 @@ class MachinePage extends React.Component{
     }
 
     render(){
+        // Safari 3.0+ "[object HTMLElementConstructor]"
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+        if(isSafari || isIE){
+            alert('not supported');
+        }
         return(
             <MuiThemeProvider>
                 <div style = {styles.img}>
@@ -127,5 +134,5 @@ class MachinePage extends React.Component{
     }
 }
 
-const machine = document.getElementById('machine');
+var machine = document.getElementById('machine');
 ReactDOM.render(<MachinePage/>, machine);

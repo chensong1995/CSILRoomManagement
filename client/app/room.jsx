@@ -17,7 +17,7 @@ var socket = io.connect();
 var records = window.records; //list of records retrieved from databse
 var rooms = window.rooms;
 
-const styles = {
+var styles = {
     img: {
         position: "relative",
 
@@ -141,5 +141,5 @@ class Room extends React.Component{
     }
 }
 
-const room = document.getElementById('room');
+var room = document.getElementById('room');
 ReactDOM.render(<Room/>, room);
