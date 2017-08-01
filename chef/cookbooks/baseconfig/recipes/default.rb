@@ -72,3 +72,6 @@ end
 execute 'node-start' do
   command 'forever start /home/ubuntu/project/index.js'
 end
+execute 'notifier-start' do
+  command 'forever start /home/ubuntu/project/notifier.js'
+end

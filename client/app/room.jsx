@@ -17,7 +17,7 @@ var socket = io.connect();
 var records = window.records; //list of records retrieved from databse
 var rooms = window.rooms;
 
-const styles = {
+var styles = {
     img: {
         position: "relative",
 
@@ -105,12 +105,13 @@ class Room extends React.Component{
                    cursor: "pointer",
                };
 
-               var txt_posX = (csilRoom.width/2 >= 100)?(csilRoom.width/2):20;
+               var txt_posX = (csilRoom.width/2 >= 50)?(csilRoom.width/5):7;
                var txt_posY = (csilRoom.height/2 >= 50)?(csilRoom.height/2):30;
-               var txt_size = ((csilRoom.width*csilRoom.height)>=15625)?("20px"):"10px";
+               var txt_size = ((csilRoom.width*csilRoom.height)>=15625)?("20px"):"14px";
+               txt_size = ((csilRoom.width*csilRoom.height) >= 36894)?("35px"):txt_size;
 
                return(
-                   <a href = "/booking/">
+                   <a href ={'/booking/' + csilRoom.number}>
                        <div key = {csilRoom.id}>
                            <label>
                                <svg width={csilRoom.width} height={csilRoom.height} style = {room_pos}>
@@ -140,5 +141,5 @@ class Room extends React.Component{
     }
 }
 
-const room = document.getElementById('room');
+var room = document.getElementById('room');
 ReactDOM.render(<Room/>, room);
