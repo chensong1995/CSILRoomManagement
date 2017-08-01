@@ -3,7 +3,6 @@
  * Description: This file handles feedback from users.
  * Last Update: July 27, 2017
 */
-
 ////////////////////////////////////////////////////////
 // External dependencies
 // 1. Express framework
@@ -15,7 +14,6 @@ var csrfProtection = csurf({ cookie: true });
 ////////////////////////////////////////////////////////
 var nodemailer = require('nodemailer');
 router.use(csrfProtection);
-
 /*
  * Author(s)  : Ruiming Jia, Chen Song, John Liu
  * Description: This function sends the feedback page
@@ -39,7 +37,6 @@ router.get('/', function (req, res) {
         MachineRoom: req.query.RoomNumber,
     });
 });
-
 /*
  * Author(s)  : Ruiming Jia
  * Description: This function sends the feedback-view page
@@ -69,7 +66,6 @@ router.get('/view', function (req, res) {
                 }                
             }
         });
-
         var feedbacks = [];
         //fetch user's previous feedbacks from database
         req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 0}, function (err, results) {
@@ -97,9 +93,9 @@ router.get('/view', function (req, res) {
         });
     }
     else { //admin page
-        var feedbacks = [];
-        //fetch all feedbacks from database
-        req.models.Feedback.find({sendByAdmin: 0}, function (err, results) {
+        var feedbacksNotReplied = [];
+        //fetch feedbacks not replied 
+        req.models.Feedback.find({sendByAdmin: 0, replied: 0}, [ "time", "Z" ], function (err, results) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else {
@@ -109,7 +105,29 @@ router.get('/view', function (req, res) {
                     } else {
                         hasPreMsg = false;
                     }
-                    feedbacks.push({
+                    feedbacksNotReplied.push({
+                        username: results[i].username,
+                        message: results[i].message,
+                        hasPreMsg: hasPreMsg,
+                        pmessage: results[i].preMessage,
+                        time: results[i].time.toLocaleString(undefined, {timeZone: 'America/Vancouver'}),
+                        path: '/comment/' + results[i].id
+                    });
+                }
+            }
+        });
+        var feedbacksReplied = [];
+        req.models.Feedback.find({sendByAdmin: 0, replied: 1}, function (err, results) {
+            if (err) {
+                res.sendStatus(500); // internal server error
+            } else {
+                for (var i = 0; i < results.length; i++) {
+                    if (results[i].preMessage != "" ) {
+                        hasPreMsg = true;
+                    } else {
+                        hasPreMsg = false;
+                    }
+                    feedbacksReplied.push({
                         username: results[i].username,
                         message: results[i].message,
                         hasPreMsg: hasPreMsg,
@@ -124,21 +142,19 @@ router.get('/view', function (req, res) {
                     allowAdmin: allowAdmin,
                     hasPreMsg: hasPreMsg,
                     page : "View Feedback",
-                    feedbacks: feedbacks,
+                    feedbacksNotReplied: feedbacksNotReplied,
+                    feedbacksReplied: feedbacksReplied,
                     csrfToken: req.csrfToken()
                 });
             }
         });
-
     }
 });
-
 /*
  * Author(s)  : Ruiming Jia, Chen Song
  * Description: This function allows users to send feedback
  * Last Update: July 22, 2017
 */
-
 router.post('/', csrfProtection, function (req, res) {
     var message = req.body.message;
     var username = req.userDisplay.username;
@@ -156,7 +172,8 @@ router.post('/', csrfProtection, function (req, res) {
             message: req.body.message,
             sendByAdmin: 0,
             preMessage: "",
-            time: time
+            time: time,
+            replied: 0
         }, function (err) {
             var msg = err ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
             var err = err ? true : false;
@@ -205,7 +222,6 @@ router.post('/', csrfProtection, function (req, res) {
     }
     
 });
-
 /*
  * Author(s)  : Ruiming Jia
  * Description: This function sends admin the user feedback reply page
@@ -217,7 +233,6 @@ router.get('/:id', function (req, res) {
     var source = req.userDisplay.type == 'other' ? 'CSIL Account' : 'SFU Central Authentication Service';
     var allowAdmin = req.userDisplay.allowAdmin;
     var page = "Report Violations Send Feedback";
-
     //user reply to admin
     if (!allowAdmin){
         req.models.Feedback.find({id: req.params.id}, function (err, results) {
@@ -261,11 +276,8 @@ router.get('/:id', function (req, res) {
                 });
             }
         });
-
     }
 });
-
-
 /*
  * Author(s)  : Ruiming Jia
  * Description: This function allows admin reply to user's feedback and save the message to database, also handles user's reply
@@ -283,14 +295,16 @@ router.post('/:id', csrfProtection, function (req, res) {
                 var pmessage = results[0].message;
                 var uid = results[0].uid;
                 var time = new Date();
-                // prepare all view variables
+                results[0].replied = 1;
+                results[0].save();
                 req.models.Feedback.create({
                     username: usernameReply,
                     uid: uid,
                     message: req.body.message,
                     sendByAdmin: 1,
                     preMessage: pmessage,
-                    time: time
+                    time: time,
+                    replied: 0
                 }, function (err) {
                     var msg = err ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
                     var err = err ? true : false;
@@ -332,7 +346,8 @@ router.post('/:id', csrfProtection, function (req, res) {
                     message: req.body.message,
                     sendByAdmin: 0,
                     preMessage: pmessage,
-                    time: time
+                    time: time,
+                    replied: 0
                 }, function (err) {
                     var msg = err ? 'Error occured, message not sent.' : 'Message sent! Thank you.';
                     var err = err ? true : false;
@@ -358,5 +373,4 @@ router.post('/:id', csrfProtection, function (req, res) {
         });
     }   
 });
-
 module.exports = router;

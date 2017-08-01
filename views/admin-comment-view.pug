@@ -18,16 +18,21 @@ html(lang="en")
             div(class="col-lg-12")
               h1(class="page-header")
                 | View Feedbacks
-          p(class="text-danger" id="prompt")
-            | #{message}
           div(class="info-wrapper")
-            if feedbacks.length == 0
+            if feedbacksNotReplied.length == 0 && feedbacksReplied.length == 0
               h2 There is no previous feedbacks
             else
               div(class="row")
+                div(class="col-lg-12")
+                  h3(class="page-header")
+                    | Feedbacks not replied yet
+              div(class="info-wrapper")
+                if feedbacksNotReplied.length == 0
+                  h2 All messages have been replied
+              div(class="row")
                 div(class="col-lg-10")
-                  ul
-                    each feedback in feedbacks
+                  ul(style="list-style-type:none")
+                    each feedback in feedbacksNotReplied
                       li(class="feedback-message")
                         a(href=feedback.path)
                           h4  Reply to:  #{feedback.username}         
@@ -37,6 +42,30 @@ html(lang="en")
                           p(class="text-muted")  Regarding your previous message:  #{feedback.pmessage}
                         p(class="text-muted")
                           span(class="glyphicon glyphicon-time")
-                          |  Sent on: #{feedback.time}
+                          |  Sent on: #{feedback.time} 
+                        p </br>
+              div(class="row")
+                div(class="col-lg-12")
+                  h3(class="page-header")
+                    | Feedbacks already replied
+              div(class="info-wrapper")
+                if feedbacksReplied.length == 0
+                  h2 All messages have been replied
+              div(class="row")
+                div(class="col-lg-10")
+                  ul(style="list-style-type:none")
+                    each feedback in feedbacksReplied
+                      li(class="feedback-message")
+                        a(href=feedback.path)
+                          h4  Reply to:  #{feedback.username}         
+                        p
+                          |  Message:  #{feedback.message}
+                        if feedback.hasPreMsg
+                          p(class="text-muted")  Regarding your previous message:  #{feedback.pmessage}
+                        p(class="text-muted")
+                          span(class="glyphicon glyphicon-time")
+                          |  Sent on: #{feedback.time} 
+                        p </br>
+
                         
     include includes/scripts.html

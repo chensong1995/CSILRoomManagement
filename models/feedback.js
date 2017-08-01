@@ -12,6 +12,7 @@ module.exports = function(db, models) {
         message: String,    	// messages
         sendByAdmin: Number,	//0: send by user, 1: send by admin
         preMessage: String,		//previous message that is being replied
-        time: Date
+        time: Date,
+        replied: Number			//0: not replied yet, 1: replied
     });
 };
