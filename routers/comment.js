@@ -51,7 +51,7 @@ router.get('/view', function (req, res) {
     if (!allowAdmin) { //user page
         //feedbacks from admin
         var feedbacksAdmin = [];
-        req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 1}, function (err, results) {
+        req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 1}, [ "time", "Z" ], function (err, results) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else {
@@ -68,7 +68,7 @@ router.get('/view', function (req, res) {
         });
         var feedbacks = [];
         //fetch user's previous feedbacks from database
-        req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 0}, function (err, results) {
+        req.models.Feedback.find({uid: req.userDisplay.id, sendByAdmin: 0}, [ "time", "Z" ], function (err, results) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else {
@@ -117,7 +117,7 @@ router.get('/view', function (req, res) {
             }
         });
         var feedbacksReplied = [];
-        req.models.Feedback.find({sendByAdmin: 0, replied: 1}, function (err, results) {
+        req.models.Feedback.find({sendByAdmin: 0, replied: 1}, [ "time", "Z" ], function (err, results) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else {
