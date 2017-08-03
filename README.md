@@ -5,6 +5,7 @@
 ## Authors
 * John Liu
 * Chong Zhao
+	* In this project, I am working on the room booking module. This module allows users to create bookings and manages their bookings. I also developed an auto-notification system that will send email notifications to users 30 minutes before their booking starts. 
 * Chen Song
   * Hi, I am a third year student at SFU. I am part of the SFU-ZJU Computing Science Dual Degree Program. My student number is 301324024.
   * In this project, I am responsible for the authentication module, the announcement module, and the lab policy module. Together with John Liu, I developed the machine live status module (I implemented the back end, while John implemented the front end). I also created the email module together with Ruiming Jia.

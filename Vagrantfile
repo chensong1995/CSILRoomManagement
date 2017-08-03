@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
-  config.vm.provision "chef_solo" do |chef|
+  config.vm.provision "chef_solo", run: "always"  do |chef|
     chef.cookbooks_path = "chef/cookbooks"
     chef.add_recipe "baseconfig"
     chef.channel = "stable"
