@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Ruiming Jia, Chen Song
  * Description: This file handles feedback from users.
- * Last Update: July 27, 2017
+ * Last Update: August 4, 2017
 */
 ////////////////////////////////////////////////////////
 // External dependencies
@@ -38,9 +38,9 @@ router.get('/', function (req, res) {
     });
 });
 /*
- * Author(s)  : Ruiming Jia
+ * Author(s)  : Ruiming Jia, Chen Song
  * Description: This function sends the feedback-view page
- * Last Update: July 26, 2017
+ * Last Update: August 4, 2017
 */
 router.get('/view', function (req, res) {
     // prepare all view variables
@@ -99,6 +99,8 @@ router.get('/view', function (req, res) {
             if (err) {
                 res.sendStatus(500); // internal server error
             } else {
+                // Jia, I fixed the variable undefined issue here --- Chen Song
+                var hasPreMsg = true;
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].preMessage != "" ) {
                         hasPreMsg = true;
@@ -114,40 +116,42 @@ router.get('/view', function (req, res) {
                         path: '/comment/' + results[i].id
                     });
                 }
-            }
-        });
-        var feedbacksReplied = [];
-        req.models.Feedback.find({sendByAdmin: 0, replied: 1}, [ "time", "Z" ], function (err, results) {
-            if (err) {
-                res.sendStatus(500); // internal server error
-            } else {
-                for (var i = 0; i < results.length; i++) {
-                    if (results[i].preMessage != "" ) {
-                        hasPreMsg = true;
+
+                var feedbacksReplied = [];
+                req.models.Feedback.find({sendByAdmin: 0, replied: 1}, [ "time", "Z" ], function (err, results) {
+                    if (err) {
+                        res.sendStatus(500); // internal server error
                     } else {
-                        hasPreMsg = false;
+                        for (var i = 0; i < results.length; i++) {
+                            if (results[i].preMessage != "" ) {
+                                hasPreMsg = true;
+                            } else {
+                                hasPreMsg = false;
+                            }
+                            feedbacksReplied.push({
+                                username: results[i].username,
+                                message: results[i].message,
+                                hasPreMsg: hasPreMsg,
+                                pmessage: results[i].preMessage,
+                                time: results[i].time.toLocaleString(undefined, {timeZone: 'America/Vancouver'}),
+                                path: '/comment/' + results[i].id
+                            });
+                        }
+                        res.render('admin-comment-view', {
+                            username: username,
+                            source: source,
+                            allowAdmin: allowAdmin,
+                            hasPreMsg: hasPreMsg,
+                            page : "View Feedback",
+                            feedbacksNotReplied: feedbacksNotReplied,
+                            feedbacksReplied: feedbacksReplied,
+                            csrfToken: req.csrfToken()
+                        });
                     }
-                    feedbacksReplied.push({
-                        username: results[i].username,
-                        message: results[i].message,
-                        hasPreMsg: hasPreMsg,
-                        pmessage: results[i].preMessage,
-                        time: results[i].time.toLocaleString(undefined, {timeZone: 'America/Vancouver'}),
-                        path: '/comment/' + results[i].id
-                    });
-                }
-                res.render('admin-comment-view', {
-                    username: username,
-                    source: source,
-                    allowAdmin: allowAdmin,
-                    hasPreMsg: hasPreMsg,
-                    page : "View Feedback",
-                    feedbacksNotReplied: feedbacksNotReplied,
-                    feedbacksReplied: feedbacksReplied,
-                    csrfToken: req.csrfToken()
                 });
             }
         });
+
     }
 });
 /*
