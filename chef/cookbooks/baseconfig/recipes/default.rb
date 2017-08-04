@@ -42,6 +42,9 @@ end
 
 ## Install DB
 package 'mysql-server'
+cookbook_file "my.conf" do
+  path "/etc/mysql/my.cnf"
+end
 execute 'mysql-create-user' do
   sql = "\"CREATE USER IF NOT EXISTS \'csil\'@\'localhost\' IDENTIFIED BY \'csil\';\""
   command "echo #{sql} | sudo mysql"
@@ -58,10 +61,6 @@ execute 'mysql-grant-access' do
 end
 execute 'mysql-insert-data' do
   command "cat /home/ubuntu/project/csil.sql | sudo mysql csil"
-end
-execute 'mysql-start-event-scheduler' do
-  sql = "SET GLOBAL event_scheduler = ON"
-  command "echo #{sql} | sudo mysql"
 end
 
 # node packages
