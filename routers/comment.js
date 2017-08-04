@@ -223,6 +223,7 @@ router.post('/', csrfProtection, function (req, res) {
     }
     else { //admin
         // admin reply to a message: /comment/messageID
+        res.sendStatus(403); // not allowed
     }
     
 });
