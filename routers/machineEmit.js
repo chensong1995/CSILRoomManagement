@@ -34,8 +34,7 @@ var booking = {
     rangeEnd: String      // e.g. 2017-07-09
 };
 
-//const connectionString = 'mysql://csil:csil@120.27.121.163/csil';
-const connectionString = 'mysql://root:password@13.59.137.163/csil';
+const connectionString = 'mysql://csil:csil@localhost/csil';
 
 module.exports = function(io){
     orm.connect(connectionString, function(err, db){ //Connect to db
