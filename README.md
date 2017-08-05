@@ -76,6 +76,11 @@
   4. After your request is received, the availability of the machine will be updated in no more than 1 minute
   5. A sample client program is implemented as /reporter/reporter.py
 
+## Dashboard
+The dashboard is the homepage of the booking system, it is mainly composed of two modules, the CSIL Machine status map to room status map.
+The machine status map updates once per minute to provide machine status information to users through gui. Users can click on occupied machines in the machine status map to report any violation of csil policies happening at that location.
+Similar to  the machine status map, the room status map updates once per minute to provide room availability information to users through the map. The user can be redirected to room booking through clicking on one of the available rooms on the map.
+
 ## Bookings
 
 In the booking system, users can book a room for a particular period. Users can also make batch bookings, for example, one can book a room for 2:00 pm to 3:00 pm every Monday. Calendar GUI and table views are both provided. Users can book a room and manage their booking records. 
