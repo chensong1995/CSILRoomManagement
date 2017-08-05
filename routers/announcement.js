@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This file handles announcement logics. The entire file is protected by auth
- * Last Update: July 22, 2017
+ * Last Update: August 4, 2017
 */
 
 ////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ var csurf = require('csurf');
 var csrfProtection = csurf({ cookie: true });
 router.use(csrfProtection);
 // 4. Slug
-var slug = require('slug')
+var slug = require('limax');
 // 5. orm
 var orm = require('orm');
 ////////////////////////////////////////////////////////
@@ -91,11 +91,15 @@ router.get('/new', adminAuth, function (req, res) {
 router.post('/new', [adminAuth, csrfProtection], function (req, res) {
     if (req.body.title && req.body.content !== undefined && req.body.title.length != 0) { // must have these fields
         var time = new Date();
+        var slug_link = slug(req.body.title);
+        if (slug_link.length == 0) {
+            res.sendStatus(500); // internal server error, bad title
+        }
         req.models.Announcement.create({
             title: req.body.title,
             content: req.body.content,
             time: time,
-            slug: slug(req.body.title)
+            slug: slug_link
         }, function (err) {
             if (err) {
                 res.sendStatus(500); // internal server error

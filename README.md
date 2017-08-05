@@ -2,6 +2,9 @@
 ## Description
 * In CMPT courses at Simon Fraser University, teaching assistants use the "CS TA Room Bookings" system to book rooms for their office hours (http://www.cs.sfu.ca/CourseCentral/tabooking/). This system is obsolete, and we developed a new system to replace it. This is a course project of CMPT 470 at SFU, instructed by Gregory Baker.
 
+## Administrator Account
+* Please use 'admin'@'password', and select the "CSIL Account" option. 
+
 ## Authors
 * John Liu
 * Chong Zhao

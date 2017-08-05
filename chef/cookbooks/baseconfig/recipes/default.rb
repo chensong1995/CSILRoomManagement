@@ -41,11 +41,26 @@ execute 'nginx-restart' do
 end
 
 ## Install DB
-package 'postgresql' do
-  action :install
+package 'mysql-server'
+cookbook_file "my.conf" do
+  path "/etc/mysql/my.cnf"
 end
-execute 'psql_setup' do
-  command 'echo "CREATE DATABASE mydb; CREATE USER ubuntu; GRANT ALL PRIVILEGES ON DATABASE mydb TO ubuntu;" | sudo -u postgres psql'
+execute 'mysql-create-user' do
+  sql = "\"CREATE USER IF NOT EXISTS \'csil\'@\'localhost\' IDENTIFIED BY \'csil\';\""
+  command "echo #{sql} | sudo mysql"
+end
+execute 'mysql-drop-db' do
+  command "echo \"DROP DATABASE IF EXISTS csil;\" | sudo mysql"
+end
+execute 'mysql-create-db' do
+  command "echo \"CREATE DATABASE csil CHARACTER SET UTF8 COLLATE utf8_general_ci;\" | sudo mysql"
+end
+execute 'mysql-grant-access' do
+  sql = "\"GRANT ALL ON csil.* TO \'csil\'@\'localhost\';\""
+  command "echo #{sql} | sudo mysql"
+end
+execute 'mysql-insert-data' do
+  command "cat /home/ubuntu/project/csil.sql | sudo mysql csil"
 end
 
 # node packages

@@ -1,7 +1,7 @@
 /*
  * Author(s)  : Chen Song
  * Description: This collects all models we have, and turn them into an orm call.
- * Last Update: July 15, 2017
+ * Last Update: August 4, 2017
 */
 
 var orm = require('orm');
@@ -18,8 +18,7 @@ var announcement = require('./announcement.js');
 var calendarKey = require('./ical-key.js');
 var feedback = require('./feedback.js');
 
-//const connectionString = 'mysql://csil:csil@120.27.121.163/csil';
-const connectionString = 'mysql://root:password@13.59.137.163/csil';
+const connectionString = 'mysql://csil:csil@localhost/csil';
 
 module.exports = function (app) {
     app.use(orm.express(connectionString, {
