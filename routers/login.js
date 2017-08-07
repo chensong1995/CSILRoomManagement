@@ -37,7 +37,7 @@ router.get('/', function (req, res) {
             if (params.has('ticket')) {
                 params.delete('ticket');
             }
-            var myURL = 'http://' + req.headers.host + "/login";
+            var myURL = 'http://' + req.headers.host + ":8080/login";
             if (params.toString().length != 0) {
                 myURL = myURL + '?' + params.toString();
             }
