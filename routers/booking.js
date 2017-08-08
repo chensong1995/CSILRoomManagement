@@ -114,7 +114,6 @@ router.post('/batch', function(req, res) {
     var title = req.body.title;
     var concurrent_booking_conflict = 0;
     var room_id = 0;
-    console.log(req.body);
     // Using the room number to find the id in database table
     req.models.Room.find({number: req.body.room_number}, function (err, room) {
         if (err || room.length < 1) { // if error occurs or no room is found
@@ -389,7 +388,6 @@ router.post('/', function(req, res) {
                         var result = new Object();
                         records.forEach(function(record) {
                             if(record.isBatch){
-                                console.log("Found a batch record in database\n");
                                 var batch_record_list = extendBatchRecords(
                                                             record.rid,
                                                             record.uid,
@@ -487,11 +485,8 @@ router.post('/', function(req, res) {
 function extendBatchRecords(roomId, userId, title, roomName, startTime, endTime, startDate, endDate, dow){
     var extended_record_list = [];
     var dowList = JSON.parse(dow);
-    console.log(dowList);
     var start = new Date(startDate);
-    console.log(start);
     var end = new Date(endDate);
-    console.log(end);
     for (var d = start; d <= end; d.setDate(d.getDate() + 1)) {
         dowList.forEach(function(dow){
             if(dow / 1 == (d.getDay() / 1 + 1) % 7){
