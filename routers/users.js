@@ -117,7 +117,7 @@ router.get('/icalkey', function(req, res) {
             if(keys.length < 1){
                 var newKey = new Object();
                 newKey.uid = uid;
-                newKey.ckey = bcrypt.hashSync("" + uid, 10) + ".ics";
+                newKey.ckey = encodeURIComponent(bcrypt.hashSync("" + uid, 10)) + ".ics";
                 console.log(newKey.ckey);
                 req.models.CalendarKey.create(newKey, function(err, results) {
                     if(err){

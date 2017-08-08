@@ -137,14 +137,6 @@ CREATE TABLE IF NOT EXISTS `calendar-key` (
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `calendar-key`
---
-
-INSERT INTO `calendar-key` (`id`, `uid`, `ckey`) VALUES
-(1, '2', '$2a$10$95NzDxiGgACKt29ofS4ySeTJFRruNW1179a9LWLIcc8Mxa3usDyeC.ics'),
-(2, '1', '$2a$10$7BENA4xYreC/qrpTzzfh5Ol3xSnVf/SiS.rwyI8H3plgE7wfmjbR..ics');
-
 -- --------------------------------------------------------
 
 --
