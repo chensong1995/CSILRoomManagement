@@ -118,7 +118,6 @@ router.get('/icalkey', function(req, res) {
                 var newKey = new Object();
                 newKey.uid = uid;
                 newKey.ckey = bcrypt.hashSync("" + uid, 10) + ".ics";
-                console.log(newKey.ckey);
                 req.models.CalendarKey.create(newKey, function(err, results) {
                     if(err){
                         res.status(500).end(); // internal server error
