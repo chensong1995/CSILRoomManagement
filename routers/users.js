@@ -117,7 +117,7 @@ router.get('/icalkey', function(req, res) {
             if(keys.length < 1){
                 var newKey = new Object();
                 newKey.uid = uid;
-                newKey.ckey = encodeURIComponent(bcrypt.hashSync("" + uid, 10)) + ".ics";
+                newKey.ckey = bcrypt.hashSync("" + uid, 10) + ".ics";
                 console.log(newKey.ckey);
                 req.models.CalendarKey.create(newKey, function(err, results) {
                     if(err){
@@ -125,14 +125,14 @@ router.get('/icalkey', function(req, res) {
                     }else{
                         var result = new Object();
                         result.result = "success";
-                        result.key = newKey.ckey;
+                        result.key = encodeURIComponent(newKey.ckey);
                         res.send(JSON.stringify(result));
                     }
                 });
             }else{
                 var result = new Object();
                 result.result = "success";
-                result.key = keys[0].ckey;
+                result.key = encodeURIComponent(keys[0].ckey);
                 res.send(JSON.stringify(result));
             }
         }
