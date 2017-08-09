@@ -45,6 +45,9 @@ package 'mysql-server'
 cookbook_file "my.conf" do
   path "/etc/mysql/my.cnf"
 end
+execute 'mysql-start' do
+  command "sudo service mysql restart"
+end
 execute 'mysql-create-user' do
   sql = "\"CREATE USER IF NOT EXISTS \'csil\'@\'localhost\' IDENTIFIED BY \'csil\';\""
   command "echo #{sql} | sudo mysql"

@@ -2,13 +2,16 @@
 ## Description
 * In CMPT courses at Simon Fraser University, teaching assistants use the "CS TA Room Bookings" system to book rooms for their office hours (http://www.cs.sfu.ca/CourseCentral/tabooking/). This system is obsolete, and we developed a new system to replace it. This is a course project of CMPT 470 at SFU, instructed by Gregory Baker.
 
+## How to use
+* Please execute "vagrant up" first. (Please be patient. It took me 28 minutes in CSIL.) After that, please go to http://localhost:8080. In case you receive an 502 error, please do "vagrant provision". (This happens occasionally for some unknown reasons) 
+
 ## Administrator Account
 * Please use 'admin'@'password', and select the "CSIL Account" option. 
 
 ## Authors
 * John Liu
 * Chong Zhao
-	* In this project, I am working on the room booking module. This module allows users to create bookings and manages their bookings. I also developed an auto-notification system that will send email notifications to users 30 minutes before their booking starts. 
+  * In this project, I am working on the room booking module. This module allows users to create bookings and manages their bookings. I also developed an auto-notification system that will send email notifications to users 30 minutes before their booking starts. 
 * Chen Song
   * Hi, I am a third year student at SFU. I am part of the SFU-ZJU Computing Science Dual Degree Program. My student number is 301324024.
   * In this project, I am responsible for the authentication module, the announcement module, and the lab policy module. Together with John Liu, I developed the machine live status module (I implemented the back end, while John implemented the front end). I also created the email module together with Ruiming Jia.
